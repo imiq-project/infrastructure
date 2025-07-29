@@ -1,6 +1,7 @@
 services:
   proxy:
     build: services/proxy
+    pull_policy: build
     depends_on:
       - orion
       - dashboard
@@ -23,3 +24,4 @@ services:
 
   dashboard:
     build: services/dashboard
+    pull_policy: build
