@@ -1,0 +1,25 @@
+services:
+  proxy:
+    build: services/proxy
+    depends_on:
+      - orion
+      - dashboard
+    environment:
+      - API_KEY=
+
+  mongo:
+    image: mongo:4.2
+
+  orion:
+    image: fiware/orion:3.3.0
+    restart: always
+    depends_on:
+      - mongo
+    command: -dbhost mongo -corsOrigin __ALL
+    environment:
+      - ORION_LOG_LEVEL=DEBUG
+      - CORS_ALLOWED_ORIGIN=*
+      - CORS_ALLOWED_ORIGIN=http://localhost:8000
+
+  dashboard:
+    build: services/dashboard
