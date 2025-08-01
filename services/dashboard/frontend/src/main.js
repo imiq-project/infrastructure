@@ -2,7 +2,8 @@
 
 import { createApp } from 'vue'
 import App from './App.vue'
-
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
 
 // import styles
 import 'leaflet/dist/leaflet.css';
@@ -22,4 +23,10 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow,
 });
 
-createApp(App).mount('#app')
+const app = createApp(App)
+app.use(PrimeVue, {
+    theme: {
+        preset: Aura
+    }
+});
+app.mount('#app')
