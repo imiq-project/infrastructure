@@ -1,0 +1,36 @@
+http:
+  middlewares:
+    strip-orion-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/orion"
+    add-v2-prefix:
+      addPrefix:
+        prefix: "/v2"
+    check-api-key: 
+      plugin:
+        traefik-api-key-auth:
+          keys:
+            - $API_KEY
+
+  services:
+    dashboard:
+      loadBalancer:
+        servers:
+          - url: http://dashboard:1000
+    orion:
+      loadBalancer:
+        servers:
+          - url: http://orion:1026
+
+  routers:
+    dashboard:
+      rule: PathPrefix("/")
+      service: dashboard
+    orion:
+      rule: PathPrefix("/api/orion")
+      service: orion
+      middlewares:
+        - check-api-key
+        - strip-orion-prefix
+        - add-v2-prefix

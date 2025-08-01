@@ -2,6 +2,7 @@ services:
   proxy:
     build: services/proxy
     pull_policy: build
+    restart: always
     depends_on:
       - orion
       - dashboard
@@ -10,13 +11,14 @@ services:
 
   mongo:
     image: mongo:4.2
+    restart: always
 
   orion:
     image: fiware/orion:3.3.0
     restart: always
     depends_on:
       - mongo
-    command: -dbhost mongo -corsOrigin __ALL
+    entrypoint: ["sh", "-c", "rm /tmp/contextBroker.pid; /usr/bin/contextBroker -fg -multiservice -dbhost mongo -corsOrigin __ALL"]
     environment:
       - ORION_LOG_LEVEL=DEBUG
       - CORS_ALLOWED_ORIGIN=*
@@ -25,3 +27,4 @@ services:
   dashboard:
     build: services/dashboard
     pull_policy: build
+    restart: always
