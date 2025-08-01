@@ -12,6 +12,9 @@ services:
   mongo:
     image: mongo:4.2
     restart: always
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
 
   orion:
     image: fiware/orion:3.3.0
@@ -28,3 +31,7 @@ services:
     build: services/dashboard
     pull_policy: build
     restart: always
+
+volumes:
+  mongo_data:
+  mongo_config:
