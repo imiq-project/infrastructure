@@ -22,7 +22,7 @@ onMounted(async (i) => {
 
 
 <template>
-    <VMap style="width: 100%;  height: 600px;" :bounds="bounds">
+    <VMap style="width: 100%; height: 100%;" :bounds="bounds">
         <VMapArcGisAeroTileLayer />
         <!-- <VMapGoogleTileLayer /> -->
         <!-- <VMapArcGisTileLayer /> -->
