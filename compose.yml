@@ -7,7 +7,7 @@ services:
       - orion
       - dashboard
     environment:
-      - API_KEY=
+      - API_KEY=$API_KEY
 
   mongo:
     image: mongo:4.2
