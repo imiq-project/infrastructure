@@ -31,3 +31,4 @@ coverage
 # Other
 __pycache__
 compose.override.yml
+.env
