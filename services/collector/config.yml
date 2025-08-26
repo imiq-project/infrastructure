@@ -1,6 +1,6 @@
 collectors:
   - name: OpenWeatherMap
-    intervalSecs: 600
+    interval: 60m
     locations:
       - id: Sensor:Weather:FacultyCS
         name: Faculty of Computer Science
@@ -31,7 +31,7 @@ collectors:
         lat: 52.1402
         lon: 11.63655
   - name: Parking
-    intervalSecs: 10
+    interval: 10s
     locations:
       - id: ParkingSpot:ScienceHarbor
         name: Parking A - Science Harbor

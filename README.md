@@ -9,6 +9,7 @@ Before starting the infrastructure, you must set a few environment variables:
 | Variable | Description           | Example   |
 |----------|-----------------------|-----------|
 | API_KEY  | Key to access the api | secret123 |
+| OPEN_WEATHER_MAP_API_KEY  | Key to open weather map (free account needed) | 1eas022db3a0qcaaa0299afbbaf47741 |
 
 You probably want to put these into an `.env` file:
 

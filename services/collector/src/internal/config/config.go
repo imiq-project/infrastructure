@@ -44,9 +44,9 @@ func ReadConfig(path string, availableCollectors map[string]Collector) (*Config,
 	}
 
 	type RawCollectorConfig struct {
-		Name         string        `yaml:"name"`
-		IntervalSecs int           `yaml:"intervalSecs"`
-		Locations    []RawLocation `yaml:"locations"`
+		Name      string        `yaml:"name"`
+		Interval  time.Duration `yaml:"interval"`
+		Locations []RawLocation `yaml:"locations"`
 	}
 
 	type RawConfig struct {
@@ -75,8 +75,7 @@ func ReadConfig(path string, availableCollectors map[string]Collector) (*Config,
 		for _, rawLocation := range rawCollectorCfg.Locations {
 			locations = append(locations, Location{rawLocation.ID, rawCollectorCfg.Name, Coord{rawLocation.Lat, rawLocation.Lon}})
 		}
-		interval := time.Duration(rawCollectorCfg.IntervalSecs) * time.Second
-		collectors = append(collectors, CollectorConfig{collector, interval, locations})
+		collectors = append(collectors, CollectorConfig{collector, rawCollectorCfg.Interval, locations})
 	}
 
 	return &Config{collectors}, nil
