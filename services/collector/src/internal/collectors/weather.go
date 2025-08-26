@@ -12,8 +12,13 @@ import (
 
 // OpenWeatherMap data types
 
+type WeatherCoord struct {
+	Lon float64 `json:"lon"`
+	Lat float64 `json:"lat"`
+}
+
 type WeatherResponse struct {
-	Coord      config.Coord `json:"coord"`
+	Coord      WeatherCoord `json:"coord"`
 	Weather    []Weather    `json:"weather"`
 	Base       string       `json:"base"`
 	Main       Main         `json:"main"`

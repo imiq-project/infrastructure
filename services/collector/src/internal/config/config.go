@@ -9,8 +9,8 @@ import (
 )
 
 type Coord struct {
-	Lon float64 `json:"lon"`
-	Lat float64 `json:"lat"`
+	Lat float64
+	Lon float64
 }
 
 type Location struct {
@@ -37,10 +37,10 @@ type Config struct {
 func ReadConfig(path string, availableCollectors map[string]Collector) (*Config, error) {
 
 	type RawLocation struct {
-		ID   string
-		Name string
-		Lat  float64
-		Lon  float64
+		ID   string  `yaml:"id"`
+		Name string  `yaml:"name"`
+		Lat  float64 `yaml:"lat"`
+		Lon  float64 `yaml:"lon"`
 	}
 
 	type RawCollectorConfig struct {
