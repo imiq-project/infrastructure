@@ -79,7 +79,7 @@ func main() {
 	}
 
 	// Read config
-	log.Println("Reading config from", configFile)
+	log.Println("Reading config from", *configFile)
 	cfg, err := config.ReadConfig(*configFile, collectors)
 	if err != nil {
 		log.Println("Cannot read config file:", err)

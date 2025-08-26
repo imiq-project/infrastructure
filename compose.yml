@@ -38,6 +38,8 @@ services:
       dockerfile: Dockerfile
     pull_policy: build
     restart: always
+    depends_on:
+    - orion
     environment:
     - OWM_API_KEY=$OPEN_WEATHER_MAP_API_KEY
 
