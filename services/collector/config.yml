@@ -1,0 +1,47 @@
+collectors:
+  - name: OpenWeatherMap
+    intervalSecs: 600
+    locations:
+      - id: Sensor:Weather:FacultyCS
+        name: Faculty of Computer Science
+        lat: 52.13878
+        lon: 11.64533
+      - id: Sensor:Weather:ScienceHub
+        name: Science Harbor
+        lat: 52.14175
+        lon: 11.6564
+      - id: Sensor:Weather:UniMensa
+        name: University Mensa
+        lat: 52.13966
+        lon: 11.64761
+      - id: Sensor:Weather:Library
+        name: University Library
+        lat: 52.13888
+        lon: 11.64707
+      - id: Sensor:Weather:WelcomeCenter
+        name: OVGU Welcome Center
+        lat: 52.14031
+        lon: 11.64039
+      - id: Sensor:Weather:NorthPark
+        name: North Park
+        lat: 52.14276
+        lon: 11.64513
+      - id: Sensor:Weather:GeschwisterPark
+        name: Geschwister-Scholl-Park
+        lat: 52.1402
+        lon: 11.63655
+  - name: Parking
+    intervalSecs: 10
+    locations:
+      - id: ParkingSpot:ScienceHarbor
+        name: Parking A - Science Harbor
+        lat: 52.1412
+        lon: 11.6558
+      - id: ParkingSpot:FacultyCS
+        name: Parking B - Faculty CS
+        lat: 52.13878
+        lon: 11.64533
+      - id: ParkingSpot:NorthPark
+        name: Parking C - North Park
+        lat: 52.1431
+        lon: 11.6457

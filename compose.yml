@@ -32,6 +32,15 @@ services:
     pull_policy: build
     restart: always
 
+  collector:
+    build:
+      context: services/collector
+      dockerfile: Dockerfile
+    pull_policy: build
+    restart: always
+    environment:
+    - OWM_API_KEY=$OPEN_WEATHER_MAP_API_KEY
+
 volumes:
   mongo_data:
   mongo_config:
