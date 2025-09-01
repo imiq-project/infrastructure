@@ -154,7 +154,7 @@ async function updateParkingSpots() {
 function clearAllMarkers() {
   weatherSensors.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
   parkingSpots.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
-  removeHeatmap();
+  //removeHeatmap();
   trafficMarkers.forEach(marker => map.removeLayer(marker));
   trafficMarkers = [];
 }
@@ -173,8 +173,8 @@ document.getElementById("sensorType").addEventListener("change", (e) => {
     updateAllPopups(selected);
   } else if (selected === "parking") {
     updateParkingSpots();
-  } else if (selected === "tempHeat") {
-    renderTemperatureHeatmap();
+ // } else if (selected === "tempHeat") {
+  //  renderTemperatureHeatmap();
   } else if (selected === "traffic") {
     updateTrafficFlow();
   }
@@ -189,8 +189,8 @@ setInterval(() => {
     updateParkingSpots();
   } else if (currentSensorMode === "temperature" || currentSensorMode === "humidity") {
     updateAllPopups(currentSensorMode);
-  } else if (currentSensorMode === "tempHeat") {
-    renderTemperatureHeatmap();
+  //} else if (currentSensorMode === "tempHeat") {
+  //  renderTemperatureHeatmap();
   } else if (currentSensorMode === "traffic") {
     updateTrafficFlow();
   }
