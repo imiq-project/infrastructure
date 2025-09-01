@@ -43,6 +43,13 @@ services:
     environment:
     - OWM_API_KEY=$OPEN_WEATHER_MAP_API_KEY
 
+  scheduled:
+    build: services/scheduled
+    pull_policy: build
+    restart: always
+    depends_on:
+    - orion
+
 volumes:
   mongo_data:
   mongo_config:
