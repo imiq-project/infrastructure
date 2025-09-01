@@ -17,6 +17,7 @@ import (
 var collectorConstructors = [...]func() (config.Collector, error){
 	collectors.NewOpenWeatherMapCollector,
 	collectors.NewParkingCollector,
+	collectors.TrafficCollector,
 }
 
 func FetchAll(orionHost string, collectorConfig config.CollectorConfig) {

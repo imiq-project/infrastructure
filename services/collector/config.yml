@@ -46,7 +46,7 @@ collectors:
         lat: 52.1431
         lon: 11.6457
 
-  - name: Junctions
+  - name: Traffic
     interval: 60m
     locations:
       - id: Junction:ScienceHub
