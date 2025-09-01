@@ -68,7 +68,7 @@ const parkingSpots = [
 ];
 
 // -----------------
-// Get data from Orion Context Broker (localhost:1026)
+// Get data from Orion Context Broker
 // -----------------
 async function getSensorData(sensorId) {
   try {
@@ -84,6 +84,21 @@ async function getSensorData(sensorId) {
     console.error("Error fetching data for", sensorId, error);
     return null;
   }
+}
+
+async function getAllVehicles() {
+  try {
+    const res = await fetch(`/entities?type=Vehicle`);
+    if (!res.ok) {
+      console.error("Error fetching vehicles", error);
+      return null;
+    }
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    console.error("Error fetching vehicles", error);
+    return null;
+  }  
 }
 
 // -----------------------
@@ -158,7 +173,32 @@ async function updateParkingSpots() {
     }).openTooltip();
   }
 }
+// --------------------------------------
+// Update all vehicle markers on map
+// --------------------------------------
+const createIcon = (html) => L.divIcon({
+    html: html,
+    className: 'vehicle-icon',
+    iconSize: [64, 64],
+    iconAnchor: [32, 32]
+  })
+icons = {
+  'bus': createIcon('🚌'),
+  'tram': createIcon('🚊'),
+  'train': createIcon('🚆'),
+}
 
+let vehicleMarkers = []
+async function updateVehicles() {
+  const vehicles = await getAllVehicles();
+  vehicleMarkers.forEach(m => m.remove())
+  vehicleMarkers = []
+  for(const vehicle of vehicles) {
+    const icon = icons[vehicle.category.value]
+    const marker = L.marker(vehicle.location.value.coordinates, {icon: icon}).addTo(map)
+    vehicleMarkers.push(marker)
+  }
+}
 
 // --------------------------------------
 // Remove all markers from the map
@@ -202,6 +242,8 @@ currentSensorMode = ""; // Start with clean map
 // --------------------------------------
 // Auto-refresh data every 10 seconds
 // --------------------------------------
+updateVehicles();
+setInterval(updateVehicles, 1000);
 setInterval(() => {
   if (currentSensorMode === "parking") {
     updateParkingSpots();
