@@ -45,3 +45,16 @@ collectors:
         name: Parking C - North Park
         lat: 52.1431
         lon: 11.6457
+
+  - name: Junctions
+    interval: 60m
+    locations:
+      - id: Junction:ScienceHub
+        name: 🚦 Traffic - Science Harbor
+        lat: 52.14105
+        lon: 11.65511
+      - id: JJunction:FacultyCS
+        name: 🚦 Traffic - Faculty CS
+        lat: 52.13875
+        lon: 11.64506
+      
