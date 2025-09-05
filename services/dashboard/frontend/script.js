@@ -104,6 +104,9 @@ function attachLivePopup(marker, sensorId, label) {
   });
 }
 
+// ---------------------------------------
+// Update all weather popups
+// ---------------------------------------
 async function updateAllPopups(sensorType) {
   for (const entry of weatherSensors) {
     const data = await getSensorData(entry.id);
@@ -149,12 +152,13 @@ async function updateParkingSpots() {
 }
 
 // --------------------------------------
-// Cleanup
+// Cleanup Markers
 // --------------------------------------
 function clearAllMarkers() {
   weatherSensors.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
   parkingSpots.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
   //removeHeatmap();
+  trafficPoints.forEach(p => { if (p.marker) { map.removeLayer(p.marker); p.marker = null; } });
   trafficMarkers.forEach(marker => map.removeLayer(marker));
   trafficMarkers = [];
 }
@@ -198,12 +202,14 @@ setInterval(() => {
 
 
 
-function closeGrafana() {
-  document.getElementById('grafanaSidebar').style.display = 'none';
-  document.getElementById('grafanaFrame').src = '';
-}
+// function closeGrafana() {
+//   document.getElementById('grafanaSidebar').style.display = 'none';
+//   document.getElementById('grafanaFrame').src = '';
+// }
 
-
+// --------------------------------------
+// Traffic Flow
+// --------------------------------------
 
 async function updateTrafficFlow() {
   for (const point of trafficPoints) {
@@ -225,14 +231,14 @@ async function updateTrafficFlow() {
 
       trafficMarkers.push(point.marker); 
 
-      // 🔥 Attach click AFTER marker is created
-      point.marker.on('click', function () {
-        const encodedId = encodeURIComponent(point.id);
-        const grafanaURL = `http://localhost:3000/d/aad654c6-b987-4ef1-9466-76d129830a94/vehicle-count-sciencehabor?orgId=1&from=2025-08-26T08:17:40.887Z&to=2025-08-27T08:17:40.887Z&timezone=browser&viewPanel=panel-1&theme=light`;
-
-        document.getElementById('grafanaSidebar').style.display = 'block';
-        document.getElementById('grafanaFrame').src = grafanaURL;
-      });
+   //   // 🔥 Attach click AFTER marker is created
+   //   point.marker.on('click', function () {
+   //     const encodedId = encodeURIComponent(point.id);
+   //     const grafanaURL = `http://localhost:3000/d/aad654c6-b987-4ef1-9466-76d129830a94/vehicle-count-sciencehabor?orgId=1&from=2025-08-26T08:17:40.887Z&to=2025-08-27T08:17:40.887Z&timezone=browser&viewPanel=panel-1&theme=light`;
+//
+   //     document.getElementById('grafanaSidebar').style.display = 'block';
+   //     document.getElementById('grafanaFrame').src = grafanaURL;
+   //   });
     }
 
     point.marker.bindTooltip(label, {
