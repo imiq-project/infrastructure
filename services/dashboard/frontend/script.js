@@ -166,9 +166,6 @@ async function updateParkingSpots() {
 }
 
 // --------------------------------------
-<<<<<<< HEAD
-// Cleanup Markers
-=======
 // Update all vehicle markers on map
 // --------------------------------------
 const createIcon = (html) => L.divIcon({
@@ -197,7 +194,6 @@ async function updateVehicles() {
 
 // --------------------------------------
 // Cleanup
->>>>>>> bbde4e4ae4dbef7b228aa0ff702f402e2caf0777
 // --------------------------------------
 function clearAllMarkers() {
   weatherSensors.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
