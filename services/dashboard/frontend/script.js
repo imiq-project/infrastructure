@@ -70,7 +70,7 @@ const trafficPoints = [
 // --------------------------------------
 async function getSensorData(sensorId) {
   try {
-    const res = await fetch(`http://localhost:1026/v2/entities/${sensorId}`);
+    const res = await fetch(`/entities/${sensorId}`);
     if (!res.ok) {
       console.error("Failed to fetch", sensorId);
       return null;
@@ -82,6 +82,20 @@ async function getSensorData(sensorId) {
   }
 }
 
+async function getAllVehicles() {
+  try {
+    const res = await fetch(`/entities?type=Vehicle`);
+    if (!res.ok) {
+      console.error("Error fetching vehicles", error);
+      return null;
+    }
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    console.error("Error fetching vehicles", error);
+    return null;
+  }  
+}
 
 // --------------------------------------
 // Weather tooltips
@@ -152,7 +166,38 @@ async function updateParkingSpots() {
 }
 
 // --------------------------------------
+<<<<<<< HEAD
 // Cleanup Markers
+=======
+// Update all vehicle markers on map
+// --------------------------------------
+const createIcon = (html) => L.divIcon({
+    html: html,
+    className: 'vehicle-icon',
+    iconSize: [64, 64],
+    iconAnchor: [32, 32]
+  })
+icons = {
+  'bus': createIcon('🚌'),
+  'tram': createIcon('🚊'),
+  'train': createIcon('🚆'),
+}
+
+let vehicleMarkers = []
+async function updateVehicles() {
+  const vehicles = await getAllVehicles();
+  vehicleMarkers.forEach(m => m.remove())
+  vehicleMarkers = []
+  for(const vehicle of vehicles) {
+    const icon = icons[vehicle.category.value]
+    const marker = L.marker(vehicle.location.value.coordinates, {icon: icon}).addTo(map)
+    vehicleMarkers.push(marker)
+  }
+}
+
+// --------------------------------------
+// Cleanup
+>>>>>>> bbde4e4ae4dbef7b228aa0ff702f402e2caf0777
 // --------------------------------------
 function clearAllMarkers() {
   weatherSensors.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
@@ -199,6 +244,8 @@ setInterval(() => {
     updateTrafficFlow();
   }
 }, 10000);
+updateVehicles();
+setInterval(updateVehicles, 1000);
 
 
 
