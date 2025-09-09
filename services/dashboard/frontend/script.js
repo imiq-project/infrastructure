@@ -36,6 +36,9 @@ L.control.layers({
 }, {}, { position: 'topleft', collapsed: true }).addTo(map);
 
 let currentSensorMode = "";
+let heatLayer = null;
+let heatLegend = null;
+let cesiumViewer = null;
 let trafficMarkers = [];
 
 
@@ -64,6 +67,94 @@ const trafficPoints = [
   { id: "Traffic:Junction:ScienceHub", label: "🚦 Traffic - Science Harbor", coords: [52.1417, 11.6564], marker: null},
   { id: "Traffic:Junction:FacultyCS", label: "🚦 Traffic - Faculty CS", coords: [52.1387, 11.6453], marker: null}
 ];
+
+// --------------------------------------
+// 2D/3D toggle buttons 
+// --------------------------------------
+
+const btn3D = document.getElementById('btn3D');
+const btn2d = document.getElementById('btn2d');
+const cesiumOverlay = document.getElementById('cesiumOverlay');
+Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2IwMTEyNS0wYjMyLTQxNGYtOTU3OC1iMmY0YjE2ODlmNWEiLCJpZCI6MzM4MzczLCJpYXQiOjE3NTY5OTIyMjd9.8PKf7IaADHKaJTHTkiDz6mg25IHJa8C9ntk6RErFJoo"
+
+
+// Initialize Cesium viewer once
+async function initCesium() {
+  cesiumViewer = new Cesium.Viewer('cesiumContainer', {
+    animation: false,
+    timeline: false,
+    geocoder: false,
+    baseLayerPicker: true,
+    sceneModePicker: true,
+    homeButton: true,
+    navigationHelpButton: false,
+    infoBox: false,
+    selectionIndicator: false,
+    shouldAnimate: false
+  });
+
+  cesiumViewer.scene.globe.show = true;
+  cesiumViewer.scene.globe.enableLighting = false; // unified
+  cesiumViewer.scene.highDynamicRange = true;
+  cesiumViewer.scene.skyAtmosphere.show = true;
+
+  const hasToken = !!Cesium.Ion.defaultAccessToken && Cesium.Ion.defaultAccessToken.trim() !== "";
+  if (hasToken) {
+    try {
+      const terrain = await Cesium.createWorldTerrainAsync();
+      cesiumViewer.terrainProvider = terrain;
+      const buildings = await Cesium.createOsmBuildingsAsync();
+      cesiumViewer.scene.primitives.add(buildings);
+    } catch (e) {
+      console.warn("Ion terrain/OSM buildings failed; using ellipsoid.", e);
+      cesiumViewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+    }
+  } else {
+    cesiumViewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+    cesiumViewer.scene.globe.depthTestAgainstTerrain = false;
+  }
+
+  setTimeout(() => cesiumViewer.resize(), 50);
+}
+//  
+
+
+
+// 2D button: hide 3D and re-render current layer on Leaflet
+btn2D.addEventListener('click', () => {
+  cesiumOverlay.style.display = 'none';
+  cesiumOverlay.setAttribute('aria-hidden', 'true');
+
+  if (currentSensorMode === "parking")       updateParkingSpots();
+  else if (currentSensorMode === "traffic")  updateTrafficFlow();
+  else if (currentSensorMode === "tempHeat") renderTemperatureHeatmap();
+  else if (currentSensorMode === "temperature" || currentSensorMode === "humidity")
+    updateAllPopups(currentSensorMode);
+
+  setActiveButton();
+});
+
+// --------------------------------------
+// 3D button handlers   
+// --------------------------------------
+
+btn3D.addEventListener('click', async () => {
+  cesiumOverlay.style.display = 'block';
+  cesiumOverlay.setAttribute('aria-hidden', 'false');
+  if (!cesiumViewer) await initCesium();
+  flyCesiumToLeafletCenter();
+  setActiveButton();
+})
+
+
+// call setActiveButton() at the end of each btn2D/btn3D handler
+
+function setActiveButton() {
+  document.getElementById('btn2D').classList.toggle('mode-active', cesiumOverlay.style.display !== 'block');
+  document.getElementById('btn3D').classList.toggle('mode-active', cesiumOverlay.style.display === 'block');
+}
+
+
 
 // --------------------------------------
 // Fetch sensor data from Orion

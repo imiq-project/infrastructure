@@ -5,6 +5,7 @@
     <title>DWLT Dashboard - OSM Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/cesium@1.120.0/Build/Cesium/Widgets/widgets.css"/>
     <style>
       html, body, #map {
         height: 100%;
@@ -20,7 +21,7 @@
         position: absolute;
         top: 10px;
         Right: 10px;
-        z-index: 999;
+        z-index: 1500;
         background: white;
         padding: 8px;
         border-radius: 4px;
@@ -35,6 +36,37 @@
         font-size: 24px;
         line-height: 1;
       }
+      #modeSwitcher {
+        position: absolute;
+        top: 10px;
+        left: 56px;                 /* ~next to zoom buttons */
+        z-index: 1300;              /* above map & Cesium overlay */
+        display: flex;
+        gap: 8px;
+      }
+      #modeSwitcher button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 999px;
+        background: linear-gradient(90deg,#111827,#374151);
+        color: #fff;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        font-size: 14px;
+        box-shadow: 0 6px 16px rgba(0,0,0,.25);
+        cursor: pointer;
+        transition: transform .08s ease, box-shadow .15s ease;
+      }
+      #modeSwitcher button:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,.28); }
+      .mode-active { outline: 2px solid #60a5fa; }
+    
+      /* Overlay stays below the controls */
+      #cesiumOverlay { position: absolute; inset: 0; display: none; z-index: 1200; background: #0b0f19; }
+      #cesiumContainer { position: absolute; inset: 0; }
+    
+      /* Keep Grafana above everything */
+      #grafanaSidebar { z-index: 2000 !important; }
+
+    </style>
     </style>
   </head>
   
@@ -62,10 +94,29 @@
           </select>
         </div>
 
-    </div>
-  
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+      </div>
+      <div id="modeSwitcher" class="leaflet-control">
+        <button id="btn2D" title="Switch to 2D">🗺️ 2D</button>
+        <button id="btn3D" title="Switch to 3D">🧭 3D</button>
+      </div>
+
+      <!-- Cesium overlay (no close button now) -->
+      <div id="cesiumOverlay">
+        <div id="cesiumContainer"></div>
+      </div>
+
+      <!-- 🔲 Traffic Analytics Panel -->
+      <div id="grafanaSidebar" style="display:none; position:absolute; top:10px; right:10px; width:30%; height:60%; z-index:1000; background:white; border:2px solid #ccc; box-shadow: 0 0 12px rgba(0,0,0,0.3);">
+        <div style="text-align:right; padding:5px;">
+          <button onclick="closeGrafana()" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; cursor:pointer;">✖ Close</button>
+        </div>
+        <iframe id="grafanaFrame" width="100%" height="95%" frameborder="0"></iframe>
+      </div>
+    
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!--  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script> -->
+     <script src="https://unpkg.com/cesium@1.120.0/Build/Cesium/Cesium.js"></script> 
+      <script src="script.js"></script>
   </body>
   
 </html>
