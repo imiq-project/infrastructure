@@ -373,22 +373,25 @@ setInterval(updateVehicles, 1000);
 async function updateTrafficFlow() {
   for (const point of trafficPoints) {
     const data = await getSensorData(point.id);
-    if (!data || data.vehiclesIn?.value == null || data.vehiclesOut?.value == null || data.pedestrians?.value == null) continue;
+    if (!data) continue;
+
+    const vIn  = Number(data.vehiclesIn?.value ?? 0);
+    const vOut = Number(data.vehiclesOut?.value ?? 0);
+    const cyc  = Number(data.cyclists?.value ?? 0);
+    const ped  = Number(data.pedestrians?.value ?? 0);
+
 
     const label = `${point.label}<br>
-    🚗 In: ${data.vehiclesIn.value}<br>
-    🚙 Out: ${data.vehiclesOut.value}<br>
-    🚶 Pedestrians: ${data.pedestrians.value}`;
+    🚗 In: ${vIn}<br>
+    🚙 Out: ${vOut}<br>
+    🚴 Cyclists: ${cyc}<br>
+    🚶 Pedestrians: ${ped}`;
 
     if (!point.marker) {
       point.marker = L.circleMarker(point.coords, {
-        radius: 10,
-        color: "#ff0000",
-        fillColor: "#f03",
-        fillOpacity: 0.5
+        radius: 10, color: "#ff0000", fillColor: "#f03", fillOpacity: 0.5
       }).addTo(map);
-
-      trafficMarkers.push(point.marker); 
+      trafficMarkers.push(point.marker);
 
    //   // 🔥 Attach click AFTER marker is created
    //   point.marker.on('click', function () {
