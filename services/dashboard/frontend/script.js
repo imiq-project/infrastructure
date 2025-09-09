@@ -154,6 +154,31 @@ function setActiveButton() {
   document.getElementById('btn3D').classList.toggle('mode-active', cesiumOverlay.style.display === 'block');
 }
 
+// --------------------------------------
+// Fly Cesium camera to Leaflet map center
+// --------------------------------------
+
+const CESIUM_TARGET = { lat: 52.140, lon: 11.644, zoom: 16.5 };
+
+function flyCesiumToLeafletCenter() {
+  if (!cesiumViewer) return;
+
+  const center = map.getCenter();  
+  const zoom = map.getZoom();
+
+  // Lower height = closer. This mapping lands you near street/building level at high zooms.
+  const height = Math.max(80, 100000 / Math.pow(2, (zoom - 8)));
+
+  cesiumViewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(center.lng, center.lat, height),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-35),  // tilt to see facades
+      roll: 0
+    },
+    duration: 1.2
+  });
+}
 
 
 // --------------------------------------
