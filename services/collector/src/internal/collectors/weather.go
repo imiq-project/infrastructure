@@ -124,6 +124,7 @@ func (collector OpenWeatherMapCollector) Fetch(coord config.Coord) (map[string]a
 	}
 
 	return map[string]any{
+		"type": "Weather",
 		"temperature": map[string]any{
 			"value": weather.Main.Temp,
 			"type":  "Float",

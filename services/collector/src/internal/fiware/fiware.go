@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -22,13 +23,21 @@ func CreateEntity(fiwareUrl string, id string, data map[string]any) error {
 		return err
 	}
 	if resp.StatusCode != 201 {
-		return fmt.Errorf("unexpected status %d", resp.StatusCode)
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("unexpected status %d: %s", resp.StatusCode, bodyBytes)
 	}
 	return nil
 }
 
 func UpdateEntity(fiwareUrl string, id string, data map[string]any) error {
-	jsonData, err := json.Marshal(data)
+	dataCopied := map[string]any{}
+	for k, v := range data {
+		if k != "type" {
+			dataCopied[k] = v
+		}
+	}
+
+	jsonData, err := json.Marshal(dataCopied)
 	if err != nil {
 		return err
 	}
@@ -45,6 +54,9 @@ func UpdateEntity(fiwareUrl string, id string, data map[string]any) error {
 		if err != nil {
 			return err
 		}
+	} else if resp.StatusCode != 204 {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("unexpected status %d: %s", resp.StatusCode, bodyBytes)
 	}
 	return nil
 }

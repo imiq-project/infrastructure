@@ -11,6 +11,7 @@ type ParkingCollector struct{}
 func (collector ParkingCollector) Fetch(coord config.Coord) (map[string]any, error) {
 	const total = 20
 	return map[string]any{
+		"type": "Parking",
 		"freeSpaces": map[string]any{
 			"type":  "Integer",
 			"value": rand.Intn(total),

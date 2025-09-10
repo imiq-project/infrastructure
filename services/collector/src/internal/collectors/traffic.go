@@ -26,7 +26,6 @@ func (collector sensors) Fetch(coord config.Coord) (map[string]any, error) {
 
 	return map[string]any{
 		"type": "Traffic",
-
 		"vehiclesIn": map[string]any{
 			"type":  "Integer",
 			"value": vehiclesIn,

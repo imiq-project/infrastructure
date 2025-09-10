@@ -49,11 +49,11 @@ collectors:
   - name: Traffic
     interval: 60m
     locations:
-      - id: Junction:ScienceHub
+      - id: Traffic:Junction:ScienceHub
         name: 🚦 Traffic - Science Harbor
         lat: 52.14105
         lon: 11.65511
-      - id: JJunction:FacultyCS
+      - id: Traffic:Junction:FacultyCS
         name: 🚦 Traffic - Faculty CS
         lat: 52.13875
         lon: 11.64506
