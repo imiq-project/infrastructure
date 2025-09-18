@@ -73,7 +73,7 @@ const trafficPoints = [
 // --------------------------------------
 
 const btn3D = document.getElementById('btn3D');
-const btn2d = document.getElementById('btn2d');
+const btn2D = document.getElementById('btn2D');
 const cesiumOverlay = document.getElementById('cesiumOverlay');
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2IwMTEyNS0wYjMyLTQxNGYtOTU3OC1iMmY0YjE2ODlmNWEiLCJpZCI6MzM4MzczLCJpYXQiOjE3NTY5OTIyMjd9.8PKf7IaADHKaJTHTkiDz6mg25IHJa8C9ntk6RErFJoo"
 
