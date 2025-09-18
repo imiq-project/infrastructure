@@ -73,7 +73,7 @@ const trafficPoints = [
 // --------------------------------------
 
 const btn3D = document.getElementById('btn3D');
-const btn2d = document.getElementById('btn2d');
+const btn2D = document.getElementById('btn2d');
 const cesiumOverlay = document.getElementById('cesiumOverlay');
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2IwMTEyNS0wYjMyLTQxNGYtOTU3OC1iMmY0YjE2ODlmNWEiLCJpZCI6MzM4MzczLCJpYXQiOjE3NTY5OTIyMjd9.8PKf7IaADHKaJTHTkiDz6mg25IHJa8C9ntk6RErFJoo"
 
@@ -94,7 +94,7 @@ async function initCesium() {
   });
 
   cesiumViewer.scene.globe.show = true;
-  cesiumViewer.scene.globe.enableLighting = false; // unified
+  cesiumViewer.scene.globe.enableLighting = false; 
   cesiumViewer.scene.highDynamicRange = true;
   cesiumViewer.scene.skyAtmosphere.show = true;
 
@@ -116,8 +116,6 @@ async function initCesium() {
 
   setTimeout(() => cesiumViewer.resize(), 50);
 }
-//  
-
 
 
 // 2D button: hide 3D and re-render current layer on Leaflet
@@ -294,9 +292,20 @@ icons = {
   'bus': createIcon('🚌'),
   'tram': createIcon('🚊'),
   'train': createIcon('🚆'),
+//  'robot': createIcon('🤖'),
 }
+// ---------------------------------------
+// Delivery Robot
+// ---------------------------------------
+
+const robotCoords = [52.138306108581276, 11.636103695312507]; // [lat, lon]
+
+const robotMarker = L.marker(robotCoords, { icon: icons["robot"] || createIcon("🤖") })
+  .addTo(map)
+  .bindTooltip("🤖 Delivery Robot", { direction: "top", offset: [0, -10] });
 
 let vehicleMarkers = []
+
 async function updateVehicles() {
   const vehicles = await getAllVehicles();
   vehicleMarkers.forEach(m => m.remove())

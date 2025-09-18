@@ -50,6 +50,13 @@ services:
     depends_on:
     - orion
 
+ # robots:
+ #   build: scheduled/robots
+ #   dockerfile: Dockerfile
+ #   restart: always
+ #   depends_on:   
+ #   - orion
+
 volumes:
   mongo_data:
   mongo_config:
