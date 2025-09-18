@@ -292,17 +292,8 @@ icons = {
   'bus': createIcon('🚌'),
   'tram': createIcon('🚊'),
   'train': createIcon('🚆'),
-//  'robot': createIcon('🤖'),
+  'robot': createIcon('🤖'),
 }
-// ---------------------------------------
-// Delivery Robot
-// ---------------------------------------
-
-const robotCoords = [52.138306108581276, 11.636103695312507]; // [lat, lon]
-
-const robotMarker = L.marker(robotCoords, { icon: icons["robot"] || createIcon("🤖") })
-  .addTo(map)
-  .bindTooltip("🤖 Delivery Robot", { direction: "top", offset: [0, -10] });
 
 let vehicleMarkers = []
 
