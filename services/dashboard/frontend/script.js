@@ -200,7 +200,7 @@ async function getSensorData(sensorId) {
 
 async function getAllVehicles() {
   try {
-    const res = await fetch(`/entities?type=Vehicle`);
+    const res = await fetch(`/entities?type=Vehicle&limit=1000`);
     if (!res.ok) {
       console.error("Error fetching vehicles", error);
       return null;
@@ -294,15 +294,8 @@ icons = {
   'bus': createIcon('🚌'),
   'tram': createIcon('🚊'),
   'train': createIcon('🚆'),
+  'robot': createIcon('🤖'),
 }
-// ----------------------	
-// Static Delivery Robot marker
-// ----------------------
-const robotCoords = [52.138306108581276, 11.636103695312507]; // [lat, lon]
-
-const robotMarker = L.marker(robotCoords, { icon: icons["robot"] || createIcon("🤖") })
-  .addTo(map)
-  .bindTooltip("🤖 Delivery Robot", { direction: "top", offset: [0, -10] });
 
 let vehicleMarkers = []
 async function updateVehicles() {
@@ -312,6 +305,9 @@ async function updateVehicles() {
   for(const vehicle of vehicles) {
     const icon = icons[vehicle.category.value]
     const marker = L.marker(vehicle.location.value.coordinates, {icon: icon}).addTo(map)
+    if(vehicle.category.value == "robot") {
+      marker.bindTooltip("🤖 Delivery Robot", { direction: "top", offset: [0, -10] });
+    }
     vehicleMarkers.push(marker)
   }
 }
