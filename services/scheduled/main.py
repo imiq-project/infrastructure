@@ -72,6 +72,7 @@ def update_vehicle(id: int, pos: Position, category: str):
                 "id": id,
                 "type": "Vehicle",
                 "category": {"type": "string", "value": category},
+                "source": {"type": "string", "value": "scheduled"},
                 "location": {
                     "type": "geo:json",
                     "value": {"type": "Point", "coordinates": [pos.lat, pos.lon]},
@@ -92,7 +93,7 @@ def delete_vehicle(id: int):
 
 def delete_all_vehicles():
     response = requests.get(
-        f"{ORION_HOST}/v2/entities", params={"type": "Vehicle", "limit": 200}
+        f"{ORION_HOST}/v2/entities", params={"type": "Vehicle", "limit": 1000, "q": "source==scheduled"}
     )
     # TODO: pagination
     for vehicle in response.json():
@@ -116,7 +117,7 @@ def main():
     delete_all_vehicles()
 
     now = datetime.datetime.now()
-    step = int( (now.hour * 3600 + now.minute * 60 + now.second) / period)
+    step = int((now.hour * 3600 + now.minute * 60 + now.second) / period)
 
     # Find active tracks for current time
     track_idx = 0
@@ -147,7 +148,7 @@ def main():
         active_tracks = new_active_tracks
 
         # Next sec
-        time.sleep(period) # TODO: accurate timing
+        time.sleep(period)  # TODO: accurate timing
         step = (step + 1) % SECS_PER_DAY
 
     print("Goodbye :)")
