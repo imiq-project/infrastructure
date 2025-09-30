@@ -12,12 +12,20 @@ http:
         traefik-api-key-auth:
           keys:
             - $API_KEY
+    strip-dashbot-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/dashbot"
 
   services:
     dashboard:
       loadBalancer:
         servers:
           - url: http://dashboard:1000
+    dashbot:
+      loadBalancer:
+        servers:
+          - url: http://dashbot:5000
     orion:
       loadBalancer:
         servers:
@@ -27,6 +35,11 @@ http:
     dashboard:
       rule: PathPrefix("/")
       service: dashboard
+    dashbot:
+      rule: PathPrefix("/api/dashbot")
+      service: dashbot
+      middlewares:
+        - strip-dashbot-prefix
     orion:
       rule: PathPrefix("/api/orion")
       service: orion

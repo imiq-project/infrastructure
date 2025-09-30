@@ -50,6 +50,14 @@ services:
     depends_on:
     - orion
 
+  dashbot:
+    image: ghcr.io/imiq-project/dashbot:latest
+    restart: always
+    depends_on:
+    - orion
+    environment:
+    - FIWARE_URL=http://orion:1026/v2
+
 volumes:
   mongo_data:
   mongo_config:

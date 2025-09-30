@@ -415,3 +415,9 @@ async function updateTrafficFlow() {
   }
 }
 
+// Activate chatbot
+if (initDashbot) {
+  initDashbot("/api/dashbot/chat")
+} else {
+  console.error("Dashbot not present")
+}
