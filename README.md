@@ -10,6 +10,7 @@ Before starting the infrastructure, you must set a few environment variables:
 |----------|-----------------------|-----------|
 | API_KEY  | Key to access the api | secret123 |
 | OPEN_WEATHER_MAP_API_KEY  | Key to open weather map (free account needed) | 1eas022db3a0qcaaa0299afbbaf47741 |
+| DAILYPLAN_APP_SECRET | Secret for the dailyplan app | secret456 |
 
 You probably want to put these into an `.env` file:
 

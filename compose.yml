@@ -58,6 +58,13 @@ services:
     environment:
     - FIWARE_URL=http://orion:1026/v2
 
+  dayplanner:
+    build: services/dayplanner
+    restart: always
+    pull_policy: build
+    environment:
+      - APP_SECRET=$DAILYPLAN_APP_SECRET
+
 volumes:
   mongo_data:
   mongo_config:

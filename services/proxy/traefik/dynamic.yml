@@ -1,5 +1,9 @@
 http:
   middlewares:
+    strip-dayplanner-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/dayplanner"
     strip-orion-prefix:
       stripPrefix:
         prefixes:
@@ -18,6 +22,10 @@ http:
           - "/api/dashbot"
 
   services:
+    dayplanner:
+      loadBalancer:
+        servers:
+          - url: http://dayplanner:80
     dashboard:
       loadBalancer:
         servers:
@@ -35,6 +43,11 @@ http:
     dashboard:
       rule: PathPrefix("/")
       service: dashboard
+    dayplanner:
+      rule: PathPrefix("/api/dayplanner")
+      service: dayplanner
+      middlewares:
+        - strip-dayplanner-prefix
     dashbot:
       rule: PathPrefix("/api/dashbot")
       service: dashbot
