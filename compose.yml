@@ -27,6 +27,29 @@ services:
       - CORS_ALLOWED_ORIGIN=*
       - CORS_ALLOWED_ORIGIN=http://localhost:8000
 
+  crate:
+    image: crate:4.5.1
+    container_name: crate
+    ports:
+      - "4200:4200"
+      - "5432:5432"
+    environment:
+      - CRATE_HEAP_SIZE=1g
+      - CRATE_CLUSTER_NAME=crate-cluster
+    command: crate -Cauth.host_based.enabled=false
+
+  quantumleap:
+    image: orchestracities/quantumleap:0.8.3
+    container_name: quantumleap
+    depends_on:
+      - crate
+    ports:
+      - "8668:8668"
+    environment:
+      - CRATE_HOST=crate
+      - LOGLEVEL=DEBUG
+
+
   dashboard:
     build: services/dashboard
     pull_policy: build
