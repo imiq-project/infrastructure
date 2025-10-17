@@ -21,6 +21,8 @@ services:
     restart: always
     depends_on:
       - mongo
+    ports:
+      - "1026:1026"
     entrypoint: ["sh", "-c", "rm /tmp/contextBroker.pid; /usr/bin/contextBroker -fg -multiservice -dbhost mongo -corsOrigin __ALL"]
     environment:
       - ORION_LOG_LEVEL=DEBUG
