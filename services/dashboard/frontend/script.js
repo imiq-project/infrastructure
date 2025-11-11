@@ -22,6 +22,21 @@ const esriLabels = L.tileLayer(
   { attribution: 'Labels © Esri', opacity: 0.9 }
 );
 
+const openTopo = L.tileLayer(
+  'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+  { attribution: 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap (CC-BY-SA)' }
+);
+
+const cartoLight = L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+  {attribution: '© OpenStreetMap contributors © CARTO'}
+);
+
+const cartoDark = L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+  {attribution: '© OpenStreetMap contributors © CARTO' }
+);
+
 const satellite = L.layerGroup([esriImagery, esriLabels]);
 
 const map = L.map('map', {
@@ -32,8 +47,11 @@ const map = L.map('map', {
 
 L.control.layers({
   "🛰️ Satellite": satellite,
-  "🗺️ OpenStreetMap": osmRoad
-}, {}, { position: 'topleft', collapsed: true }).addTo(map);
+  "🗺️ OpenStreetMap": osmRoad,
+  "🏔️ Topographic": openTopo,
+  "📄 Light": cartoLight,
+  "🌙 Dark": cartoDark}, {}, { position: 'topleft', collapsed: true }).addTo(map);
+
 
 let currentSensorMode = "";
 let heatLayer = null;
