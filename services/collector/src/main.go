@@ -23,7 +23,7 @@ var collectorConstructors = [...]func() (config.Collector, error){
 func FetchAll(orionHost string, collectorConfig config.CollectorConfig) {
 	log.Println("Running collector", collectorConfig.Collector.Name(), "on", len(collectorConfig.Locations), "locations")
 	for _, location := range collectorConfig.Locations {
-		result, err := collectorConfig.Collector.Fetch(location.Coord)
+		result, err := collectorConfig.Collector.Fetch(location)
 		if err != nil {
 			log.Println("Failed to fetch:", location.ID, err)
 		} else {
