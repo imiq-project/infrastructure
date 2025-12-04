@@ -61,7 +61,7 @@ func ReadConfig(path string, availableCollectors map[string]Collector) (*Config,
 	}
 
 	decoder := yaml.NewDecoder(data)
-	decoder.KnownFields(false) // not fail on unknown keys | changed from fail on unknown keys because, additioin of metadata
+	decoder.KnownFields(false) // not fail on unknown keys | changed from fail on unknown keys because of addition of metadata
 	var rawCfg RawConfig
 	if err := decoder.Decode(&rawCfg); err != nil {
 		return nil, err

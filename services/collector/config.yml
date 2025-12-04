@@ -306,14 +306,6 @@ collectors:
         opening_hours: "Tu-Th 08:00-16:00; Mo 08:30-16:00; Fr 08:00-15:00"
         accessibility: "yes"
 
-      - id: Rest:Mensa
-        name: Mensa
-        lat: 52.139529
-        lon: 11.647573
-        category: restaurant
-        opening_hours: "Mo-Fr 10:45-14:00"
-        accessibility: "yes"
-
       - id: Cafe:PIER16
         name: PIER 16
         lat: 52.140039
@@ -858,3 +850,12 @@ collectors:
         opening_hours: "Mo-Fr 07:00-21:00; Sa 07:00-20:00; PH off"
         website: "https://www.lidl.de/"
         accessibility: "yes"
+
+  - name: Restaurant
+    interval: 24h 
+    locations:
+      - id: Rest:MensaUni
+        name: Mensa UniCampus
+        lat: 52.139529
+        lon: 11.647572
+        category: mensa
