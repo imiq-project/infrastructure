@@ -90,6 +90,15 @@ services:
     environment:
       - APP_SECRET=$DAILYPLAN_APP_SECRET
 
+  sensors:
+    build:
+      context: services/sensors
+      dockerfile: Dockerfile
+    pull_policy: build
+    restart: always
+    depends_on:
+    - orion
+
 volumes:
   mongo_data:
   mongo_config:

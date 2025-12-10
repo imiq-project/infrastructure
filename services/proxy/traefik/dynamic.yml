@@ -20,6 +20,10 @@ http:
       stripPrefix:
         prefixes:
           - "/api/dashbot"
+    strip-sensors-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/sensors"
 
   services:
     dayplanner:
@@ -38,6 +42,10 @@ http:
       loadBalancer:
         servers:
           - url: http://orion:1026
+    sensors:
+      loadBalancer:
+        servers:
+          - url: http://sensors:80
 
   routers:
     dashboard:
@@ -60,3 +68,8 @@ http:
         - check-api-key
         - strip-orion-prefix
         - add-v2-prefix
+    sensors:
+      rule: PathPrefix("/api/sensors")
+      service: sensors
+      middlewares:
+        - strip-sensors-prefix
