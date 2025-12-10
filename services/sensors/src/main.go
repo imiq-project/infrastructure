@@ -34,6 +34,7 @@ func main() {
 
 		if password[0] != expectedPassword {
 			http.Error(w, "invalid password", http.StatusBadRequest)
+			return
 		}
 
 		entity := map[string]any{
@@ -50,7 +51,10 @@ func main() {
 				"type":  "geo:point",
 				"value": "52.141234471041685, 11.654583803189286",
 			},
-			"additionalData": params,
+			"additionalData": map[string]any{
+				"type":  "any",
+				"value": params,
+			},
 		}
 		err := UpdateEntity("http://orion:1026", "Sensor:Weather:ImiqOffice", entity)
 		if err != nil {
