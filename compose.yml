@@ -98,6 +98,8 @@ services:
     restart: always
     depends_on:
     - orion
+    environment:
+    - WEATHER_STATION_PASSWORD=$WEATHER_STATION_PASSWORD
 
 volumes:
   mongo_data:

@@ -1,39 +1,61 @@
 package main
 
 import (
-	"fmt"
-	"io"
 	"log"
 	"net/http"
+	"os"
+)
+
+const (
+	ID_KEY       = "wsid"
+	PASSWORD_KEY = "wspw"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// Log request path
-		log.Printf("Path: %s\n", r.URL.Path)
+	expectedPassword, exists := os.LookupEnv("WEATHER_STATION_PASSWORD")
+	if !exists {
+		panic("Cannot lookup password")
+	}
 
-		// Log headers
-		log.Println("Headers:")
-		for name, values := range r.Header {
-			for _, v := range values {
-				log.Printf("  %s: %s\n", name, v)
-			}
-		}
-
-		// Read and log body
-		body, err := io.ReadAll(r.Body)
-		if err != nil {
-			log.Printf("Error reading body: %v", err)
-			http.Error(w, "could not read body", http.StatusInternalServerError)
+	http.HandleFunc("/data/upload.php", func(w http.ResponseWriter, r *http.Request) {
+		params := r.URL.Query()
+		_, exists := params[ID_KEY]
+		if !exists {
+			http.Error(w, ID_KEY+" is missing", http.StatusBadRequest)
 			return
 		}
-		defer r.Body.Close()
+		delete(params, ID_KEY)
+		password, exists := params[PASSWORD_KEY]
+		if !exists {
+			http.Error(w, PASSWORD_KEY+" is missing", http.StatusBadRequest)
+			return
+		}
+		delete(params, PASSWORD_KEY)
 
-		log.Println("Body:")
-		log.Println(string(body))
+		if password[0] != expectedPassword {
+			http.Error(w, "invalid password", http.StatusBadRequest)
+		}
 
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, "ok")
+		entity := map[string]any{
+			"type": "WeatherObserved",
+			"humidity": map[string]any{
+				"type":  "float",
+				"value": params.Get("t1hum"),
+			},
+			"temperature": map[string]any{
+				"type":  "float",
+				"value": params.Get("t1tem"),
+			},
+			"location": map[string]any{
+				"type":  "geo:point",
+				"value": "52.141234471041685, 11.654583803189286",
+			},
+			"additionalData": params,
+		}
+		err := UpdateEntity("http://orion:1026", "Sensor:Weather:ImiqOffice", entity)
+		if err != nil {
+			log.Println("Failed to update weather data: ", err)
+		}
 	})
 
 	log.Println("Listening on :80")
