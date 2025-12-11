@@ -30,14 +30,7 @@ func CreateEntity(fiwareUrl string, id string, data map[string]any) error {
 }
 
 func UpdateEntity(fiwareUrl string, id string, data map[string]any) error {
-	dataCopied := map[string]any{}
-	for k, v := range data {
-		if k != "type" {
-			dataCopied[k] = v
-		}
-	}
-
-	jsonData, err := json.Marshal(dataCopied)
+	jsonData, err := json.Marshal(data)
 	if err != nil {
 		return err
 	}
@@ -49,12 +42,7 @@ func UpdateEntity(fiwareUrl string, id string, data map[string]any) error {
 	if err != nil {
 		return err
 	}
-	if resp.StatusCode == 404 {
-		err = CreateEntity(fiwareUrl, id, data)
-		if err != nil {
-			return err
-		}
-	} else if resp.StatusCode != 204 {
+	if resp.StatusCode != 204 {
 		bodyBytes, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("unexpected status %d: %s", resp.StatusCode, bodyBytes)
 	}

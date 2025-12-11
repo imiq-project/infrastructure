@@ -9,12 +9,40 @@ import (
 const (
 	ID_KEY       = "wsid"
 	PASSWORD_KEY = "wspw"
+	FIWARE_URL   = "http://orion:1026"
+	SENSOR_ID    = "Sensor:Weather:ImiqOffice"
 )
 
 func main() {
 	expectedPassword, exists := os.LookupEnv("WEATHER_STATION_PASSWORD")
 	if !exists {
 		panic("Cannot lookup password")
+	}
+
+	entity := map[string]any{
+		"type": "WeatherObserved",
+		"humidity": map[string]any{
+			"type":  "float",
+			"value": 0,
+		},
+		"temperature": map[string]any{
+			"type":  "float",
+			"value": 0,
+		},
+		"location": map[string]any{
+			"type":  "geo:point",
+			"value": "52.141234471041685, 11.654583803189286",
+		},
+		"additionalData": map[string]any{
+			"type":  "any",
+			"value": map[string]any{},
+		},
+	}
+
+	err := CreateEntity(FIWARE_URL, SENSOR_ID, entity)
+	if err != nil {
+		log.Println("Failed to create sensor", err)
+		// we continue anyway, maybe the entity already exists
 	}
 
 	http.HandleFunc("/data/upload.php", func(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +66,6 @@ func main() {
 		}
 
 		entity := map[string]any{
-			"type": "WeatherObserved",
 			"humidity": map[string]any{
 				"type":  "float",
 				"value": params.Get("t1hum"),
@@ -47,16 +74,12 @@ func main() {
 				"type":  "float",
 				"value": params.Get("t1tem"),
 			},
-			"location": map[string]any{
-				"type":  "geo:point",
-				"value": "52.141234471041685, 11.654583803189286",
-			},
 			"additionalData": map[string]any{
 				"type":  "any",
 				"value": params,
 			},
 		}
-		err := UpdateEntity("http://orion:1026", "Sensor:Weather:ImiqOffice", entity)
+		err := UpdateEntity(FIWARE_URL, SENSOR_ID, entity)
 		if err != nil {
 			log.Println("Failed to update weather data: ", err)
 		}
