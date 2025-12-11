@@ -99,6 +99,82 @@ def delete_all_vehicles():
     for vehicle in response.json():
         print(f"Deleting {vehicle['id']}")
         delete_vehicle(vehicle["id"])
+"""
+#Mensa menu scraper
+def check_veg_nonVeg(category_text): 
+    veg_keywords = ['vegetarisch', 'vegan']
+    non_veg_keywords = ['rind', 'schwein', 'geflügel', 'fisch', 'hähnchen', 'lamm', 'suppe']
+    category_text_lower = category_text.lower()
+    if any(keyword in category_text_lower for keyword in veg_keywords):
+        return 'Vegetarian/Vegan'
+    elif any(keyword in category_text_lower for keyword in non_veg_keywords):
+        return 'Non-Vegetarian'
+    else:
+        return category_text
+
+def scrape_mensa():
+    print(f"[{datetime.datetime.now()}] Starting Mensa Scraper...")
+    try:
+        response = requests.get('https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-unicampus-speiseplan-unten/')
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        speisekarte = []
+        mensa_div = soup.find('div', class_='mensa')
+        if not mensa_div:
+            print("Error: Could not find div with class 'mensa'")
+            return
+
+        all_tables = mensa_div.find_all('table')
+        print(f"Found {len(all_tables)} days.")
+
+        for table in all_tables:
+            date_header = table.find('thead').get_text().strip()
+            day_menu = {'date': date_header, 'meals': []}
+            
+            rows = table.find('tbody').find_all('tr')
+            for row in rows:
+                columns = row.find_all('td')
+                
+                # Name Parsing
+                name_node = columns[0].find('span', class_='gruen')
+                name_ger = name_node.get_text().strip() if name_node else columns[0].find(string=True, recursive=False).strip()
+                
+                eng_node = columns[0].find('span', class_='grau')
+                name_eng = eng_node.get_text().strip() if eng_node else "No English name"
+                
+                price = columns[0].find('span', class_='mensapreis').get_text().strip()
+                
+                # Category Parsing
+                img = columns[1].find('img')
+                cat_raw = img.get('alt', '').strip() if img else "Unknown"
+                category = check_veg_nonVeg(cat_raw)
+
+                day_menu['meals'].append({
+                    'name_german': name_ger,
+                    'name_english': name_eng,
+                    'price': price,
+                    'category': category
+                })
+            speisekarte.append(day_menu)
+
+        # WRAPPER: This matches what Go expects
+        final_output = [
+            {
+                "name": "Mensa UniCampus",
+                "schedule": speisekarte
+            }
+        ]
+        # SAVE TO SHARED VOLUME
+        output_path = '/app/data/mensa_menus.json'
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(final_output, f, ensure_ascii=False, indent=4)
+            
+        print(f"[{datetime.datetime.now()}] Success! Saved to {output_path}")
+
+    except Exception as e:
+        print(f"[{datetime.datetime.now()}] Error: {e}")
+"""
 
 
 def main():
@@ -116,6 +192,12 @@ def main():
 
     delete_all_vehicles()
 
+    """
+    # Schedule Mensa Scraper every Friday at 08:00 AM
+    scrape_mensa()
+    schedule.every().friday.at("08:00").do(scrape_mensa)
+    """
+
     now = datetime.datetime.now()
     step = int((now.hour * 3600 + now.minute * 60 + now.second) / period)
 
@@ -126,6 +208,14 @@ def main():
         track_idx += 1
 
     while running:
+        
+        
+        """
+        #Run Pending Schedule Jobs (Mensa)
+        schedule.run_pending()
+        """
+        
+
         # Start tracks
         while tracks[track_idx].start < step:
             track = tracks[track_idx]

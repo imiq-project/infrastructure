@@ -106,10 +106,10 @@ func (collector OpenWeatherMapCollector) Name() string {
 	return "OpenWeatherMap"
 }
 
-func (collector OpenWeatherMapCollector) Fetch(coord config.Coord) (map[string]any, error) {
+func (collector OpenWeatherMapCollector) Fetch(loc config.Location) (map[string]any, error) {
 	rsp, err := fetch("https://api.openweathermap.org/data/2.5/weather", map[string]string{
-		"lat":   fmt.Sprintf("%.5f", coord.Lat),
-		"lon":   fmt.Sprintf("%.5f", coord.Lon),
+		"lat":   fmt.Sprintf("%.5f", loc.Coord.Lat),
+		"lon":   fmt.Sprintf("%.5f", loc.Coord.Lon),
 		"appid": collector.apiKey,
 		"units": "metric",
 	})
@@ -135,7 +135,7 @@ func (collector OpenWeatherMapCollector) Fetch(coord config.Coord) (map[string]a
 		},
 		"location": map[string]any{
 			"type":  "geo:point",
-			"value": fmt.Sprintf("%f, %f", coord.Lat, coord.Lon),
+			"value": fmt.Sprintf("%f, %f", loc.Coord.Lat, loc.Coord.Lon),
 		},
 	}, nil
 }
