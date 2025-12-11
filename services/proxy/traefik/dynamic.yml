@@ -57,6 +57,13 @@ http:
       service: dashbot
       middlewares:
         - strip-dashbot-prefix
+    orion-get:
+      rule: PathPrefix("/api/orion") && Method("GET")
+      service: orion
+      middlewares:
+        # Do not check api key for get requests
+        - strip-orion-prefix
+        - add-v2-prefix
     orion:
       rule: PathPrefix("/api/orion")
       service: orion
