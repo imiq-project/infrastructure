@@ -10,7 +10,7 @@ const (
 	ID_KEY       = "wsid"
 	PASSWORD_KEY = "wspw"
 	FIWARE_URL   = "http://orion:1026"
-	SENSOR_ID    = "Sensor:Weather:ImiqOffice"
+	SENSOR_ID    = "Sensor:Weather:Walter"
 )
 
 func main() {

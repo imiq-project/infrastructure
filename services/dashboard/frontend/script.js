@@ -70,7 +70,8 @@ const weatherSensors = [
   { id: 'Sensor:Weather:Library', label: 'University Library', coords: [52.13888, 11.64707], marker: null },
   { id: 'Sensor:Weather:WelcomeCenter', label: 'Welcome Center', coords: [52.14031, 11.64039], marker: null },
   { id: 'Sensor:Weather:NorthPark', label: 'North Park', coords: [52.14276, 11.64513], marker: null },
-  { id: 'Sensor:Weather:GeschwisterPark', label: 'Geschwister School Park', coords: [52.14020, 11.63655], marker: null }
+  { id: 'Sensor:Weather:GeschwisterPark', label: 'Geschwister School Park', coords: [52.14020, 11.63655], marker: null },
+  { id: 'Sensor:Weather:Walter', label: 'Walter', coords: [52.14123, 11.654583], marker: null },
 ];
 
 const parkingSpots = [
@@ -258,7 +259,7 @@ function attachLivePopup(marker, sensorId, label) {
 async function updateAllPopups(sensorType) {
   for (const entry of weatherSensors) {
     const data = await getSensorData(entry.id);
-    if (!data || (!data.temperature?.value && !data.humidity?.value)) continue;
+    if (!data || (!data.temperature && !data.humidity)) continue;
 
     const value = sensorType === "temperature"
       ? `🌡️ ${data.temperature.value} °C`
