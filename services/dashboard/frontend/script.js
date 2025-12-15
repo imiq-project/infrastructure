@@ -42,7 +42,8 @@ const satellite = L.layerGroup([esriImagery, esriLabels]);
 const map = L.map('map', {
   center: [52.140, 11.644],
   zoom: 16.5,
-  layers: [satellite]
+  layers: [satellite],
+  fullscreenControl: true,
 });
 
 L.control.layers({
