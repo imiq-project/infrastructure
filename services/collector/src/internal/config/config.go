@@ -14,14 +14,15 @@ type Coord struct {
 }
 
 type Location struct {
-	ID    string
-	Name  string
-	Coord Coord
+	ID       string
+	Name     string
+	Coord    Coord
+	Metadata map[string]any // map to hold additional fields
 }
 
 type Collector interface {
 	Name() string
-	Fetch(Coord) (map[string]any, error)
+	Fetch(Location) (map[string]any, error)
 }
 
 type CollectorConfig struct {
@@ -37,10 +38,11 @@ type Config struct {
 func ReadConfig(path string, availableCollectors map[string]Collector) (*Config, error) {
 
 	type RawLocation struct {
-		ID   string  `yaml:"id"`
-		Name string  `yaml:"name"`
-		Lat  float64 `yaml:"lat"`
-		Lon  float64 `yaml:"lon"`
+		ID       string         `yaml:"id"`
+		Name     string         `yaml:"name"`
+		Lat      float64        `yaml:"lat"`
+		Lon      float64        `yaml:"lon"`
+		Metadata map[string]any `yaml:",inline"` // captures all other fields
 	}
 
 	type RawCollectorConfig struct {
@@ -59,7 +61,7 @@ func ReadConfig(path string, availableCollectors map[string]Collector) (*Config,
 	}
 
 	decoder := yaml.NewDecoder(data)
-	decoder.KnownFields(true) // fail on unknown keys
+	decoder.KnownFields(false) // not fail on unknown keys | changed from fail on unknown keys because of addition of metadata
 	var rawCfg RawConfig
 	if err := decoder.Decode(&rawCfg); err != nil {
 		return nil, err
@@ -73,7 +75,7 @@ func ReadConfig(path string, availableCollectors map[string]Collector) (*Config,
 		}
 		locations := []Location{}
 		for _, rawLocation := range rawCollectorCfg.Locations {
-			locations = append(locations, Location{rawLocation.ID, rawCollectorCfg.Name, Coord{rawLocation.Lat, rawLocation.Lon}})
+			locations = append(locations, Location{rawLocation.ID, rawCollectorCfg.Name, Coord{rawLocation.Lat, rawLocation.Lon}, rawLocation.Metadata})
 		}
 		collectors = append(collectors, CollectorConfig{collector, rawCollectorCfg.Interval, locations})
 	}

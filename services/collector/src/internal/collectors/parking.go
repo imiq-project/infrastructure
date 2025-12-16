@@ -8,8 +8,9 @@ import (
 
 type ParkingCollector struct{}
 
-func (collector ParkingCollector) Fetch(coord config.Coord) (map[string]any, error) {
+func (collector ParkingCollector) Fetch(loc config.Location) (map[string]any, error) {
 	const total = 20
+
 	return map[string]any{
 		"type": "Parking",
 		"freeSpaces": map[string]any{
@@ -22,7 +23,7 @@ func (collector ParkingCollector) Fetch(coord config.Coord) (map[string]any, err
 		},
 		"location": map[string]any{
 			"type":  "geo:point",
-			"value": fmt.Sprintf("%f, %f", coord.Lat, coord.Lon),
+			"value": fmt.Sprintf("%f, %f", loc.Coord.Lat, loc.Coord.Lon),
 		},
 	}, nil
 }
