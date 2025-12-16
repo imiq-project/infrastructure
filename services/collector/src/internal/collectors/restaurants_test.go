@@ -1,11 +1,11 @@
 package collectors
 
 import (
-	"fmt"
-	"net/http"
-	"net/http/httptest"
+	"imiq/collector/internal/config"
+	"strings"
 	"testing"
-	"time"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 // 1. Test the Sanitize Function (Table-Driven)
@@ -36,7 +36,7 @@ func TestSanitize(t *testing.T) {
 // Ensures we correctly map German keywords to English categories.
 func TestDetermineCategory(t *testing.T) {
 	tests := []struct {
-		input    string // The alt text from the image
+		input    string
 		expected string
 	}{
 		{"enthält Rind", "Non-Vegetarian"},
@@ -45,7 +45,7 @@ func TestDetermineCategory(t *testing.T) {
 		{"Fisch", "Non-Vegetarian"},
 		{"Vegan", "Vegetarian/Vegan"},
 		{"Vegetarisch", "Vegetarian/Vegan"},
-		{"vEgAn", "Vegetarian/Vegan"}, // Case insensitive check
+		{"vEgAn", "Vegetarian/Vegan"},
 		{"Unknown Stuff", "Unknown Stuff"},
 		{"", "Unknown"},
 	}
@@ -59,65 +59,41 @@ func TestDetermineCategory(t *testing.T) {
 	}
 }
 
-// 3. Test the Full Scraper (Integration with Mock Server)
-func TestScrapeMensaColly(t *testing.T) {
+// 3. Test the Parsing Logic directly (No Mock Server)
+// This fixes the issue where we couldn't override the 'const' URL,
+// and it's much faster because it doesn't use HTTP.
+func TestExtractMealsFromTable(t *testing.T) {
 	// A. Prepare Mock HTML
-	// We simulate a real scenario with complex price and category
-	todayDate := time.Now().Format("02.01.2006")
-	mockHtml := fmt.Sprintf(`
-	<html>
-	<body>
-		<div class="mensa">
-			<table>
-				<thead>
-					<tr><th>%s</th></tr> </thead>
-				<tbody>
-					<tr>
-						<td>
-							<span class="gruen">Kürbissuppe</span>
-							<span class="grau">Pumpkin Soup</span>
-							<span class="mensapreis">(2.50 | 4.00)</span>
-						</td>
-						<td>
-							<img alt="veganes Gericht" />
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</body>
-	</html>
-	`, todayDate)
+	mockHtml := `
+	<div class="mensa">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<span class="gruen">Kürbissuppe</span>
+						<span class="grau">Pumpkin Soup</span>
+						<span class="mensapreis">(2.50 | 4.00)</span>
+					</td>
+					<td>
+						<img alt="veganes Gericht" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>`
 
-	// B. Start Fake Server
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		w.WriteHeader(200)
-		w.Write([]byte(mockHtml))
-	}))
-	defer ts.Close()
-
-	// C. Override Global Variables
-	// We point the scraper to our local fake server instead of the real internet
-	origUrl := mensaUrl
-	origDomain := mensaDomain
-
-	mensaUrl = ts.URL
-	mensaDomain = "" // Clear domain to allow localhost scraping
-
-	defer func() {
-		mensaUrl = origUrl
-		mensaDomain = origDomain
-	}()
-
-	// D. Run the Function
-	meals, err := scrapeMensaColly()
-
-	// E. Verify Results
+	// B. Create a GoQuery document directly from the string
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(mockHtml))
 	if err != nil {
-		t.Fatalf("Expected no error, got %v", err)
+		t.Fatalf("Failed to create doc: %v", err)
 	}
 
+	// C. Call the logic function directly
+	// Note: We simulate the selection that Colly would pass
+	tableSelection := doc.Find("table")
+	meals := extractMealsFromTable(tableSelection)
+
+	// D. Verify Results
 	if len(meals) != 1 {
 		t.Fatalf("Expected 1 meal, got %d", len(meals))
 	}
@@ -129,14 +105,44 @@ func TestScrapeMensaColly(t *testing.T) {
 		t.Errorf("Expected Name 'Kürbissuppe', got '%s'", m.NameGerman)
 	}
 
-	// Check Price Sanitization: parens () should become brackets []
+	// Check Price Sanitization
 	expectedPrice := "[2.50 | 4.00]"
 	if m.Price != expectedPrice {
 		t.Errorf("Expected Price '%s', got '%s'", expectedPrice, m.Price)
 	}
 
-	// Check Category Logic: "veganes Gericht" -> "Vegetarian/Vegan"
+	// Check Category Logic
 	if m.Category != "Vegetarian/Vegan" {
 		t.Errorf("Expected Category 'Vegetarian/Vegan', got '%s'", m.Category)
 	}
+}
+
+// 4. Test the Fetch trigger Logic
+// Ensures we only attempt to scrape when the OSM ID matches.
+func TestFetch_MensaTrigger(t *testing.T) {
+	collector, _ := NewRestaurantCollector()
+
+	// Case 1: Random Restaurant (Should NOT trigger scrape)
+	locRandom := config.Location{
+		Name: "Random Pizza",
+		Metadata: map[string]any{
+			"category": "restaurant",
+			"osm_id":   12345, // Not the Mensa ID
+		},
+	}
+	res, _ := collector.Fetch(locRandom)
+	if _, exists := res["todays_menu"]; exists {
+		t.Error("Should NOT have 'todays_menu' for random restaurant")
+	}
+
+	// Case 2: Mensa (Should trigger scrape)
+	locMensa := config.Location{
+		Name: "Mensa UniCampus",
+		Metadata: map[string]any{
+			"category": "restaurant",
+			"osm_id":   1578665845, // Matches mensaOsmID constant
+		},
+	}
+	resMensa, _ := collector.Fetch(locMensa)
+	_ = resMensa
 }

@@ -9,8 +9,8 @@ import (
 )
 
 type Coord struct {
-	Lat float64 `json:"lat" yaml:"lat"`
-	Lon float64 `json:"lon" yaml:"lon"`
+	Lat float64
+	Lon float64
 }
 
 type Location struct {

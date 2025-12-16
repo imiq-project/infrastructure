@@ -28,6 +28,12 @@ type Meal struct {
 	Category    string `json:"category"`
 }
 
+const (
+	mensaUrl = "https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-unicampus-speiseplan-unten/"
+	//mensaDomain = "www.studentenwerk-magdeburg.de"
+	mensaOsmID = 1578665845
+)
+
 func (collector RestaurantCollector) Fetch(loc config.Location) (map[string]any, error) {
 
 	placeType := "Place"
@@ -58,95 +64,100 @@ func (collector RestaurantCollector) Fetch(loc config.Location) (map[string]any,
 		}
 	}
 
-	if placeType == "Mensa" || strings.Contains(strings.ToLower(loc.Name), "mensa") {
-		if strings.Contains(strings.ToLower(loc.Name), "unicampus") {
-			menu, err := scrapeMensaColly()
-			if err == nil && len(menu) > 0 {
-				response["todays_menu"] = map[string]any{
-					"value": menu,
-					"type":  "StructuredValue",
-				}
-			} else if err != nil {
-				fmt.Printf("Error scraping mensa: %v\n", err)
+	var currentOsmID int64
+	if val, ok := loc.Metadata["osm_id"]; ok {
+		switch v := val.(type) {
+		case int:
+			currentOsmID = int64(v)
+		case int64:
+			currentOsmID = v
+		case float64:
+			currentOsmID = int64(v)
+		}
+	}
+
+	if currentOsmID == mensaOsmID {
+		menu, err := scrapeMensaColly()
+		if err == nil && len(menu) > 0 {
+			//fmt.Println("---------------------------------------------------")
+			//fmt.Printf("✅ SUCCESS! Fetched %d meals for Mensa:\n", len(menu))
+			//for _, m := range menu {
+			//	fmt.Printf(" - %s (%s)\n", m.NameGerman, m.Category)
+			//}
+			//fmt.Println("---------------------------------------------------")
+			response["todays_menu"] = map[string]any{
+				"value": menu,
+				"type":  "StructuredValue",
 			}
+		} else if err != nil {
+			fmt.Printf("Error scraping mensa: %v\n", err)
 		}
 	}
 
 	return response, nil
 }
 
-var mensaUrl = "https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-unicampus-speiseplan-unten/"
-var mensaDomain = "www.studentenwerk-magdeburg.de"
-
 func scrapeMensaColly() ([]Meal, error) {
 	var todaysMeals []Meal
-	today := time.Now().Format("02.01.2006") // Format: DD.MM.YYYY
+	today := time.Now().Format("02.01.2006")
 
-	// 1. Initialize the Collector
-	c := colly.NewCollector(
-	// Optional: Add a timeout or User-Agent here if needed
-	)
-	if mensaDomain != "" {
-		c.AllowedDomains = []string{mensaDomain}
-	}
+	c := colly.NewCollector()
 
-	// 2. Define the Callback
-	// "Whenever you find a table inside div.mensa, do this:"
 	c.OnHTML("div.mensa table", func(e *colly.HTMLElement) {
-		// e.DOM gives us the goquery Selection for this specific table
 		dateHeader := strings.TrimSpace(e.DOM.Find("thead").Text())
-
-		// Check if this table belongs to Today
 		if strings.Contains(dateHeader, today) {
-
-			// Iterate over the rows (tr) in this table
-			e.DOM.Find("tbody tr").Each(func(_ int, row *goquery.Selection) {
-				cols := row.Find("td")
-				if cols.Length() < 2 {
-					return
-				}
-
-				// Extract Data (using the same logic as before)
-				col0 := cols.Eq(0)
-				nameGer := strings.TrimSpace(col0.Find("span.gruen").Text())
-				if nameGer == "" {
-					nameGer = strings.TrimSpace(col0.Text())
-				}
-
-				nameEng := strings.TrimSpace(col0.Find("span.grau").Text())
-				if nameEng == "" {
-					nameEng = "No English name"
-				}
-
-				price := strings.TrimSpace(col0.Find("span.mensapreis").Text())
-
-				col1 := cols.Eq(1)
-				catRaw, _ := col1.Find("img").Attr("alt")
-				category := determineCategory(catRaw)
-
-				// Append to our result list
-				todaysMeals = append(todaysMeals, Meal{
-					NameGerman:  sanitize(nameGer),
-					NameEnglish: sanitize(nameEng),
-					Price:       sanitize(price),
-					Category:    sanitize(category),
-				})
-			})
+			// Pass the goquery selection (e.DOM) to our logic function
+			todaysMeals = extractMealsFromTable(e.DOM)
 		}
 	})
 
-	// 3. Handle Errors
 	c.OnError(func(r *colly.Response, err error) {
 		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 
-	// 4. Visit the Page (This blocks until done)
 	err := c.Visit(mensaUrl)
 	if err != nil {
 		return nil, err
 	}
 
 	return todaysMeals, nil
+}
+
+func extractMealsFromTable(table *goquery.Selection) []Meal {
+	var meals []Meal
+
+	table.Find("tbody tr").Each(func(_ int, row *goquery.Selection) {
+		cols := row.Find("td")
+		if cols.Length() < 2 {
+			return
+		}
+
+		col0 := cols.Eq(0)
+		nameGer := strings.TrimSpace(col0.Find("span.gruen").Text())
+		if nameGer == "" {
+			nameGer = strings.TrimSpace(col0.Text())
+		}
+
+		nameEng := strings.TrimSpace(col0.Find("span.grau").Text())
+		if nameEng == "" {
+			nameEng = "No English name"
+		}
+
+		price := strings.TrimSpace(col0.Find("span.mensapreis").Text())
+
+		col1 := cols.Eq(1)
+		catRaw, _ := col1.Find("img").Attr("alt")
+		category := determineCategory(catRaw)
+
+		meals = append(meals, Meal{
+			NameGerman:  sanitize(nameGer),
+			NameEnglish: sanitize(nameEng),
+			Price:       sanitize(price),
+			Category:    sanitize(category),
+		})
+	})
+
+	return meals
 }
 
 func determineCategory(catText string) string {
