@@ -57,4 +57,802 @@ collectors:
         name: 🚦 Traffic - Faculty CS
         lat: 52.13875
         lon: 11.64506
-      
+
+  - name: Restaurant
+    interval: 24h
+    locations:
+      - id: Shop:PENNY
+        name: PENNY
+        lat: 52.150088
+        lon: 11.640404
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00; Su,PH off
+        accessibility: true
+
+      - id: Rest:HummelsBrauhaus
+        name: Hummels Brauhaus
+        lat: 52.131706
+        lon: 11.632559
+        type: Restaurant
+        opening_hours: Tu-Th 16:00-23:00; Fr-Sa 16:00-24:00
+        accessibility: false
+
+      - id: Shop:NP
+        name: NP
+        lat: 52.136034
+        lon: 11.643890
+        type: Supermarket
+        opening_hours: Mo-Fr 06:00-24:00, Sa 06:00-20:00
+        website: https://www.np.de/
+        accessibility: true
+
+      - id: Rest:ALEX
+        name: ALEX
+        lat: 52.130855
+        lon: 11.634661
+        type: Restaurant
+        cuisine: burger;steak;thai
+        opening_hours: Mo-We 08:00-24:00, Th 08:00-01:00, Fr,Sa 08:00-02:00, Su 09:00-24:00
+        website: https://www.dein-alex.de/magdeburg
+        accessibility: true
+
+      - id: Shop:Kaufland
+        name: Kaufland
+        lat: 52.130019
+        lon: 11.630429
+        type: Supermarket
+        opening_hours: Mo-Fr 07:00-22:00, Sa 07:00-20:00; PH off
+        website: https://filiale.kaufland.de/service/filiale/magdeburg-6480.html
+        accessibility: true
+
+      - id: Rest:Korfu
+        name: Korfu
+        lat: 52.137519
+        lon: 11.644569
+        type: Restaurant
+        cuisine: greek
+        opening_hours: Mo 17:00-23:00; We-Su 17:00-23:00
+        website: https://korfu-md.de/
+        accessibility: false
+
+      - id: Rest:HenAsianKitchen
+        name: Hen Asian Kitchen
+        lat: 52.137568
+        lon: 11.644515
+        type: Restaurant
+        cuisine: asian
+        opening_hours: Tu-Th 11:30-14:00,17:30-21:30; Fr 11:30-14:00,17:30-22:00; Sa 11:30-14:00,17:30-22:30; Su 11:30-14:00,17:30-21:00
+        accessibility: limited
+
+      - id: Shop:NiedrigPreis
+        name: Niedrig-Preis
+        lat: 52.143170
+        lon: 11.653294
+        type: Supermarket
+        opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00
+        accessibility: true
+
+      - id: Rest:LagodiGarda
+        name: Lago di Garda
+        lat: 52.138041
+        lon: 11.638500
+        type: Restaurant
+        cuisine: italian
+        accessibility: true
+
+      - id: Shop:PENNY
+        name: PENNY
+        lat: 52.131814
+        lon: 11.666387
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00
+        website: https://www.penny.de/
+        accessibility: true
+
+      - id: Rest:ChinaStammtischKimboBurg
+        name: China Stammtisch "Kimbo Burg"
+        lat: 52.132774
+        lon: 11.633120
+        type: Restaurant
+        cuisine: chinese
+        opening_hours: 11:30-15:00,17:00-23:00
+        website: https://www.chinastammtischgmbh.de/
+        accessibility: true
+
+      - id: Rest:CiaoCiao
+        name: Ciao Ciao
+        lat: 52.131516
+        lon: 11.634660
+        type: Restaurant
+        cuisine: italian
+        opening_hours: Mo-Su 11:30-23:00
+        website: http://www.ciaociao-md.de
+        accessibility: true
+
+      - id: Rest:Izgaram
+        name: Izgaram
+        lat: 52.131712
+        lon: 11.629868
+        type: Restaurant
+        cuisine: turkish
+        opening_hours: Mo-Th 10:00-23:00, Fr 10:00-24:00, Sa,Su,PH 09:00-23:00
+
+      - id: Cafe:RestaurantCafeFlair
+        name: Restaurant & Café Flair
+        lat: 52.131442
+        lon: 11.637104
+        type: Cafe
+        opening_hours: Mo-Sa 08:30-18:00+; Su 10:00-24:00
+        website: https://www.cafe-flair.de/
+        accessibility: true
+
+      - id: Cafe:MimisWelt
+        name: Mimi´s Welt
+        lat: 52.129564
+        lon: 11.651457
+        type: Cafe
+        cuisine: bistro
+        opening_hours: Mo 09:00-14:00; Fr 09:00-18:00; Sa 09:00-12:00 "Brunch",14:00-18:00; Su,PH 09:00-12:00,14:00-17:00
+        accessibility: true
+
+      - id: Shop:REWE
+        name: REWE
+        lat: 52.129883
+        lon: 11.638931
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00; Dec 31 off
+        website: https://www.rewe.de/marktseite/magdeburg-altstadt/565591/rewe-markt-ernst-reuter-allee-11/
+        accessibility: true
+
+      - id: Cafe:RialtoEiscafe
+        name: Rialto Eiscafé
+        lat: 52.129636
+        lon: 11.635926
+        type: Cafe
+        cuisine: ice_cream
+        opening_hours: Mo-Th 11:00-22:00; Fr-Su 11:00-23:00
+        accessibility: true
+
+      - id: Rest:RialtoPizzeria
+        name: Rialto Pizzeria
+        lat: 52.129558
+        lon: 11.635863
+        type: Restaurant
+        cuisine: pizza
+        opening_hours: Mo-Th 11:00-22:00; Fr-Su 11:00-23:00
+        accessibility: true
+
+      - id: Cafe:LeosSchlemmerCafe
+        name: Leo's Schlemmer Café
+        lat: 52.134459
+        lon: 11.638588
+        type: Cafe
+        opening_hours: Mo-Fr 08:00-20:00; Sa 09:00-20:00
+        website: https://www.leoscafe.de/
+        accessibility: limited
+
+      - id: Cafe:EiscafeVenezia
+        name: Eiscafé Venezia
+        lat: 52.131957
+        lon: 11.636603
+        type: Cafe
+        cuisine: ice_cream
+        accessibility: true
+
+      - id: Shop:Lotto
+        name: Lotto
+        lat: 52.129428
+        lon: 11.671932
+        type: Kiosk
+        opening_hours: Mo-Fr 08:30-18:00; Sa 08:30-12:00
+
+      - id: Cafe:CafeBordeland
+        name: Café Bördeland
+        lat: 52.129664
+        lon: 11.670159
+        type: Cafe
+        opening_hours: Mo-Sa 10:00-22:00; Su 13:00-22:00
+
+      - id: Cafe:DaVittorio
+        name: Da Vittorio
+        lat: 52.131400
+        lon: 11.629635
+        type: Cafe
+
+      - id: Rest:Izgaram
+        name: Izgaram
+        lat: 52.131690
+        lon: 11.629962
+        type: Restaurant
+
+      - id: Shop:Gluckspilz
+        name: Glückspilz
+        lat: 52.132005
+        lon: 11.637241
+        type: Kiosk
+        opening_hours: Mo-Fr 08:00-18:00; Sa 09:00-15:00
+        accessibility: true
+
+      - id: Cafe:CafeFrosi
+        name: Café Frösi
+        lat: 52.140606
+        lon: 11.673233
+        type: Cafe
+        opening_hours: Mo-Fr 07:45-16:00; PH off
+
+      - id: Cafe:PrimoEspresso
+        name: Primo Espresso
+        lat: 52.140116
+        lon: 11.645702
+        type: Cafe
+        opening_hours: Mo-Fr 09:00-18:00
+        website: www.primo-espresso.de
+        accessibility: true
+
+      - id: Rest:GALERIARestaurant
+        name: GALERIA Restaurant
+        lat: 52.132362
+        lon: 11.636538
+        type: Restaurant
+        opening_hours: Mo-Fr 10:00-18:00,10:00-17:00
+        accessibility: true
+
+      - id: Cafe:CafeteriaUniBibliothek
+        name: Cafeteria Uni Bibliothek
+        lat: 52.139175
+        lon: 11.646703
+        type: Cafe
+        cuisine: regional;sandwich;german
+        opening_hours: Tu-Th 08:00-16:00; Mo 08:30-16:00; Fr 08:00-15:00
+        accessibility: true
+
+      - id: Cafe:PIER16
+        name: PIER 16
+        lat: 52.140039
+        lon: 11.644033
+        type: Cafe
+        opening_hours: Mo-Fr 07:30-15:00
+        website: https://www.studentenwerk-magdeburg.de/mensen-cafeterien/pier-16/
+        accessibility: limited
+
+      - id: Cafe:Luder
+        name: Lüder
+        lat: 52.129052
+        lon: 11.636401
+        type: Cafe
+        opening_hours: Mo-Fr 08:00-17:00; Sa 09:00-17:00
+        website: https://www.cafe-lueder.de/baeckerei-konditorei-cafe-lueder-filialien/
+        accessibility: limited
+
+      - id: Shop:Eckert
+        name: Eckert
+        lat: 52.136771
+        lon: 11.639491
+        type: Kiosk
+        opening_hours: Mo-Fr 06:00-18:00; Sa 07:00-12:00
+        accessibility: false
+
+      - id: Shop:GoAsia
+        name: Go Asia
+        lat: 52.132464
+        lon: 11.637505
+        type: Supermarket
+        opening_hours: Mo-Sa 09:00-20:00
+        website: https://goasia.net/de/store_list/magdeburg
+        accessibility: true
+
+      - id: Cafe:BoBoQ
+        name: BoBoQ
+        lat: 52.130570
+        lon: 11.636611
+        type: Cafe
+        cuisine: bubble_tea
+
+      - id: Rest:Elbwerk
+        name: Elbwerk
+        lat: 52.142897
+        lon: 11.657862
+        type: Restaurant
+        opening_hours: '"Eventlocation. Nur zu betimmten Veranstaltungen geöffnet."'
+        accessibility: true
+
+      - id: Cafe:CafeOriental
+        name: Café Oriental
+        lat: 52.137695
+        lon: 11.646479
+        type: Cafe
+        cuisine: oriental
+
+      - id: Rest:Kalimera
+        name: Kalimera
+        lat: 52.135383
+        lon: 11.634477
+        type: Restaurant
+        cuisine: greek
+        opening_hours: Mo off; Tu-Sa 11:30-14:30,17:00-23:00; Su 11:30-15:00
+        website: https://www.kalimera-magdeburg.de/
+        accessibility: limited
+
+      - id: Shop:EDEKAamKatharinenturm
+        name: EDEKA am Katharinenturm
+        lat: 52.134646
+        lon: 11.639033
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00; Su,PH off
+        website: https://www.edeka.de/eh/minden-hannover/edeka-am-katharinenturm-breiter-weg-31/index.jsp
+        accessibility: true
+
+      - id: Rest:KantinederBordekuche
+        name: Kantine der Bördeküche
+        lat: 52.144622
+        lon: 11.653599
+        type: Restaurant
+        cuisine: german
+        opening_hours: Mo-Fr 11:00-13:30
+
+      - id: Cafe:GelatoMioEisbar
+        name: Gelato Mio Eisbar
+        lat: 52.130316
+        lon: 11.634560
+        type: Cafe
+        cuisine: ice_cream
+        opening_hours: 09:00-21:00
+        accessibility: true
+
+      - id: Cafe:SmilePurple
+        name: Smile Purple
+        lat: 52.129482
+        lon: 11.635055
+        type: Cafe
+
+      - id: Rest:LaPerla
+        name: La Perla
+        lat: 52.133696
+        lon: 11.638244
+        type: Restaurant
+        cuisine: italian
+        opening_hours: 11:00-23:00+
+        website: http://www.la-perla-magdeburg.de/
+        accessibility: true
+
+      - id: Cafe:WaffleCrush
+        name: Waffle Crush
+        lat: 52.131592
+        lon: 11.630688
+        type: Cafe
+        cuisine: waffle
+        opening_hours: Mo-Su 12:00-19:00
+
+      - id: Rest:WirtshausMagdeburg
+        name: Wirtshaus Magdeburg
+        lat: 52.130519
+        lon: 11.634800
+        type: Restaurant
+        cuisine: bavarian
+        opening_hours: Mo-Fr 11:00+; Sa,Su 09:00+; PH 11:00+
+        website: https://wirtshaus-magdeburg.de/
+        accessibility: true
+
+      - id: Rest:Daniels
+        name: Daniel's
+        lat: 52.142115
+        lon: 11.658243
+        type: Restaurant
+        opening_hours: Mo 11:30-22:00; Tu-Th 11:30-23:00; Fr,Sa 11:30-00:00; Su 11:30-18:00
+        website: https://www.daniels-md.de/
+        accessibility: true
+
+      - id: Rest:Shirokuro
+        name: Shirokuro
+        lat: 52.135714
+        lon: 11.638253
+        type: Restaurant
+        cuisine: japanese
+        opening_hours: Tu-Su 12:00-21:45; Mo off
+
+      - id: Shop:Eckert
+        name: Eckert
+        lat: 52.134811
+        lon: 11.638617
+        type: Kiosk
+        opening_hours: Mo-Fr 07:00-19:30
+        accessibility: true
+
+      - id: Shop:UniShop
+        name: Uni-Shop
+        lat: 52.137484
+        lon: 11.637579
+        type: Kiosk
+        opening_hours: Mo-Th 06:30-00:00, Fr 06:30-02:00, Sa 09:00-02:00, Su 09:00-00:00; PH 10:00-01:00
+        accessibility: limited
+
+      - id: Cafe:CafeimPark
+        name: Café im Park
+        lat: 52.144761
+        lon: 11.646274
+        type: Cafe
+        opening_hours: Fr-Su 14:00-18:00
+        accessibility: true
+
+      - id: Cafe:DieKaffeebar
+        name: Die Kaffeebar
+        lat: 52.138735
+        lon: 11.645938
+        type: Cafe
+        cuisine: cafe
+        opening_hours: Mo-Fr 08:30-17:00
+        accessibility: true
+
+      - id: Rest:PiccoloMondo
+        name: Piccolo Mondo
+        lat: 52.145916
+        lon: 11.633989
+        type: Restaurant
+        cuisine: italian
+
+      - id: Shop:NP_5222043922
+        name: NP
+        lat: 52.143198
+        lon: 11.653330
+        type: Supermarket
+
+      - id: Rest:RistoranteDaNinoDolceVita
+        name: Ristorante Da Nino Dolce Vita
+        lat: 52.142148
+        lon: 11.651380
+        type: Restaurant
+        cuisine: italian
+        opening_hours: Tu-Su 12:00-15:00, Tu-Sa 18:00-23:00, Su 18:00-22:00; Mo off
+
+      - id: Rest:Botelstube
+        name: Bötelstube
+        lat: 52.131939
+        lon: 11.638687
+        type: Restaurant
+        cuisine: german
+        website: https://www.boetelstube.de/
+
+      - id: Cafe:RathausCafe
+        name: Rathaus-Cafe
+        lat: 52.131436
+        lon: 11.638491
+        type: Cafe
+        opening_hours: Mo-Su 11:00+; PH off
+        accessibility: limited
+
+      - id: Cafe:WangCha
+        name: Wang Cha
+        lat: 52.128926
+        lon: 11.635351
+        type: Cafe
+        cuisine: bubble_tea
+        accessibility: true
+
+      - id: Cafe:Zwolf
+        name: Zwölf
+        lat: 52.131887
+        lon: 11.638182
+        type: Cafe
+        cuisine: german;regional
+        opening_hours: Tu-Sa 08:30-18:00; Su 09:00-17:00
+        website: http://www.zwoelf-md.homeflash.de/
+
+      - id: Rest:MensaHerrenkrug
+        name: Mensa Herrenkrug
+        lat: 52.140167
+        lon: 11.675710
+        type: Restaurant
+        opening_hours: Mo-Th 11:00-14:45; Fr 11:00-14:00; PH off
+        website: https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-herrenkrug/
+        accessibility: true
+
+      - id: Cafe:CowvanaveganFoodMore
+        name: Cowvana - vegan Food & More
+        lat: 52.129065
+        lon: 11.636211
+        type: Cafe
+        cuisine: bistro;cake;coffee_shop
+        opening_hours: Tu-Sa 09:00-18:00; Su 13:00-18:00
+        website: https://cowvana.de
+
+      - id: Cafe:CafeLatte
+        name: Café Latte
+        lat: 52.139637
+        lon: 11.647483
+        type: Cafe
+        cuisine: coffee_shop
+        opening_hours: Mo-Fr 07:30-14:30
+        accessibility: true
+
+      - id: Cafe:CafeHerrenkrug
+        name: Café Herrenkrug
+        lat: 52.140161
+        lon: 11.675425
+        type: Cafe
+        opening_hours: Mo-Th 09:00-15:00; Fr 09:00-14:00; PH off
+        website: https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-herrenkrug/
+        accessibility: true
+
+      - id: Cafe:Infinitea
+        name: Infinitea
+        lat: 52.129549
+        lon: 11.635094
+        type: Cafe
+        cuisine: bubble_tea
+
+      - id: Rest:Tucherstube
+        name: Tucherstube
+        lat: 52.129244
+        lon: 11.635587
+        type: Restaurant
+        cuisine: regional
+        opening_hours: Mo-Sa 11:00-23:00
+        website: https://www.tucherstube.de
+        accessibility: false
+
+      - id: Shop:NP
+        name: NP
+        lat: 52.143133
+        lon: 11.653346
+        type: Supermarket
+        opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00; Su,PH off
+        accessibility: true
+
+      - id: Rest:PeterPane
+        name: Peter Pane
+        lat: 52.131499
+        lon: 11.635737
+        type: Restaurant
+        cuisine: burger
+        opening_hours: 11:00-22:00; Fr,Sa 11:00-23:00
+        website: https://peterpane.de/standorte/magdeburg/blauer-block/
+        accessibility: true
+
+      - id: Cafe:CafeTreibgut
+        name: Café Treibgut
+        lat: 52.148998
+        lon: 11.662528
+        type: Cafe
+        opening_hours: Tu-Th 13:00-21:00, Fr,Sa 11:00-01:00, Su 11:00-21:00; Mo off
+        website: https://www.treibgut-magdeburg.de/
+
+      - id: Cafe:CafeRosengarten
+        name: Café Rosengarten
+        lat: 52.135388
+        lon: 11.666940
+        type: Cafe
+        opening_hours: Mo, We-Su 10:00-18:00
+
+      - id: Shop:GALERIAMarkthalle
+        name: GALERIA Markthalle
+        lat: 52.132115
+        lon: 11.636126
+        type: Supermarket
+        opening_hours: Mo-Sa 10:00-19:00
+
+      - id: Cafe:aufdieHandmagicfoodstore
+        name: auf die Hand magic foodstore
+        lat: 52.139266
+        lon: 11.666676
+        type: Cafe
+        cuisine: bistro
+        website: https://catering-zauberkueche.de/
+
+      - id: Rest:AsiaLong
+        name: Asia Long
+        lat: 52.142556
+        lon: 11.653161
+        type: Restaurant
+        cuisine: asian
+
+      - id: Rest:WorldofPizza
+        name: World of Pizza
+        lat: 52.142455
+        lon: 11.652117
+        type: Restaurant
+        cuisine: pizza
+        opening_hours: Mo-Su 11:00-23:00
+        website: https://www.world-of-pizza.de/
+
+      - id: Rest:VietSanBuffetundSushi
+        name: Viet San Buffet und Sushi
+        lat: 52.144876
+        lon: 11.640090
+        type: Restaurant
+        cuisine: asian
+        opening_hours: Mo-Su 11:00-22:00
+
+      - id: Cafe:CafeAlteNeustadt
+        name: Café Alte Neustadt
+        lat: 52.147567
+        lon: 11.644545
+        type: Cafe
+        accessibility: true
+
+      - id: Rest:MensaKellercafe
+        name: Mensa Kellercafé
+        lat: 52.138080
+        lon: 11.633896
+        type: Restaurant
+        opening_hours: Mo-Fr 08:00-15:00
+        website: https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-kellercafe
+
+      - id: Cafe:DolceCaffeBar
+        name: Dolce & Caffè Bar
+        lat: 52.137566
+        lon: 11.633606
+        type: Cafe
+
+      - id: Cafe:Tchibo
+        name: Tchibo
+        lat: 52.131642
+        lon: 11.637583
+        type: Cafe
+        cuisine: coffee_shop
+        opening_hours: Mo-Fr 09:00-18:00; Sa 09:00-16:00
+
+      - id: Cafe:Starbucks
+        name: Starbucks
+        lat: 52.130101
+        lon: 11.635511
+        type: Cafe
+        cuisine: coffee_shop
+        opening_hours: Mo-Fr 07:00-20:00; Sa-So 08:00-20:00
+        website: https://www.starbucks.de/de/store-locator/88392-316619/magdeburg-breiter-weg-173
+
+      - id: Rest:CafeteriaTurmschanzenstrae
+        name: Cafeteria Turmschanzenstraße
+        lat: 52.129525
+        lon: 11.656957
+        type: Restaurant
+        website: https://www.catering-ratswaage.de/betriebskantinen
+        accessibility: true
+
+      - id: Rest:RestaurantPetriforder
+        name: Restaurant Petriförder
+        lat: 52.132411
+        lon: 11.646940
+        type: Restaurant
+        opening_hours: We-Su 12:00-21:00+
+        website: https://www.petrifoerder.de/
+        accessibility: true
+
+      - id: Shop:ALDINord
+        name: ALDI Nord
+        lat: 52.148560
+        lon: 11.655862
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00; Su off
+        website: https://www.aldi-nord.de/filialen-und-oeffnungszeiten.html/l/magdeburg/rogatzer-strasse-27/3182139
+        accessibility: true
+
+      - id: Shop:Lidl
+        name: Lidl
+        lat: 52.147128
+        lon: 11.654920
+        type: Supermarket
+        opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00; Su,PH off
+        accessibility: true
+
+      - id: Cafe:CafeRosengarten
+        name: Café Rosengarten
+        lat: 52.135393
+        lon: 11.666959
+        type: Cafe
+        opening_hours: We-Mo,PH 11:00-18:00
+
+      - id: Rest:CafeDelSol
+        name: Cafe Del Sol
+        lat: 52.136096
+        lon: 11.657488
+        type: Restaurant
+        cuisine: international
+        opening_hours: Su-Th 09:00-23:00; Fr-Sa 09:00-00:00
+        website: https://cafedelsol.de/magdeburg
+        accessibility: true
+
+      - id: Shop:EDEKA
+        name: EDEKA
+        lat: 52.147723
+        lon: 11.645029
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00
+        website: https://www.edeka.de/eh/minden-hannover/edeka-prange-agnetenstr.-21/index.jsp
+        accessibility: true
+
+      - id: Rest:SushiCity
+        name: Sushi City
+        lat: 52.130303
+        lon: 11.629898
+        type: Restaurant
+        cuisine: japanese
+        opening_hours: Mo-Sa 10:00-18:00
+
+      - id: Rest:AnasGrill
+        name: Ana's Grill
+        lat: 52.130228
+        lon: 11.629901
+        type: Restaurant
+        cuisine: american;barbecue
+        opening_hours: Mo-Sa 10:00-18:00
+
+      - id: Rest:Taverna
+        name: Taverna
+        lat: 52.130079
+        lon: 11.629779
+        type: Restaurant
+        opening_hours: off
+
+      - id: Shop:Lidl
+        name: Lidl
+        lat: 52.129816
+        lon: 11.639088
+        type: Supermarket
+        opening_hours: Mo-Sa 07:00-20:00
+        website: https://www.lidl.de/s/de-DE/filialen/magdeburg/ernst-reuter-allee-11/
+        accessibility: true
+
+      - id: Cafe:SquareIO
+        name: Square IO
+        lat: 52.130464
+        lon: 11.636960
+        type: Cafe
+
+      - id: Rest:LOsteria
+        name: L'Osteria
+        lat: 52.130426
+        lon: 11.636706
+        type: Restaurant
+        cuisine: italian
+        opening_hours: Mo-Th 11:00-23:00; Fr-Sa 11:00-00:00; Su 12:00-23:00
+        website: https://losteria.net/de/restaurants/restaurant/magdeburg-ernst-reuter-allee/
+        accessibility: true
+
+      - id: Rest:SaporidItalia
+        name: Sapori d'Italia
+        lat: 52.129942
+        lon: 11.637264
+        type: Restaurant
+        cuisine: indian
+        opening_hours: Mo-Sa 09:30-20:00
+        accessibility: true
+
+      - id: Rest:AnasGrill
+        name: Ana's Grill
+        lat: 52.129782
+        lon: 11.637156
+        type: Restaurant
+        cuisine: barbecue
+
+      - id: Cafe:Segafredo
+        name: Segafredo
+        lat: 52.129843
+        lon: 11.638146
+        type: Cafe
+        cuisine: coffee_shop
+        opening_hours: Mo-Sa 09:30-18:00
+        accessibility: true
+
+      - id: Cafe:CoffeeFellows
+        name: Coffee Fellows
+        lat: 52.130231
+        lon: 11.637163
+        type: Cafe
+        cuisine: coffee_shop
+        opening_hours: Mo-Sa 08:00-20:00; Fr 08:00-22:00; Su off
+        accessibility: true
+
+      - id: Shop:Lidl
+        name: Lidl
+        lat: 52.129077
+        lon: 11.671674
+        type: Supermarket
+        opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00; PH off
+        website: https://www.lidl.de/
+        accessibility: true
+
+      - id: Rest:MensaUni
+        name: Mensa UniCampus
+        lat: 52.139529
+        lon: 11.647572
+        type: Mensa

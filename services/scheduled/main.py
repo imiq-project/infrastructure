@@ -116,6 +116,7 @@ def main():
 
     delete_all_vehicles()
 
+
     now = datetime.datetime.now()
     step = int((now.hour * 3600 + now.minute * 60 + now.second) / period)
 
@@ -126,6 +127,7 @@ def main():
         track_idx += 1
 
     while running:
+
         # Start tracks
         while tracks[track_idx].start < step:
             track = tracks[track_idx]
