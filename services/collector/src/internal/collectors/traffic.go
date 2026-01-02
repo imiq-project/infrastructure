@@ -17,7 +17,7 @@ func (collector sensors) Name() string {
 	return "Traffic"
 }
 
-func (collector sensors) Fetch(coord config.Coord) (map[string]any, error) {
+func (collector sensors) Fetch(loc config.Location) (map[string]any, error) {
 	vehiclesIn := rand.Intn(70) + 5
 	vehiclesOut := rand.Intn(70) + 5
 	avgSpeed := rand.Intn(50) + 20
@@ -48,7 +48,7 @@ func (collector sensors) Fetch(coord config.Coord) (map[string]any, error) {
 		},
 		"location": map[string]any{
 			"type":  "geo:point",
-			"value": fmt.Sprintf("%f, %f", coord.Lat, coord.Lon),
+			"value": fmt.Sprintf("%f, %f", loc.Coord.Lat, loc.Coord.Lon),
 		},
 		"timestamp": map[string]any{
 			"type":  "DateTime",
