@@ -10,10 +10,11 @@ const (
 	ID_KEY       = "wsid"
 	PASSWORD_KEY = "wspw"
 	FIWARE_URL   = "http://orion:1026"
-	SENSOR_ID    = "Sensor:Weather:Walter"
+	BRESSER_ID   = "Sensor:Weather:Walter"
+	SENSECAP_ID  = "Sensor:Weather:Winfred"
 )
 
-func main() {
+func setupBresser() {
 	expectedPassword, exists := os.LookupEnv("WEATHER_STATION_PASSWORD")
 	if !exists {
 		panic("Cannot lookup password")
@@ -39,7 +40,7 @@ func main() {
 		},
 	}
 
-	err := CreateEntity(FIWARE_URL, SENSOR_ID, entity)
+	err := CreateEntity(FIWARE_URL, BRESSER_ID, entity)
 	if err != nil {
 		log.Println("Failed to create sensor", err)
 		// we continue anyway, maybe the entity already exists
@@ -79,12 +80,76 @@ func main() {
 				"value": params,
 			},
 		}
-		err := UpdateEntity(FIWARE_URL, SENSOR_ID, entity)
+		err := UpdateEntity(FIWARE_URL, BRESSER_ID, entity)
 		if err != nil {
 			log.Println("Failed to update weather data: ", err)
 		}
 	})
+}
 
+func setupSenseCap() {
+	thingsNetUrl, exists := os.LookupEnv("THE_THINGS_NET_WEBHOOK_URL")
+	if !exists {
+		panic("Cannot lookup webhook url")
+	}
+
+	entity := map[string]any{
+		"type": "WeatherObserved",
+		"humidity": map[string]any{
+			"type":  "float",
+			"value": 0,
+		},
+		"temperature": map[string]any{
+			"type":  "float",
+			"value": 0,
+		},
+		"location": map[string]any{
+			"type":  "geo:point",
+			"value": "52.14614723277433, 11.661766246279447",
+		},
+	}
+
+	err := CreateEntity(FIWARE_URL, SENSECAP_ID, entity)
+	if err != nil {
+		log.Println("Failed to create sensor", err)
+		// we continue anyway, maybe the entity already exists
+	}
+
+	http.HandleFunc(thingsNetUrl, func(w http.ResponseWriter, r *http.Request) {
+		resp, err := ProcessWebhook(r.Body)
+		if err != nil {
+			log.Println("Cannot decode webhook", err)
+			http.Error(w, "invalid body", http.StatusBadRequest)
+			return
+		}
+		if resp.DeviceID != "winfred" {
+			log.Println("Got invalid device id", resp.DeviceID)
+			http.Error(w, "invalid body", http.StatusBadRequest)
+			return
+		}
+		data, err := decodeSenseCapPayload(resp.Payload)
+		if err != nil {
+			log.Println("Cannot decode SenseCap", err)
+			http.Error(w, "invalid payload", http.StatusBadRequest)
+			return
+		}
+		dataMapped := make(map[string]any)
+		for key, value := range data {
+			dataMapped[key] = map[string]any{
+				"type":  "float",
+				"value": value,
+			}
+		}
+		err = UpdateEntity(FIWARE_URL, SENSECAP_ID, dataMapped)
+		if err != nil {
+			log.Println("Failed to update weather data: ", err)
+		}
+	})
+}
+
+func main() {
+	setupBresser()
+	setupSenseCap()
 	log.Println("Listening on :80")
 	log.Fatal(http.ListenAndServe(":80", nil))
 }

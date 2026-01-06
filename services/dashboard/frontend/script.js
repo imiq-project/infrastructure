@@ -73,6 +73,7 @@ const weatherSensors = [
   { id: 'Sensor:Weather:NorthPark', label: 'North Park', coords: [52.14276, 11.64513], marker: null },
   { id: 'Sensor:Weather:GeschwisterPark', label: 'Geschwister School Park', coords: [52.14020, 11.63655], marker: null },
   { id: 'Sensor:Weather:Walter', label: 'Walter', coords: [52.14123, 11.654583], marker: null },
+  { id: 'Sensor:Weather:Winfred', label: 'Winfred', coords: [52.14614, 11.66176], marker: null },
 ];
 
 const parkingSpots = [

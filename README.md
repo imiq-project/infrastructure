@@ -11,6 +11,8 @@ Before starting the infrastructure, you must set a few environment variables:
 | API_KEY  | Key to access the api | secret123 |
 | OPEN_WEATHER_MAP_API_KEY  | Key to open weather map (free account needed) | 1eas022db3a0qcaaa0299afbbaf47741 |
 | DAILYPLAN_APP_SECRET | Secret for the dailyplan app | secret456 |
+| WEATHER_STATION_PASSWORD | Password for Bresser9in1 Weather Station | SecretPw |
+| THE_THINGS_NET_WEBHOOK_URL | Url for TTN Webhook | /data/secret_url |
 
 You probably want to put these into an `.env` file:
 
@@ -18,6 +20,8 @@ You probably want to put these into an `.env` file:
 API_KEY=secret123
 OPEN_WEATHER_MAP_API_KEY=1eas022db3a0qcaaa0299afbbaf47741
 DAILYPLAN_APP_SECRET=secret456
+WEATHER_STATION_PASSWORD=SecretPw
+THE_THINGS_NET_WEBHOOK_URL=/data/secret_url
 ```
 
 Additionally, you should provide a `compose.override.yml` to specify at least your local port:

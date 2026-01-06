@@ -72,5 +72,5 @@ http:
         - strip-orion-prefix
         - add-v2-prefix
     sensors:
-      rule: PathPrefix("/data/upload.php")
+      rule: PathPrefix("/data/upload.php") || PathPrefix("$THE_THINGS_NET_WEBHOOK_URL")
       service: sensors

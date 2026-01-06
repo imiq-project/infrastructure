@@ -1,0 +1,91 @@
+{
+  "end_device_ids": {
+    "device_id": "winfred",
+    "application_ids": {
+      "application_id": "imiq"
+    },
+    "dev_eui": "2CF7F1C0723000D0",
+    "join_eui": "2D48B25A9202EF5A",
+    "dev_addr": "260B7E94"
+  },
+  "correlation_ids": [
+    "gs:uplink:01KCK1MKMYXYR5A41TYDAK1X63"
+  ],
+  "received_at": "2025-12-16T07:40:17.130482589Z",
+  "uplink_message": {
+    "session_key_id": "AZsiPOQkaD7iSA4cSqI6Ew==",
+    "f_port": 3,
+    "f_cnt": 24,
+    "frm_payload": "SgC8LQAAAEAAAABLARIAAAAAJ4dMAAAAABDe",
+    "rx_metadata": [
+      {
+        "gateway_ids": {
+          "gateway_id": "ifak-kerlink-gateway",
+          "eui": "7276FF000B031656"
+        },
+        "time": "2025-12-16T07:40:16Z",
+        "timestamp": 568728795,
+        "rssi": -102,
+        "channel_rssi": -102,
+        "snr": 9.5,
+        "location": {
+          "latitude": 52.14242312,
+          "longitude": 11.65752755,
+          "altitude": 70,
+          "source": "SOURCE_REGISTRY"
+        },
+        "uplink_token": "CiIKIAoUaWZhay1rZXJsaW5rLWdhdGV3YXkSCHJ2/wALAxZWENu5mI8CGgwI4JmEygYQkc+duQMg+O6C18bvhwE=",
+        "channel_index": 4,
+        "received_at": "2025-12-16T07:40:16.925329297Z"
+      },
+      {
+        "gateway_ids": {
+          "gateway_id": "ifak-lorix-one",
+          "eui": "FFA99A67D4483AD7"
+        },
+        "time": "2025-12-16T07:40:38.317Z",
+        "timestamp": 1231821731,
+        "rssi": -89,
+        "channel_rssi": -89,
+        "snr": 9.8,
+        "location": {
+          "latitude": 52.1422180141307,
+          "longitude": 11.657419502735138,
+          "altitude": 70,
+          "source": "SOURCE_REGISTRY"
+        },
+        "uplink_token": "ChwKGgoOaWZhay1sb3JpeC1vbmUSCP+pmmfUSDrXEKO3sMsEGgwI4JmEygYQoqDIuwMguOmv8uyCiAEqDAj2mYTKBhDAkpSXAQ==",
+        "channel_index": 4,
+        "gps_time": "2025-12-16T07:40:38.317Z",
+        "received_at": "2025-12-16T07:40:16.930222114Z"
+      }
+    ],
+    "settings": {
+      "data_rate": {
+        "lora": {
+          "bandwidth": 125000,
+          "spreading_factor": 7,
+          "coding_rate": "4/5"
+        }
+      },
+      "frequency": "867300000",
+      "timestamp": 568728795,
+      "time": "2025-12-16T07:40:16Z"
+    },
+    "received_at": "2025-12-16T07:40:16.926781560Z",
+    "confirmed": true,
+    "consumed_airtime": "0.082176s",
+    "network_ids": {
+      "net_id": "000013",
+      "ns_id": "EC656E0000000181",
+      "tenant_id": "ttn",
+      "cluster_id": "eu1",
+      "cluster_address": "eu1.cloud.thethings.network"
+    },
+    "last_battery_percentage": {
+      "f_cnt": 2,
+      "value": 100,
+      "received_at": "2025-12-15T13:39:53.376684603Z"
+    }
+  }
+}

@@ -8,6 +8,7 @@ services:
       - dashboard
     environment:
       - API_KEY=$API_KEY
+      - THE_THINGS_NET_WEBHOOK_URL=$THE_THINGS_NET_WEBHOOK_URL
 
   mongo:
     image: mongo:4.2
@@ -100,6 +101,7 @@ services:
     - orion
     environment:
     - WEATHER_STATION_PASSWORD=$WEATHER_STATION_PASSWORD
+    - THE_THINGS_NET_WEBHOOK_URL=$THE_THINGS_NET_WEBHOOK_URL
 
 volumes:
   mongo_data:
