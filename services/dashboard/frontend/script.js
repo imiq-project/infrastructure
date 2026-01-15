@@ -82,12 +82,12 @@ const parkingSpots = [
   { id: "ParkingSpot:NorthPark", label: "Parking C - North Park", coords: [52.1431, 11.6457], marker: null }
 ];
 
-
-
 const trafficPoints = [
   { id: "Traffic:Junction:ScienceHub", label: "🚦 Traffic - Science Harbor", coords: [52.1417, 11.6564], marker: null},
   { id: "Traffic:Junction:FacultyCS", label: "🚦 Traffic - Faculty CS", coords: [52.1387, 11.6453], marker: null}
 ];
+
+const markersById = new Map()
 
 // --------------------------------------
 // 2D/3D toggle buttons 
@@ -219,17 +219,17 @@ async function getSensorData(sensorId) {
   }
 }
 
-async function getAllVehicles() {
+async function getAllSensorsByType(type) {
   try {
-    const res = await fetch(`/entities?type=Vehicle&limit=1000`);
+    const res = await fetch(`/entities?type=${type}&limit=1000`);
     if (!res.ok) {
-      console.error("Error fetching vehicles", error);
+      console.error("Error fetching sensors", error);
       return null;
     }
     const json = await res.json();
     return json;
   } catch (error) {
-    console.error("Error fetching vehicles", error);
+    console.error("Error fetching sensors", error);
     return null;
   }  
 }
@@ -303,6 +303,51 @@ async function updateParkingSpots() {
 }
 
 // --------------------------------------
+// Air Quality
+// --------------------------------------
+function colorize(value, max, thresholds=3) {
+  let percent = Math.max(0, Math.min(1, value / max));
+  percent = Math.round(percent * thresholds) / thresholds;
+  // Hue: 120 (green) → 60 (yellow) → 0 (red)
+  const hue = 120 - (percent * 120);
+  return `<span style="color: hsl(${hue}, 100%, 30%);">${value}</span>`;
+}
+
+async function updateAirQuality() {
+  const components = [
+    { id: "pm10", description: "Feinstaub (10µm)", max: 100},
+    { id: "pm25", description: "Feinstaub (2.5µm)", max: 50},
+    { id: "no2", description: "Stickstoffdioxid NO2", max: 200},
+    { id: "o3", description: "Ozon O3", max: 240},
+  ]
+
+  const data = await getAllSensorsByType("AirQuality")
+  for (const spot of data) {
+    let marker = markersById.get(spot.id)
+    if (!marker) {
+      const loc = spot.location.value.split(",")
+      marker = L.marker({lat: loc[0], lon: loc[1]}).addTo(map);
+      markersById.set(spot.id, marker);
+    }
+
+    const label = []
+    components.forEach(comp => {
+      if (spot[comp.id]) {
+        label.push(`${comp.description}: ${colorize(spot[comp.id].value, comp.max)} µg/m³`)
+      }
+    })
+
+    marker.bindTooltip(label.join("<br>"), {
+      permanent: true,
+      direction: "top",
+      offset: [0, -10]
+    }).openTooltip();
+  }
+}
+
+
+
+// --------------------------------------
 // Update all vehicle markers on map
 // --------------------------------------
 const createIcon = (html) => L.divIcon({
@@ -320,7 +365,7 @@ icons = {
 
 let vehicleMarkers = []
 async function updateVehicles() {
-  const vehicles = await getAllVehicles();
+  const vehicles = await getAllSensorsByType("Vehicle");
   vehicleMarkers.forEach(m => m.remove())
   vehicleMarkers = []
   for(const vehicle of vehicles) {
@@ -343,15 +388,15 @@ function clearAllMarkers() {
   trafficPoints.forEach(p => { if (p.marker) { map.removeLayer(p.marker); p.marker = null; } });
   trafficMarkers.forEach(marker => map.removeLayer(marker));
   trafficMarkers = [];
+  markersById.forEach(marker => marker.remove());
+  markersById.clear();
 }
 
 // --------------------------------------
 // UI dropdown handler
 // --------------------------------------
 
-
-document.getElementById("sensorType").addEventListener("change", (e) => {
-  const selected = e.target.value;
+function onSensorTypeChanged(selected) {
   currentSensorMode = selected;
   clearAllMarkers();
 
@@ -363,8 +408,17 @@ document.getElementById("sensorType").addEventListener("change", (e) => {
   //  renderTemperatureHeatmap();
   } else if (selected === "traffic") {
     updateTrafficFlow();
+  } else if (selected === "air") {
+    updateAirQuality();
   }
-});
+}
+
+const sensorTypeSelect = document.getElementById("sensorType");
+sensorTypeSelect.addEventListener("change", (e) => onSensorTypeChanged(e.target.value));
+// some browser cache the latest selected value, so behave accordingly
+if (sensorTypeSelect.value) {
+  onSensorTypeChanged(sensorTypeSelect.value)
+}
 
 // --------------------------------------
 // Extend auto-refresh
@@ -379,8 +433,10 @@ setInterval(() => {
   //  renderTemperatureHeatmap();
   } else if (currentSensorMode === "traffic") {
     updateTrafficFlow();
+  } else if (currentSensorMode == "air") {
+    updateAirQuality();
   }
-}, 10000);
+}, 10_000);
 updateVehicles();
 setInterval(updateVehicles, 1000);
 

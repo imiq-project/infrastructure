@@ -45,7 +45,6 @@ collectors:
         name: Parking C - North Park
         lat: 52.1431
         lon: 11.6457
-
   - name: Traffic
     interval: 60m
     locations:
@@ -57,7 +56,6 @@ collectors:
         name: 🚦 Traffic - Faculty CS
         lat: 52.13875
         lon: 11.64506
-
   - name: Restaurant
     interval: 24h
     locations:
@@ -856,3 +854,30 @@ collectors:
         lat: 52.139529
         lon: 11.647572
         type: Mensa
+  - name: AirQuality
+    interval: 1h
+    locations:
+      - id: Air:Schleinufer
+        name: Luftmessstation Schleinufer
+        lat: 52.1207682
+        lon: 11.6326588
+        stationId: DEST103
+        components: no2,pm10,pm25
+      - id: Air:GuerickeStrasse
+        name: Luftmessstation Otto-von-Guericke-Straße
+        lat: 52.131761
+        lon: 11.631908
+        stationId: DEST112
+        components: no2,pm10,pm25
+      - id: Air:West
+        name: Luftmessstation Magdeburg West
+        lat: 52.127919
+        lon: 11.611443
+        stationId: DEST077
+        components: no2,o3,pm10,pm25
+      - id: Air:CityTunnel
+        name: Luftmessstation City-Tunnel
+        lat: 52.1318927
+        lon: 11.6270422
+        stationId: DEST144
+        components: no2
