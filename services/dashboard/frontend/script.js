@@ -305,20 +305,25 @@ async function updateParkingSpots() {
 // --------------------------------------
 // Air Quality
 // --------------------------------------
-function colorize(value, max, thresholds=3) {
-  let percent = Math.max(0, Math.min(1, value / max));
-  percent = Math.round(percent * thresholds) / thresholds;
-  // Hue: 120 (green) → 60 (yellow) → 0 (red)
-  const hue = 120 - (percent * 120);
-  return `<span style="color: hsl(${hue}, 100%, 30%);">${value}</span>`;
+// see https://umwelt.sachsen-anhalt.de/informationen-zum-lqi
+function colorize(value, thresholds) {
+  colors = ["#3399FF", "#66CCFF", "#FFFF99", "#FF9933", "#FF3333"]
+  let i = thresholds.length-1;
+  while(value < thresholds[i]) {
+    i -= 1;
+    if (i == 0) {
+      break;
+    }
+  }
+  return `<span style="color: ${colors[i+1]}">${value}</span>`
 }
 
 async function updateAirQuality() {
   const components = [
-    { id: "pm10", description: "Feinstaub (10µm)", max: 100},
-    { id: "pm25", description: "Feinstaub (2.5µm)", max: 50},
-    { id: "no2", description: "Stickstoffdioxid NO2", max: 200},
-    { id: "o3", description: "Ozon O3", max: 240},
+    { id: "pm10", description: "Feinstaub (10µm)", thresholds: [20, 35, 50, 100]},
+    { id: "pm25", description: "Feinstaub (2.5µm)", thresholds: [10, 20, 25, 50]},
+    { id: "no2", description: "Stickstoffdioxid NO2", thresholds: [20, 40, 100, 200]},
+    { id: "o3", description: "Ozon O3", thresholds: [60, 120, 180, 240]},
   ]
 
   const data = await getAllSensorsByType("AirQuality")
@@ -333,7 +338,7 @@ async function updateAirQuality() {
     const label = []
     components.forEach(comp => {
       if (spot[comp.id]) {
-        label.push(`${comp.description}: ${colorize(spot[comp.id].value, comp.max)} µg/m³`)
+        label.push(`${comp.description}: ${colorize(spot[comp.id].value, comp.thresholds)} µg/m³`)
       }
     })
 
