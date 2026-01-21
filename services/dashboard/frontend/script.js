@@ -53,42 +53,6 @@ L.control.layers({
   "📄 Light": cartoLight,
   "🌙 Dark": cartoDark}, {}, { position: 'topleft', collapsed: true }).addTo(map);
 
-
-let currentSensorMode = "";
-let heatLayer = null;
-let heatLegend = null;
-let cesiumViewer = null;
-let trafficMarkers = [];
-
-
-// --------------------------------------
-// Weather Sensors
-// --------------------------------------
-const weatherSensors = [
-  { id: 'Sensor:Weather:FacultyCS', label: 'Faculty of Computer Science', coords: [52.13878, 11.64533], marker: null },
-  { id: 'Sensor:Weather:ScienceHub', label: 'Science Harbor', coords: [52.14175, 11.65640], marker: null },
-  { id: 'Sensor:Weather:UniMensa', label: 'University Mensa', coords: [52.13966, 11.64761], marker: null },
-  { id: 'Sensor:Weather:Library', label: 'University Library', coords: [52.13888, 11.64707], marker: null },
-  { id: 'Sensor:Weather:WelcomeCenter', label: 'Welcome Center', coords: [52.14031, 11.64039], marker: null },
-  { id: 'Sensor:Weather:NorthPark', label: 'North Park', coords: [52.14276, 11.64513], marker: null },
-  { id: 'Sensor:Weather:GeschwisterPark', label: 'Geschwister School Park', coords: [52.14020, 11.63655], marker: null },
-  { id: 'Sensor:Weather:Walter', label: 'Walter', coords: [52.14123, 11.654583], marker: null },
-  { id: 'Sensor:Weather:Winfred', label: 'Winfred', coords: [52.14614, 11.66176], marker: null },
-];
-
-const parkingSpots = [
-  { id: "ParkingSpot:ScienceHarbor", label: "Parking A - Science Harbor", coords: [52.1412, 11.6558], marker: null },
-  { id: "ParkingSpot:FacultyCS", label: "Parking B - Faculty CS", coords: [52.1383, 11.6448], marker: null },
-  { id: "ParkingSpot:NorthPark", label: "Parking C - North Park", coords: [52.1431, 11.6457], marker: null }
-];
-
-const trafficPoints = [
-  { id: "Traffic:Junction:ScienceHub", label: "🚦 Traffic - Science Harbor", coords: [52.1417, 11.6564], marker: null},
-  { id: "Traffic:Junction:FacultyCS", label: "🚦 Traffic - Faculty CS", coords: [52.1387, 11.6453], marker: null}
-];
-
-const markersById = new Map()
-
 // --------------------------------------
 // 2D/3D toggle buttons 
 // --------------------------------------
@@ -145,13 +109,6 @@ async function initCesium() {
 btn2D.addEventListener('click', () => {
   cesiumOverlay.style.display = 'none';
   cesiumOverlay.setAttribute('aria-hidden', 'true');
-
-  if (currentSensorMode === "parking")       updateParkingSpots();
-  else if (currentSensorMode === "traffic")  updateTrafficFlow();
-  else if (currentSensorMode === "tempHeat") renderTemperatureHeatmap();
-  else if (currentSensorMode === "temperature" || currentSensorMode === "humidity")
-    updateAllPopups(currentSensorMode);
-
   setActiveButton();
 });
 
@@ -205,6 +162,10 @@ function flyCesiumToLeafletCenter() {
 // --------------------------------------
 // Fetch sensor data from Orion
 // --------------------------------------
+function orionUrl(entity) {
+  return `<a href="/api/orion/entities/${entity.id}" target="_blank">${entity.id}</a>`
+}
+
 async function getSensorData(sensorId) {
   try {
     const res = await fetch(`/entities/${sensorId}`);
@@ -234,79 +195,26 @@ async function getAllSensorsByType(type) {
   }  
 }
 
-// --------------------------------------
-// Weather tooltips
-// --------------------------------------
-function attachLivePopup(marker, sensorId, label) {
-  marker.on("click", async () => {
-    const data = await getSensorData(sensorId);
-    if (!data || (!data.temperature?.value && !data.humidity?.value)) {
-      marker.setPopupContent(`${label}<br><i>No sensor data</i>`);
-      return;
+async function fetchAllTypes() {
+  try {
+    const res = await fetch(`/api/orion/types`);
+    if (!res.ok) {
+      console.error("Error fetching types", error);
+      return null;
     }
-
-    const popup = `
-      <b>${label}</b><br>
-      🌡️ Temp: ${data.temperature?.value ?? "n/a"} °C<br>
-      💧 Humidity: ${data.humidity?.value ?? "n/a"} %
-    `;
-    marker.setPopupContent(popup);
-    marker.openPopup();
-  });
-}
-
-// ---------------------------------------
-// Update all weather popups
-// ---------------------------------------
-async function updateAllPopups(sensorType) {
-  for (const entry of weatherSensors) {
-    const data = await getSensorData(entry.id);
-    if (!data || (!data.temperature && !data.humidity)) continue;
-
-    const value = sensorType === "temperature"
-      ? `🌡️ ${data.temperature.value} °C`
-      : `💧 ${data.humidity.value} %`;
-
-    if (!entry.marker) {
-      entry.marker = L.marker(entry.coords).addTo(map);
-      attachLivePopup(entry.marker, entry.id, entry.label);
-    }
-
-    entry.marker.bindTooltip(`${entry.label}<br>${value}`, {
-      permanent: true,
-      direction: "top",
-      offset: [0, -10]
-    }).openTooltip();
-  }
-}
-
-// --------------------------------------
-// Parking
-// --------------------------------------
-async function updateParkingSpots() {
-  for (const spot of parkingSpots) {
-    const data = await getSensorData(spot.id);
-    if (!data || data.freeSpaces?.value == null || data.totalSpaces?.value == null) continue;
-
-    const label = `${spot.label}<br>🚗 ${data.freeSpaces.value} of ${data.totalSpaces.value} spaces free`;
-
-    if (!spot.marker) {
-      spot.marker = L.marker(spot.coords).addTo(map);
-    }
-
-    spot.marker.bindTooltip(label, {
-      permanent: true,
-      direction: "top",
-      offset: [0, -10]
-    }).openTooltip();
-  }
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    console.error("Error fetching types", error);
+    return null;
+  }  
 }
 
 // --------------------------------------
 // Air Quality
 // --------------------------------------
 // see https://umwelt.sachsen-anhalt.de/informationen-zum-lqi
-function colorize(value, thresholds) {
+function formatAirQualityAttr(value, description, thresholds) {
   colors = ["#3399FF", "#66CCFF", "#FFFF99", "#FF9933", "#FF3333"]
   let i = thresholds.length-1;
   while(value < thresholds[i]) {
@@ -315,41 +223,8 @@ function colorize(value, thresholds) {
       break;
     }
   }
-  return `<span style="color: ${colors[i+1]}">${value}</span>`
+  return `${description}: <span style="color: ${colors[i+1]}">${value} µg/m³</span>`
 }
-
-async function updateAirQuality() {
-  const components = [
-    { id: "pm10", description: "Feinstaub (10µm)", thresholds: [20, 35, 50, 100]},
-    { id: "pm25", description: "Feinstaub (2.5µm)", thresholds: [10, 20, 25, 50]},
-    { id: "no2", description: "Stickstoffdioxid NO2", thresholds: [20, 40, 100, 200]},
-    { id: "o3", description: "Ozon O3", thresholds: [60, 120, 180, 240]},
-  ]
-
-  const data = await getAllSensorsByType("AirQuality")
-  for (const spot of data) {
-    let marker = markersById.get(spot.id)
-    if (!marker) {
-      const loc = spot.location.value.split(",")
-      marker = L.marker({lat: loc[0], lon: loc[1]}).addTo(map);
-      markersById.set(spot.id, marker);
-    }
-
-    const label = []
-    components.forEach(comp => {
-      if (spot[comp.id]) {
-        label.push(`${comp.description}: ${colorize(spot[comp.id].value, comp.thresholds)} µg/m³`)
-      }
-    })
-
-    marker.bindTooltip(label.join("<br>"), {
-      permanent: true,
-      direction: "top",
-      offset: [0, -10]
-    }).openTooltip();
-  }
-}
-
 
 
 // --------------------------------------
@@ -368,55 +243,233 @@ icons = {
   'robot': createIcon('🤖'),
 }
 
-let vehicleMarkers = []
-async function updateVehicles() {
-  const vehicles = await getAllSensorsByType("Vehicle");
-  vehicleMarkers.forEach(m => m.remove())
-  vehicleMarkers = []
-  for(const vehicle of vehicles) {
+function createVehicleMarker(vehicle) {
     const icon = icons[vehicle.category.value]
     const marker = L.marker(vehicle.location.value.coordinates, {icon: icon}).addTo(map)
     if(vehicle.category.value == "robot") {
-      marker.bindTooltip("🤖 Delivery Robot", { direction: "top", offset: [0, -10] });
+      marker.bindPopup("🤖 Delivery Robot")
     }
-    vehicleMarkers.push(marker)
+    return marker;
+}
+
+// --------------------------------------
+// Traffic Flow
+// --------------------------------------
+
+function getTrafficPopupContent(data) {
+    const vIn  = Number(data.vehiclesIn?.value ?? 0);
+    const vOut = Number(data.vehiclesOut?.value ?? 0);
+    const cyc  = Number(data.cyclists?.value ?? 0);
+    const ped  = Number(data.pedestrians?.value ?? 0);
+
+    const label = `${orionUrl(data)}<br>
+    🚗 In: ${vIn}<br>
+    🚙 Out: ${vOut}<br>
+    🚴 Cyclists: ${cyc}<br>
+    🚶 Pedestrians: ${ped}`;
+    
+    return label
+}
+
+function createTrafficFlowMarker(data) {
+    return L.circleMarker(getEntityLocation(data), {
+        radius: 10, color: "#ff0000", fillColor: "#f03", fillOpacity: 0.5
+    })
+}
+
+// --------------------------------------
+// Marker visualization
+// --------------------------------------
+
+function getEntityLocation(entity) {
+  if (entity.location.type == "geo:point") {
+    const loc = entity.location.value.split(",")
+    return {lat: loc[0], lon: loc[1]}
+  } else if (entity.location.type == "geo:json") {
+    const loc = entity.location.value.coordinates
+    return {lat: loc[0], lon: loc[1]}
+  } else {
+    console.error("Cannot extract location: ", entity.location.type)
+    return {lat: 0, lon: 0}
+  }
+}
+
+function popupFromAttributes(entity, config) {
+  config = config || {attrs: {}}
+
+  const attrs = Object.keys(entity).sort().filter(key => !["type", "id", "location"].includes(key))
+  const lines = attrs.map(key => {
+    const keyConfig = config.attrs ? config.attrs[key] : null
+    if (keyConfig) {
+      return keyConfig(entity[key].value)
+    } else {
+      return `${key}: ${entity[key].value}`
+    }
+  })
+
+  return  `${orionUrl(entity)}<br>${lines.join("<br>")}`
+}
+
+function createDefaultMarker(entity) {
+  const marker = L.marker(getEntityLocation(entity))
+  return marker
+}
+
+function getConfigFor(type) {
+  const config = {
+    "AirQuality": {
+      description: "🌬️ Air Quality",
+      updateMinutes: 10,
+      createMarker: createDefaultMarker,
+      getPopupContent: entity => popupFromAttributes(entity, {
+        attrs: {
+          "pm10": value => formatAirQualityAttr(value, "Feinstaub (10µm)", [20, 35, 50, 100]),
+          "pm25": value => formatAirQualityAttr(value, "Feinstaub (2.5µm)", [10, 20, 25, 50]),
+          "no2": value => formatAirQualityAttr(value, "Stickstoffdioxid NO2", [20, 40, 100, 200]),
+          "o3": value => formatAirQualityAttr(value, "Ozon O3", [60, 120, 180, 240]),
+        }
+      })
+    },
+    "Cafe": {
+      description: "🍴Cafe",
+      updateMinutes: 'never',
+      createMarker: createDefaultMarker,
+      getPopupContent: popupFromAttributes,
+    },
+    "Kiosk": {
+      description: "🏠Kiosk",
+      updateMinutes: 'never',
+      createMarker: createDefaultMarker,
+      getPopupContent: popupFromAttributes,
+    },
+    "Mensa": {
+      description: "🍴Mensa",
+      updateMinutes: 60,
+      createMarker: createDefaultMarker,
+      getPopupContent: popupFromAttributes,
+    },
+    "Parking": {
+      description: "🅿️ Parking",
+      updateMinutes: 30,
+      createMarker: createDefaultMarker,
+      getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpaces.value} of ${data.totalSpaces.value} spaces free`,
+    },
+    "Restaurant": {
+      description: "🍴Restaurant",
+      updateMinutes: 'never',
+      createMarker: createDefaultMarker,
+      getPopupContent: popupFromAttributes,
+    },
+    "Supermarket": {
+      description: "🏠Supermarket",
+      updateMinutes: 'never',
+      createMarker: createDefaultMarker,
+      getPopupContent: popupFromAttributes,
+    },
+    "Traffic": {
+      description: "🚦Traffic",
+      updateMinutes: 5,
+      createMarker: createTrafficFlowMarker,
+      getPopupContent: getTrafficPopupContent,
+    },
+    "Vehicle": {
+      description: "🚗 Vehicle",
+      updateMinutes: 'moving',
+      createMarker: createVehicleMarker,
+      getPopupContent: null,
+    },
+    "Weather": {
+      description: "🌡️ Weather",
+      updateMinutes: 10,
+      createMarker: createDefaultMarker,
+      getPopupContent: entity => popupFromAttributes(entity, {
+        attrs: {
+          "humidity": value => `💧 ${value} %`,
+          "temperature": value => `🌡️ ${value} °C`,
+          }
+      }),
+    },
+  }
+
+  return config[type] || {
+     description: type,
+     updateMinutes: 1,
+     createMarker: createDefaultMarker,
+     getPopupContent: popupFromAttributes,
   }
 }
 
 // --------------------------------------
-// Cleanup
+// Marker handling
 // --------------------------------------
+
+const markersById = new Map()
+
 function clearAllMarkers() {
-  weatherSensors.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
-  parkingSpots.forEach(e => { if (e.marker) { e.marker.remove(); e.marker = null; } });
-  //removeHeatmap();
-  trafficPoints.forEach(p => { if (p.marker) { map.removeLayer(p.marker); p.marker = null; } });
-  trafficMarkers.forEach(marker => map.removeLayer(marker));
-  trafficMarkers = [];
-  markersById.forEach(marker => marker.remove());
+  markersById.forEach(marker => {
+    map.removeLayer(marker)
+  });
   markersById.clear();
+}
+
+function updateAllPopups(data, typeConfig) {
+  if (typeConfig.getPopupContent == null) {
+    return
+  }
+  data.forEach( spot => {
+      const marker = markersById.get(spot.id)
+      const content = typeConfig.getPopupContent(spot)
+      marker.setPopupContent(content)
+    }
+  )
+}
+
+function updateAllMarkers(data, typeConfig) {
+  clearAllMarkers();
+  data.forEach(spot => {
+    const marker = typeConfig.createMarker(spot)
+    marker.addTo(map);
+    if (typeConfig.getPopupContent != null) {
+      const content = typeConfig.getPopupContent(spot)
+      const popup = marker.bindPopup(content)
+    }
+    markersById.set(spot.id, marker);
+  })
 }
 
 // --------------------------------------
 // UI dropdown handler
 // --------------------------------------
-
-function onSensorTypeChanged(selected) {
-  currentSensorMode = selected;
-  clearAllMarkers();
-
-  if (selected === "temperature" || selected === "humidity") {
-    updateAllPopups(selected);
-  } else if (selected === "parking") {
-    updateParkingSpots();
- // } else if (selected === "tempHeat") {
-  //  renderTemperatureHeatmap();
-  } else if (selected === "traffic") {
-    updateTrafficFlow();
-  } else if (selected === "air") {
-    updateAirQuality();
+let currentEntityType = ""
+let timerId = 0
+async function onSensorTypeChanged(selected) {
+  currentEntityType = selected;
+  const typeConfig = getConfigFor(currentEntityType)
+  data = await getAllSensorsByType(currentEntityType)
+  updateAllMarkers(data, typeConfig)
+  if (timerId) {
+    clearTimeout(timerId)
   }
+
+  async function update() {
+    if (typeConfig.updateMinutes == 'never') {
+      // no new timer
+    } else if (typeConfig.updateMinutes == 'moving') {
+      data = await getAllSensorsByType(currentEntityType)
+      updateAllMarkers(data, typeConfig)
+      timerId = setTimeout(update, 1_000)
+    } else {
+      data = await getAllSensorsByType(currentEntityType)
+      updateAllPopups(data, typeConfig)
+      timerId = setTimeout(update, typeConfig.updateMinutes * 60_000)
+    }
+  }
+  await update()
 }
+
+// --------------------------------------
+// Initialization
+// --------------------------------------
 
 const sensorTypeSelect = document.getElementById("sensorType");
 sensorTypeSelect.addEventListener("change", (e) => onSensorTypeChanged(e.target.value));
@@ -425,77 +478,14 @@ if (sensorTypeSelect.value) {
   onSensorTypeChanged(sensorTypeSelect.value)
 }
 
-// --------------------------------------
-// Extend auto-refresh
-// --------------------------------------
-
-setInterval(() => {
-  if (currentSensorMode === "parking") {
-    updateParkingSpots();
-  } else if (currentSensorMode === "temperature" || currentSensorMode === "humidity") {
-    updateAllPopups(currentSensorMode);
-  //} else if (currentSensorMode === "tempHeat") {
-  //  renderTemperatureHeatmap();
-  } else if (currentSensorMode === "traffic") {
-    updateTrafficFlow();
-  } else if (currentSensorMode == "air") {
-    updateAirQuality();
-  }
-}, 10_000);
-updateVehicles();
-setInterval(updateVehicles, 1000);
-
-
-
-// function closeGrafana() {
-//   document.getElementById('grafanaSidebar').style.display = 'none';
-//   document.getElementById('grafanaFrame').src = '';
-// }
-
-// --------------------------------------
-// Traffic Flow
-// --------------------------------------
-
-async function updateTrafficFlow() {
-  for (const point of trafficPoints) {
-    const data = await getSensorData(point.id);
-    if (!data) continue;
-
-    const vIn  = Number(data.vehiclesIn?.value ?? 0);
-    const vOut = Number(data.vehiclesOut?.value ?? 0);
-    const cyc  = Number(data.cyclists?.value ?? 0);
-    const ped  = Number(data.pedestrians?.value ?? 0);
-
-
-    const label = `${point.label}<br>
-    🚗 In: ${vIn}<br>
-    🚙 Out: ${vOut}<br>
-    🚴 Cyclists: ${cyc}<br>
-    🚶 Pedestrians: ${ped}`;
-
-    if (!point.marker) {
-      point.marker = L.circleMarker(point.coords, {
-        radius: 10, color: "#ff0000", fillColor: "#f03", fillOpacity: 0.5
-      }).addTo(map);
-      trafficMarkers.push(point.marker);
-
-   //   // 🔥 Attach click AFTER marker is created
-   //   point.marker.on('click', function () {
-   //     const encodedId = encodeURIComponent(point.id);
-   //     const grafanaURL = `http://localhost:3000/d/aad654c6-b987-4ef1-9466-76d129830a94/vehicle-count-sciencehabor?orgId=1&from=2025-08-26T08:17:40.887Z&to=2025-08-27T08:17:40.887Z&timezone=browser&viewPanel=panel-1&theme=light`;
-//
-   //     document.getElementById('grafanaSidebar').style.display = 'block';
-   //     document.getElementById('grafanaFrame').src = grafanaURL;
-   //   });
-    }
-
-    point.marker.bindTooltip(label, {
-      permanent: true,
-      direction: "top",
-      offset: [0, -10]
-    }).openTooltip();
-  }
+async function init() {
+  types = await fetchAllTypes()
+  types.forEach(type => {
+    const typeConfig = getConfigFor(type.type)
+    sensorTypeSelect.insertAdjacentHTML("beforeend", `<option value="${type.type}">${typeConfig.description} (${type.count})</option>`)
+  })
 }
+init().catch(console.log)
 
 // Activate chatbot
 if (initDashbot) {
