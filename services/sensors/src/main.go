@@ -21,7 +21,7 @@ func setupBresser() {
 	}
 
 	entity := map[string]any{
-		"type": "WeatherObserved",
+		"type": "Weather",
 		"humidity": map[string]any{
 			"type":  "float",
 			"value": 0,
@@ -94,7 +94,7 @@ func setupSenseCap() {
 	}
 
 	entity := map[string]any{
-		"type": "WeatherObserved",
+		"type": "Weather",
 		"humidity": map[string]any{
 			"type":  "float",
 			"value": 0,

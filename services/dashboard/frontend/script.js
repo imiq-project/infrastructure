@@ -392,7 +392,7 @@ function getConfigFor(type) {
   }
 
   return config[type] || {
-     description: type,
+     description: `❓ ${type}`,
      updateMinutes: 1,
      createMarker: createDefaultMarker,
      getPopupContent: popupFromAttributes,
@@ -424,17 +424,23 @@ function updateAllPopups(data, typeConfig) {
   )
 }
 
-function updateAllMarkers(data, typeConfig) {
+function updateAllMarkers(data, typeConfig, fitMap) {
   clearAllMarkers();
+  const bounds = L.latLngBounds();
   data.forEach(spot => {
     const marker = typeConfig.createMarker(spot)
     marker.addTo(map);
+    bounds.extend(marker.getLatLng());
     if (typeConfig.getPopupContent != null) {
       const content = typeConfig.getPopupContent(spot)
-      const popup = marker.bindPopup(content)
+      marker.bindPopup(content)
     }
     markersById.set(spot.id, marker);
   })
+  if (fitMap) {
+    map.fitBounds(bounds);
+    markersById.get(data[0].id).openPopup()
+  }
 }
 
 // --------------------------------------
@@ -446,7 +452,7 @@ async function onSensorTypeChanged(selected) {
   currentEntityType = selected;
   const typeConfig = getConfigFor(currentEntityType)
   data = await getAllSensorsByType(currentEntityType)
-  updateAllMarkers(data, typeConfig)
+  updateAllMarkers(data, typeConfig, true)
   if (timerId) {
     clearTimeout(timerId)
   }
@@ -456,7 +462,7 @@ async function onSensorTypeChanged(selected) {
       // no new timer
     } else if (typeConfig.updateMinutes == 'moving') {
       data = await getAllSensorsByType(currentEntityType)
-      updateAllMarkers(data, typeConfig)
+      updateAllMarkers(data, typeConfig, false)
       timerId = setTimeout(update, 1_000)
     } else {
       data = await getAllSensorsByType(currentEntityType)
