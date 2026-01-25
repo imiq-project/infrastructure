@@ -102,3 +102,24 @@ Then run:
 ```sh
 python -u main.py
 ```
+
+### Migrate
+Expand your `compose.override.yml` as follows:
+
+```yml
+services:
+  migrate:
+    volumes:
+      - ./services/migrate:/app
+    command: sleep infinity
+  crate:
+    ports:
+      - "4200:4200"   # crate web UI
+```
+
+Then jump into your container using `docker compose exec migrate bash` and start development.
+Then run:
+
+```sh
+python -u main.py
+```

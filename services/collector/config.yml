@@ -31,7 +31,7 @@ collectors:
         lat: 52.1402
         lon: 11.63655
   - name: Parking
-    interval: 10s
+    interval: 30m
     locations:
       - id: ParkingSpot:ScienceHarbor
         name: Parking A - Science Harbor

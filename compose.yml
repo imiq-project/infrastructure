@@ -22,36 +22,32 @@ services:
     restart: always
     depends_on:
       - mongo
-    ports:
-      - "1026:1026"
     entrypoint: ["sh", "-c", "rm /tmp/contextBroker.pid; /usr/bin/contextBroker -fg -multiservice -dbhost mongo -corsOrigin __ALL"]
     environment:
-      - ORION_LOG_LEVEL=DEBUG
-      - CORS_ALLOWED_ORIGIN=*
-      - CORS_ALLOWED_ORIGIN=http://localhost:8000
+      - LOG_LEVEL=ERROR
+
+  migrate:
+    build: services/migrate
+    restart: always
+    pull_policy: build
 
   crate:
-    image: crate:4.5.1
-    container_name: crate
-    ports:
-      - "4200:4200"
-      - "5432:5432"
+    image: crate:5.6
+    restart: always
+    volumes:
+      - crate_data:/data
     environment:
       - CRATE_HEAP_SIZE=1g
-      - CRATE_CLUSTER_NAME=crate-cluster
-    command: crate -Cauth.host_based.enabled=false
+    command: crate -Cauth.host_based.enabled=false -Cnetwork.host=0.0.0.0
 
   quantumleap:
-    image: orchestracities/quantumleap:0.8.3
-    container_name: quantumleap
+    image: fiware/quantum-leap:1.0.0
+    restart: always
     depends_on:
       - crate
-    ports:
-      - "8668:8668"
+      - migrate
     environment:
       - CRATE_HOST=crate
-      - LOGLEVEL=DEBUG
-
 
   dashboard:
     build: services/dashboard
@@ -106,3 +102,4 @@ services:
 volumes:
   mongo_data:
   mongo_config:
+  crate_data:

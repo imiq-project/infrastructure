@@ -8,6 +8,10 @@ http:
       stripPrefix:
         prefixes:
           - "/api/orion"
+    strip-quantumleap-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/quantumleap"
     add-v2-prefix:
       addPrefix:
         prefix: "/v2"
@@ -42,6 +46,10 @@ http:
       loadBalancer:
         servers:
           - url: http://sensors:80
+    quantumleap:
+      loadBalancer:
+        servers:
+          - url: http://quantumleap:8668
 
   routers:
     dashboard:
@@ -74,3 +82,9 @@ http:
     sensors:
       rule: PathPrefix("/data/upload.php") || PathPrefix("$THE_THINGS_NET_WEBHOOK_URL")
       service: sensors
+    quantumleap:
+      rule: PathPrefix("/api/quantumleap")
+      service: quantumleap
+      middlewares:
+        - strip-quantumleap-prefix
+        - add-v2-prefix

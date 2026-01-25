@@ -168,7 +168,7 @@ function orionUrl(entity) {
 
 async function getSensorData(sensorId) {
   try {
-    const res = await fetch(`/entities/${sensorId}`);
+    const res = await fetch(`/api/orion/entities/${sensorId}`);
     if (!res.ok) {
       console.error("Failed to fetch", sensorId);
       return null;
@@ -182,7 +182,7 @@ async function getSensorData(sensorId) {
 
 async function getAllSensorsByType(type) {
   try {
-    const res = await fetch(`/entities?type=${type}&limit=1000`);
+    const res = await fetch(`/api/orion/entities?type=${type}&limit=1000`);
     if (!res.ok) {
       console.error("Error fetching sensors", error);
       return null;
@@ -294,6 +294,57 @@ function getEntityLocation(entity) {
   }
 }
 
+const chartDialog = document.getElementById('chartDialog')
+const chartCanvas = document.getElementById("chartCanvas")
+const chartText = document.getElementById("chartText")
+let currentChart = null
+
+async function showGraph(entityId) {
+    chartDialog.showModal()
+    const url = `/api/quantumleap/entities/${entityId}`
+    chartText.innerHTML = `<a href="${url}" target="_blank">${entityId}</a>`
+    const response = await fetch(url)
+    if(!response.ok) {
+      chartText.innerHTML += "<br><i>No historical data available.</i>"
+      return
+    }
+    const data = await response.json()
+    const datasets = data.attributes.map( e => { return {label: e.attrName, data: e.values} })
+    currentChart = new Chart(chartCanvas, {
+      type: 'line',
+      data: {
+        labels: data.index,
+        datasets: datasets,
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              tooltipFormat: 'yyyy-MM-dd HH:mm'
+            }
+          },
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+}
+
+function closeGraph() {
+  if(currentChart) {
+    currentChart.destroy();
+  }
+  currentChart = null;
+  chartDialog.close()
+}
+
+function graphButton(entity) {
+  return `<button onclick="showGraph('${entity.id}')">Graph</button>`
+}
+
 function popupFromAttributes(entity, config) {
   config = config || {attrs: {}}
 
@@ -307,7 +358,7 @@ function popupFromAttributes(entity, config) {
     }
   })
 
-  return  `${orionUrl(entity)}<br>${lines.join("<br>")}`
+  return `${orionUrl(entity)}<br>${lines.join("<br>")}<br>${graphButton(entity)}`
 }
 
 function createDefaultMarker(entity) {
@@ -352,7 +403,7 @@ function getConfigFor(type) {
       description: "🅿️ Parking",
       updateMinutes: 30,
       createMarker: createDefaultMarker,
-      getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpaces.value} of ${data.totalSpaces.value} spaces free`,
+      getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpaces.value} of ${data.totalSpaces.value} spaces free<br>${graphButton(data)}`,
     },
     "Restaurant": {
       description: "🍴Restaurant",
