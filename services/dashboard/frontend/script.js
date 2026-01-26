@@ -59,6 +59,7 @@ let heatLayer = null;
 let heatLegend = null;
 let cesiumViewer = null;
 let trafficMarkers = [];
+let poiMarkers = [];
 
 
 // --------------------------------------
@@ -333,6 +334,101 @@ async function updateVehicles() {
 }
 
 // --------------------------------------
+// Points of Interest
+// --------------------------------------
+
+const poIPlaceMarker = (html)=>L.divIcon({
+  html: html,
+    className: 'poi-icon',
+    iconSize: [64, 64],
+    iconAnchor: [32, 32]
+}) 
+
+poiIcons = {
+  'restaurant':poIPlaceMarker('🍽️'),
+  'mensa':poIPlaceMarker('🍲'),
+  'cafe':poIPlaceMarker('☕'),
+  'supermarket':poIPlaceMarker('🛒'),
+  'kiosk':poIPlaceMarker('🗞️'),
+  'default':poIPlaceMarker('📍')
+}
+
+const poiConfig = ["Restaurant","Mensa","Cafe","Supermarket","Kiosk"] // Extend as needed
+
+async function getPointsOfInterest() {
+   try {
+    const poIs = poiConfig.join(',') // e.g., "Restaurant,Mensa,Cafe,Supermarket,Kiosk"
+    const res = await fetch(`/entities?type=${poIs}&limit=1000`);
+    if (!res.ok) {
+      console.error("Error fetching points of interest", error);
+      return [];
+    }
+    const json = await res.json();
+    return json;
+
+  } catch (error) {
+    console.error("Error fetching points of Interest", error);
+    return [];
+  }
+}
+
+function determineCategory(place) {
+  
+  const type = place.type ? place.type.toLowerCase() : ""
+  const id = place.id ? place.id.toLowerCase() : ""
+
+  if(type.includes("restaurant") || id.includes("restaurant")) return "restaurant"
+  else if(type.includes("mensa") || id.includes("mensa")) return "mensa"
+  else if(type.includes("cafe") || id.includes("cafe")) return "cafe"  
+  else if(type.includes("supermarket") || id.includes("supermarket")) return "supermarket"
+  else if(type.includes("kiosk") || id.includes("kiosk")) return "kiosk"
+  else return "default";
+}
+
+async function updatePointsOfInterest() {
+  try{
+    const places = await getPointsOfInterest();
+  
+    poiMarkers.forEach(m => m.remove())
+    poiMarkers = []
+  
+    for(const place of places) {
+      const [lat, lon] = place.location.value.split(',').map(s=>parseFloat(s.trim()))
+      let categoryKey = determineCategory(place) //for selecting icon
+      
+      const icon = poiIcons[categoryKey]
+
+      let placeName = place.name?.value || "Unnamed Place"
+
+      let content = `<b>${placeName}</b><br>`
+      if(place.cuisine?.value) content += `🍕 Cuisine: ${place.cuisine.value}<br>`
+      if(place.opening_hours?.value) content += `⏰ Hours: ${place.opening_hours.value}<br>`
+
+      if(place.todays_menu && place.todays_menu.value) {
+        content += `<hr style="margin:5px 0;"><b>📅 Today's Menu:</b>`;
+            const menu = place.todays_menu.value;
+            if (Array.isArray(menu) && menu.length > 0) {
+              content += '<ul style="padding-left:15px; margin:5px 0; font-size:0.9em;">';
+              menu.forEach(meal => {
+                content += `<li>${meal.name_german} <b>(${meal.price})</b></li>`;
+              });
+              content += '</ul>';
+            } else {
+              content += '<br><i>No menu available.</i>';
+              }
+        }
+
+      const marker = L.marker([lat, lon], {icon: icon}).addTo(map)
+      marker.bindPopup(content, { direction: "top", offset: [0, -10] }); // Popup on click to read menu easily
+      poiMarkers.push(marker)
+    }
+  } catch(error){
+    console.error("Error updating restaurants", error);
+  }
+  
+
+}
+// --------------------------------------
 // Cleanup
 // --------------------------------------
 function clearAllMarkers() {
@@ -342,6 +438,8 @@ function clearAllMarkers() {
   trafficPoints.forEach(p => { if (p.marker) { map.removeLayer(p.marker); p.marker = null; } });
   trafficMarkers.forEach(marker => map.removeLayer(marker));
   trafficMarkers = [];
+  poiMarkers.forEach(marker => map.removeLayer(marker));
+  poiMarkers = [];
 }
 
 // --------------------------------------
@@ -363,6 +461,9 @@ document.getElementById("sensorType").addEventListener("change", (e) => {
   } else if (selected === "traffic") {
     updateTrafficFlow();
   }
+  else if(selected === "all-amenities"){
+    updatePointsOfInterest();
+  }
 });
 
 // --------------------------------------
@@ -378,6 +479,8 @@ setInterval(() => {
   //  renderTemperatureHeatmap();
   } else if (currentSensorMode === "traffic") {
     updateTrafficFlow();
+  } else if (currentSensorMode === "all-amenities") {
+    updatePointsOfInterest();
   }
 }, 10000);
 updateVehicles();
