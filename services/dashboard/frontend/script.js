@@ -373,7 +373,7 @@ async function getPointsOfInterest() {
 }
 
 function determineCategory(place) {
-  
+
   const type = place.type ? place.type.toLowerCase() : ""
   const id = place.id ? place.id.toLowerCase() : ""
 
@@ -401,8 +401,18 @@ async function updatePointsOfInterest() {
       let placeName = place.name?.value || "Unnamed Place"
 
       let content = `<b>${placeName}</b><br>`
+
       if(place.cuisine?.value) content += `🍕 Cuisine: ${place.cuisine.value}<br>`
+
       if(place.opening_hours?.value) content += `⏰ Hours: ${place.opening_hours.value}<br>`
+
+      if(place.accessibility && place.accessibility.value != undefined) {
+        const acc = place.accessibility.value.toLowerCase();
+        // Handle boolean true/false or string "limited"
+        if (acc === "true" || acc === true) content += `♿ Accessible: Yes<br>`;
+        else if (acc === "limited") content += `♿ Accessible: ⚠️ Limited<br>`;
+        else content += `♿ Accessible: ❌ No<br>`;
+      }
 
       if(place.todays_menu && place.todays_menu.value) {
         content += `<hr style="margin:5px 0;"><b>📅 Today's Menu:</b>`;
