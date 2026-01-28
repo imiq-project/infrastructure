@@ -195,6 +195,21 @@ async function getAllSensorsByType(type) {
   }  
 }
 
+async function getEntityById(id) {
+  try {
+    const res = await fetch(`/api/orion/entities/${id}`);
+    if (!res.ok) {
+      console.error("Error fetching entity", error);
+      return null;
+    }
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    console.error("Error fetching entity", error);
+    return null;
+  }  
+}
+
 async function fetchAllTypes() {
   try {
     const res = await fetch(`/api/orion/types`);
@@ -531,10 +546,14 @@ function updateAllMarkers(data, typeConfig, fitMap) {
       marker.bindPopup(content)
     }
     markersById.set(spot.id, marker);
+    marker.on('popupopen', () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('id', spot.id);
+      window.history.pushState({}, '', url);
+    })
   })
   if (fitMap) {
     map.fitBounds(bounds);
-    markersById.get(data[0].id).openPopup()
   }
 }
 
@@ -543,11 +562,15 @@ function updateAllMarkers(data, typeConfig, fitMap) {
 // --------------------------------------
 let currentEntityType = ""
 let timerId = 0
-async function onSensorTypeChanged(selected) {
+async function onSensorTypeChanged(selected, targetId) {
   currentEntityType = selected;
   const typeConfig = getConfigFor(currentEntityType)
   data = await getAllSensorsByType(currentEntityType)
   updateAllMarkers(data, typeConfig, true)
+  if(targetId == null) {
+    targetId = data[0].id
+  }
+  markersById.get(targetId).openPopup()
   if (timerId) {
     clearTimeout(timerId)
   }
@@ -573,11 +596,7 @@ async function onSensorTypeChanged(selected) {
 // --------------------------------------
 
 const sensorTypeSelect = document.getElementById("sensorType");
-sensorTypeSelect.addEventListener("change", (e) => onSensorTypeChanged(e.target.value));
-// some browser cache the latest selected value, so behave accordingly
-if (sensorTypeSelect.value) {
-  onSensorTypeChanged(sensorTypeSelect.value)
-}
+sensorTypeSelect.addEventListener("change", (e) => onSensorTypeChanged(e.target.value, null));
 
 async function init() {
   types = await fetchAllTypes()
@@ -585,6 +604,14 @@ async function init() {
     const typeConfig = getConfigFor(type.type)
     sensorTypeSelect.insertAdjacentHTML("beforeend", `<option value="${type.type}">${typeConfig.description} (${type.count})</option>`)
   })
+  const id = new URLSearchParams(window.location.search).get('id');
+  if(id != null) {
+    const entity = await getEntityById(id)
+    if(entity != null) {
+      sensorTypeSelect.value = entity.type
+      onSensorTypeChanged(entity.type, id)
+    }
+  }
 }
 init().catch(console.log)
 
