@@ -75,7 +75,7 @@ func ReadConfig(path string, availableCollectors map[string]Collector) (*Config,
 		}
 		locations := []Location{}
 		for _, rawLocation := range rawCollectorCfg.Locations {
-			locations = append(locations, Location{rawLocation.ID, rawCollectorCfg.Name, Coord{rawLocation.Lat, rawLocation.Lon}, rawLocation.Metadata})
+			locations = append(locations, Location{rawLocation.ID, rawLocation.Name, Coord{rawLocation.Lat, rawLocation.Lon}, rawLocation.Metadata})
 		}
 		collectors = append(collectors, CollectorConfig{collector, rawCollectorCfg.Interval, locations})
 	}

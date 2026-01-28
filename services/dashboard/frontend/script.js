@@ -278,6 +278,50 @@ function createTrafficFlowMarker(data) {
 }
 
 // --------------------------------------
+// Points of Interest
+// --------------------------------------
+function determineCategory(place) {
+  const type = place.type ? place.type.toLowerCase() : ""
+  const id = place.id ? place.id.toLowerCase() : ""
+
+  if(type.includes("restaurant") || id.includes("restaurant")) return "restaurant"
+  else if(type.includes("mensa") || id.includes("mensa")) return "mensa"
+  else if(type.includes("cafe") || id.includes("cafe")) return "cafe"  
+  else if(type.includes("supermarket") || id.includes("supermarket")) return "supermarket"
+  else if(type.includes("kiosk") || id.includes("kiosk")) return "kiosk"
+  else return "default";
+}
+
+function createPoiPopup(place) {
+  let placeName = place.name?.value || "Unnamed Place"
+  let content = `<b>${placeName}</b><br>`
+  if(place.cuisine?.value) content += `🍕 Cuisine: ${place.cuisine.value}<br>`
+  if(place.opening_hours?.value) content += `⏰ Hours: ${place.opening_hours.value}<br>`
+  if(place.accessibility && place.accessibility.value) {
+    const acc = place.accessibility.value.toLowerCase();
+    // Handle "yes", "no" or "limited"
+    if (acc === "yes" ) content += `♿ Accessible: Yes<br>`;
+    else if (acc === "limited") content += `♿ Accessible: ⚠️ Limited<br>`;
+    else content += `♿ Accessible: ❌ No<br>`;
+  }
+
+  if(place.todaysMenu && place.todaysMenu.value) {
+    content += `<hr style="margin:5px 0;"><b>📅 Today's Menu:</b>`;
+    const menu = place.todaysMenu.value;
+    if (Array.isArray(menu) && menu.length > 0) {
+      content += '<ul style="padding-left:15px; margin:5px 0; font-size:0.9em;">';
+      menu.forEach(meal => {
+        content += `<li>${meal.name_german} <b>(${meal.price})</b></li>`;
+      });
+      content += '</ul>';
+    } else {
+      content += '<br><i>No menu available.</i>';
+    }
+  }
+  return content
+}
+
+// --------------------------------------
 // Marker visualization
 // --------------------------------------
 
@@ -382,22 +426,22 @@ function getConfigFor(type) {
       })
     },
     "Cafe": {
-      description: "🍴Cafe",
+      description: "☕Cafe",
       updateMinutes: 'never',
       createMarker: createDefaultMarker,
-      getPopupContent: popupFromAttributes,
+      getPopupContent: createPoiPopup,
     },
     "Kiosk": {
-      description: "🏠Kiosk",
+      description: "🗞️ Kiosk",
       updateMinutes: 'never',
       createMarker: createDefaultMarker,
-      getPopupContent: popupFromAttributes,
+      getPopupContent: createPoiPopup,
     },
     "Mensa": {
-      description: "🍴Mensa",
+      description: "🍲Mensa",
       updateMinutes: 60,
       createMarker: createDefaultMarker,
-      getPopupContent: popupFromAttributes,
+      getPopupContent: createPoiPopup,
     },
     "Parking": {
       description: "🅿️ Parking",
@@ -406,16 +450,16 @@ function getConfigFor(type) {
       getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpaces.value} of ${data.totalSpaces.value} spaces free<br>${graphButton(data)}`,
     },
     "Restaurant": {
-      description: "🍴Restaurant",
+      description: "🍽️ Restaurant",
       updateMinutes: 'never',
       createMarker: createDefaultMarker,
-      getPopupContent: popupFromAttributes,
+      getPopupContent: createPoiPopup,
     },
     "Supermarket": {
-      description: "🏠Supermarket",
+      description: "🛒Supermarket",
       updateMinutes: 'never',
       createMarker: createDefaultMarker,
-      getPopupContent: popupFromAttributes,
+      getPopupContent: createPoiPopup,
     },
     "Traffic": {
       description: "🚦Traffic",
@@ -443,7 +487,7 @@ function getConfigFor(type) {
   }
 
   return config[type] || {
-     description: `❓ ${type}`,
+     description: `📍 ${type}`,
      updateMinutes: 1,
      createMarker: createDefaultMarker,
      getPopupContent: popupFromAttributes,

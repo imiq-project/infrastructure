@@ -65,7 +65,7 @@ collectors:
         lon: 11.640404
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00; Su,PH off
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:HummelsBrauhaus
         name: Hummels Brauhaus
@@ -73,7 +73,7 @@ collectors:
         lon: 11.632559
         type: Restaurant
         opening_hours: Tu-Th 16:00-23:00; Fr-Sa 16:00-24:00
-        accessibility: false
+        accessibility: no
 
       - id: Shop:NP
         name: NP
@@ -82,7 +82,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Fr 06:00-24:00, Sa 06:00-20:00
         website: https://www.np.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:ALEX
         name: ALEX
@@ -92,7 +92,7 @@ collectors:
         cuisine: burger;steak;thai
         opening_hours: Mo-We 08:00-24:00, Th 08:00-01:00, Fr,Sa 08:00-02:00, Su 09:00-24:00
         website: https://www.dein-alex.de/magdeburg
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:Kaufland
         name: Kaufland
@@ -101,7 +101,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Fr 07:00-22:00, Sa 07:00-20:00; PH off
         website: https://filiale.kaufland.de/service/filiale/magdeburg-6480.html
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:Korfu
         name: Korfu
@@ -111,7 +111,7 @@ collectors:
         cuisine: greek
         opening_hours: Mo 17:00-23:00; We-Su 17:00-23:00
         website: https://korfu-md.de/
-        accessibility: false
+        accessibility: no
 
       - id: Rest:HenAsianKitchen
         name: Hen Asian Kitchen
@@ -128,7 +128,7 @@ collectors:
         lon: 11.653294
         type: Supermarket
         opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:LagodiGarda
         name: Lago di Garda
@@ -136,7 +136,7 @@ collectors:
         lon: 11.638500
         type: Restaurant
         cuisine: italian
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:PENNY
         name: PENNY
@@ -145,7 +145,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00
         website: https://www.penny.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:ChinaStammtischKimboBurg
         name: China Stammtisch "Kimbo Burg"
@@ -155,7 +155,7 @@ collectors:
         cuisine: chinese
         opening_hours: 11:30-15:00,17:00-23:00
         website: https://www.chinastammtischgmbh.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:CiaoCiao
         name: Ciao Ciao
@@ -165,7 +165,7 @@ collectors:
         cuisine: italian
         opening_hours: Mo-Su 11:30-23:00
         website: http://www.ciaociao-md.de
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:Izgaram
         name: Izgaram
@@ -182,7 +182,7 @@ collectors:
         type: Cafe
         opening_hours: Mo-Sa 08:30-18:00+; Su 10:00-24:00
         website: https://www.cafe-flair.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:MimisWelt
         name: Mimi´s Welt
@@ -191,7 +191,7 @@ collectors:
         type: Cafe
         cuisine: bistro
         opening_hours: Mo 09:00-14:00; Fr 09:00-18:00; Sa 09:00-12:00 "Brunch",14:00-18:00; Su,PH 09:00-12:00,14:00-17:00
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:REWE
         name: REWE
@@ -200,7 +200,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00; Dec 31 off
         website: https://www.rewe.de/marktseite/magdeburg-altstadt/565591/rewe-markt-ernst-reuter-allee-11/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:RialtoEiscafe
         name: Rialto Eiscafé
@@ -209,7 +209,7 @@ collectors:
         type: Cafe
         cuisine: ice_cream
         opening_hours: Mo-Th 11:00-22:00; Fr-Su 11:00-23:00
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:RialtoPizzeria
         name: Rialto Pizzeria
@@ -218,7 +218,7 @@ collectors:
         type: Restaurant
         cuisine: pizza
         opening_hours: Mo-Th 11:00-22:00; Fr-Su 11:00-23:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:LeosSchlemmerCafe
         name: Leo's Schlemmer Café
@@ -235,7 +235,7 @@ collectors:
         lon: 11.636603
         type: Cafe
         cuisine: ice_cream
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:Lotto
         name: Lotto
@@ -269,7 +269,7 @@ collectors:
         lon: 11.637241
         type: Kiosk
         opening_hours: Mo-Fr 08:00-18:00; Sa 09:00-15:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CafeFrosi
         name: Café Frösi
@@ -285,7 +285,7 @@ collectors:
         type: Cafe
         opening_hours: Mo-Fr 09:00-18:00
         website: www.primo-espresso.de
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:GALERIARestaurant
         name: GALERIA Restaurant
@@ -293,7 +293,7 @@ collectors:
         lon: 11.636538
         type: Restaurant
         opening_hours: Mo-Fr 10:00-18:00,10:00-17:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CafeteriaUniBibliothek
         name: Cafeteria Uni Bibliothek
@@ -302,7 +302,7 @@ collectors:
         type: Cafe
         cuisine: regional;sandwich;german
         opening_hours: Tu-Th 08:00-16:00; Mo 08:30-16:00; Fr 08:00-15:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:PIER16
         name: PIER 16
@@ -328,7 +328,7 @@ collectors:
         lon: 11.639491
         type: Kiosk
         opening_hours: Mo-Fr 06:00-18:00; Sa 07:00-12:00
-        accessibility: false
+        accessibility: no
 
       - id: Shop:GoAsia
         name: Go Asia
@@ -337,7 +337,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 09:00-20:00
         website: https://goasia.net/de/store_list/magdeburg
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:BoBoQ
         name: BoBoQ
@@ -352,7 +352,7 @@ collectors:
         lon: 11.657862
         type: Restaurant
         opening_hours: '"Eventlocation. Nur zu betimmten Veranstaltungen geöffnet."'
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CafeOriental
         name: Café Oriental
@@ -378,7 +378,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00; Su,PH off
         website: https://www.edeka.de/eh/minden-hannover/edeka-am-katharinenturm-breiter-weg-31/index.jsp
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:KantinederBordekuche
         name: Kantine der Bördeküche
@@ -395,7 +395,7 @@ collectors:
         type: Cafe
         cuisine: ice_cream
         opening_hours: 09:00-21:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:SmilePurple
         name: Smile Purple
@@ -411,7 +411,7 @@ collectors:
         cuisine: italian
         opening_hours: 11:00-23:00+
         website: http://www.la-perla-magdeburg.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:WaffleCrush
         name: Waffle Crush
@@ -429,7 +429,7 @@ collectors:
         cuisine: bavarian
         opening_hours: Mo-Fr 11:00+; Sa,Su 09:00+; PH 11:00+
         website: https://wirtshaus-magdeburg.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:Daniels
         name: Daniel's
@@ -438,7 +438,7 @@ collectors:
         type: Restaurant
         opening_hours: Mo 11:30-22:00; Tu-Th 11:30-23:00; Fr,Sa 11:30-00:00; Su 11:30-18:00
         website: https://www.daniels-md.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:Shirokuro
         name: Shirokuro
@@ -454,7 +454,7 @@ collectors:
         lon: 11.638617
         type: Kiosk
         opening_hours: Mo-Fr 07:00-19:30
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:UniShop
         name: Uni-Shop
@@ -470,7 +470,7 @@ collectors:
         lon: 11.646274
         type: Cafe
         opening_hours: Fr-Su 14:00-18:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:DieKaffeebar
         name: Die Kaffeebar
@@ -479,7 +479,7 @@ collectors:
         type: Cafe
         cuisine: cafe
         opening_hours: Mo-Fr 08:30-17:00
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:PiccoloMondo
         name: Piccolo Mondo
@@ -524,7 +524,7 @@ collectors:
         lon: 11.635351
         type: Cafe
         cuisine: bubble_tea
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:Zwolf
         name: Zwölf
@@ -542,7 +542,7 @@ collectors:
         type: Restaurant
         opening_hours: Mo-Th 11:00-14:45; Fr 11:00-14:00; PH off
         website: https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-herrenkrug/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CowvanaveganFoodMore
         name: Cowvana - vegan Food & More
@@ -560,7 +560,7 @@ collectors:
         type: Cafe
         cuisine: coffee_shop
         opening_hours: Mo-Fr 07:30-14:30
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CafeHerrenkrug
         name: Café Herrenkrug
@@ -569,7 +569,7 @@ collectors:
         type: Cafe
         opening_hours: Mo-Th 09:00-15:00; Fr 09:00-14:00; PH off
         website: https://www.studentenwerk-magdeburg.de/mensen-cafeterien/mensa-herrenkrug/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:Infinitea
         name: Infinitea
@@ -586,7 +586,7 @@ collectors:
         cuisine: regional
         opening_hours: Mo-Sa 11:00-23:00
         website: https://www.tucherstube.de
-        accessibility: false
+        accessibility: no
 
       - id: Shop:NP
         name: NP
@@ -594,7 +594,7 @@ collectors:
         lon: 11.653346
         type: Supermarket
         opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00; Su,PH off
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:PeterPane
         name: Peter Pane
@@ -604,7 +604,7 @@ collectors:
         cuisine: burger
         opening_hours: 11:00-22:00; Fr,Sa 11:00-23:00
         website: https://peterpane.de/standorte/magdeburg/blauer-block/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CafeTreibgut
         name: Café Treibgut
@@ -665,7 +665,7 @@ collectors:
         lat: 52.147567
         lon: 11.644545
         type: Cafe
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:MensaKellercafe
         name: Mensa Kellercafé
@@ -704,7 +704,7 @@ collectors:
         lon: 11.656957
         type: Restaurant
         website: https://www.catering-ratswaage.de/betriebskantinen
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:RestaurantPetriforder
         name: Restaurant Petriförder
@@ -713,7 +713,7 @@ collectors:
         type: Restaurant
         opening_hours: We-Su 12:00-21:00+
         website: https://www.petrifoerder.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:ALDINord
         name: ALDI Nord
@@ -722,7 +722,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00; Su off
         website: https://www.aldi-nord.de/filialen-und-oeffnungszeiten.html/l/magdeburg/rogatzer-strasse-27/3182139
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:Lidl
         name: Lidl
@@ -730,7 +730,7 @@ collectors:
         lon: 11.654920
         type: Supermarket
         opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00; Su,PH off
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CafeRosengarten
         name: Café Rosengarten
@@ -747,7 +747,7 @@ collectors:
         cuisine: international
         opening_hours: Su-Th 09:00-23:00; Fr-Sa 09:00-00:00
         website: https://cafedelsol.de/magdeburg
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:EDEKA
         name: EDEKA
@@ -756,7 +756,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00
         website: https://www.edeka.de/eh/minden-hannover/edeka-prange-agnetenstr.-21/index.jsp
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:SushiCity
         name: Sushi City
@@ -788,7 +788,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Sa 07:00-20:00
         website: https://www.lidl.de/s/de-DE/filialen/magdeburg/ernst-reuter-allee-11/
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:SquareIO
         name: Square IO
@@ -804,7 +804,7 @@ collectors:
         cuisine: italian
         opening_hours: Mo-Th 11:00-23:00; Fr-Sa 11:00-00:00; Su 12:00-23:00
         website: https://losteria.net/de/restaurants/restaurant/magdeburg-ernst-reuter-allee/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:SaporidItalia
         name: Sapori d'Italia
@@ -813,7 +813,7 @@ collectors:
         type: Restaurant
         cuisine: indian
         opening_hours: Mo-Sa 09:30-20:00
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:AnasGrill
         name: Ana's Grill
@@ -829,7 +829,7 @@ collectors:
         type: Cafe
         cuisine: coffee_shop
         opening_hours: Mo-Sa 09:30-18:00
-        accessibility: true
+        accessibility: yes
 
       - id: Cafe:CoffeeFellows
         name: Coffee Fellows
@@ -838,7 +838,7 @@ collectors:
         type: Cafe
         cuisine: coffee_shop
         opening_hours: Mo-Sa 08:00-20:00; Fr 08:00-22:00; Su off
-        accessibility: true
+        accessibility: yes
 
       - id: Shop:Lidl
         name: Lidl
@@ -847,7 +847,7 @@ collectors:
         type: Supermarket
         opening_hours: Mo-Fr 07:00-21:00; Sa 07:00-20:00; PH off
         website: https://www.lidl.de/
-        accessibility: true
+        accessibility: yes
 
       - id: Rest:MensaUni
         name: Mensa UniCampus
