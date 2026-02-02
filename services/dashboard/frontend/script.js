@@ -56,7 +56,7 @@ L.control.layers({
 // --------------------------------------
 // 2D/3D toggle buttons 
 // --------------------------------------
-
+let cesiumViewer = null;
 const btn3D = document.getElementById('btn3D');
 const btn2D = document.getElementById('btn2D');
 const cesiumOverlay = document.getElementById('cesiumOverlay');
