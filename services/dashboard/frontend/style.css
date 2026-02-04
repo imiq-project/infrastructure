@@ -1,10 +1,129 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+:root {
+  --color-primary: #7a003f;
+  /* OVGU Burgunder */
+  --color-secondary: #ffffff;
+  /* White */
+  --color-accent: #623cea;
+  /* Majorelle blue */
+  --color-neutral: #a5c4d4;
+  /* Pale sky blue */
 }
 
+html,
+body,
 #map {
-  width: 100%;
-  height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+select {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.dropdown {
+  position: absolute;
+  top: 10px;
+  left: 56px;
+  z-index: 1500;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  padding: 8px;
+  border-radius: 4px;
+  font-family: sans-serif;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.vehicle-icon {
+  background: transparent !important;
+  border: none !important;
+  text-align: center;
+  font-size: 24px;
+  line-height: 1;
+}
+
+#modeSwitcher {
+  position: absolute;
+  top: 10px;
+  left: 400px;
+  /* ~next to zoom buttons */
+  z-index: 1300;
+  /* above map & Cesium overlay */
+  display: flex;
+  gap: 8px;
+}
+
+#modeSwitcher button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #111827, #374151);
+  color: #fff;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .25);
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .15s ease;
+}
+
+#modeSwitcher button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .28);
+}
+
+.mode-active {
+  outline: 2px solid #60a5fa;
+}
+
+/* Overlay stays below the controls */
+#cesiumOverlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  z-index: 1200;
+  background: #0b0f19;
+}
+
+#cesiumContainer {
+  position: absolute;
+  inset: 0;
+}
+
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
+
+.leaflet-control-layers a,
+.leaflet-bar a {
+  background-color: var(--color-primary) !important;
+  color: var(--color-secondary) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: var(--color-primary) !important;
+  color: var(--color-neutral) !important;
 }
