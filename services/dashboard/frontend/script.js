@@ -360,8 +360,11 @@ let currentChart = null
 
 async function showGraph(entityId) {
     chartDialog.showModal()
-    const url = `/api/quantumleap/entities/${entityId}`
+    let url = `/api/quantumleap/entities/${entityId}`
     chartText.innerHTML = `<a href="${url}" target="_blank">${entityId}</a>`
+
+    const oneWeekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+    url += `?fromDate=${oneWeekAgo.toISOString()}`
     const response = await fetch(url)
     if(!response.ok) {
       chartText.innerHTML += "<br><i>No historical data available.</i>"

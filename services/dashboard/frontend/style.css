@@ -92,6 +92,8 @@ select {
 
 dialog {
   border: none;
+  width: 600px;
+  height: 400px;
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
