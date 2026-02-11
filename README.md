@@ -103,6 +103,25 @@ Then run:
 python -u main.py
 ```
 
+### Sensors
+Expand your `compose.override.yml` as follows:
+
+```yml
+  sensors:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/sensors/src:/app/src
+    command: sleep infinity
+```
+
+Then jump into your container using `docker compose exec sensors bash` and start development.
+Then run:
+
+```sh
+go run .
+```
+
 ### Migrate
 Expand your `compose.override.yml` as follows:
 
