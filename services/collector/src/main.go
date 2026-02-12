@@ -20,6 +20,7 @@ var collectorConstructors = [...]func() (config.Collector, error){
 	collectors.TrafficCollector,
 	collectors.NewRestaurantCollector,
 	collectors.NewAirQualityCollector,
+	collectors.NewStaticCollector,
 }
 
 func FetchAll(orionHost string, collectorConfig config.CollectorConfig) {

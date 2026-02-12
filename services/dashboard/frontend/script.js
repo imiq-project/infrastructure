@@ -337,6 +337,23 @@ function createPoiPopup(place) {
 }
 
 // --------------------------------------
+// Digital Twins
+// -------------------------------------
+function getDigitalTwinPopup(entity) {
+  return `
+  <div>
+    <img src="${entity.logo.value}" style="width: 100%">
+    <br>
+    <b>${entity.name.value}</b>
+    <br>
+    Website: <a href="${entity.website.value}" target="_blank">${entity.website.value}</a>
+    <br>
+    Data: <a href="${entity.data.value}" target="_blank">${entity.data.value}</a>
+  </div>
+  `
+}
+
+// --------------------------------------
 // Marker visualization
 // --------------------------------------
 
@@ -502,6 +519,12 @@ function getConfigFor(type) {
           }
       }),
     },
+    "DigitalTwin": {
+      description: "🧠 Digital Twin",
+      updateMinutes: 'never',
+      createMarker: createDefaultMarker,
+      getPopupContent: getDigitalTwinPopup,
+    }
   }
 
   return config[type] || {

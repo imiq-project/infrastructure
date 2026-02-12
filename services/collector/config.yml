@@ -881,3 +881,34 @@ collectors:
         lon: 11.6270422
         stationId: DEST144
         components: no2
+  - name: Static
+    interval: 24h
+    locations:
+      - id: Twin:Imiq
+        type: DigitalTwin
+        name: IMIQ
+        lat: 52.141146
+        lon: 11.654877
+        website:
+          value: https://imiq.ovgu.de
+          type: url
+        data:
+          value: https://imiq-public.et.uni-magdeburg.de
+          type: url
+        logo:
+          value: https://www.imr.ovgu.de/niimo_media/Bilder/IMIQ_2_farbig_Text_darunter-height-187-width-358-p-1232.jpg
+          type: url
+      - id: Twin:Transport
+        name: transPORT
+        type: DigitalTwin
+        lat: 52.140409
+        lon: 11.655359
+        website:
+          value: https://www.transport.ovgu.de/transPORT.html
+          type: url
+        data:
+          value: https://transport.cs.ovgu.de
+          type: url
+        logo:
+          value: https://www.transport.ovgu.de/transport_media/Sonstiges/transPORT-height-309-width-846.gif
+          type: url
