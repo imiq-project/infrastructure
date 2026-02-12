@@ -25,7 +25,7 @@ select {
 .dropdown {
   position: absolute;
   top: 10px;
-  left: 56px;
+  left: 70px;
   z-index: 1500;
   background-color: var(--color-primary);
   color: var(--color-secondary);
