@@ -144,6 +144,11 @@ services:
     - WEATHER_STATION_PASSWORD=$WEATHER_STATION_PASSWORD
     - THE_THINGS_NET_WEBHOOK_URL=$THE_THINGS_NET_WEBHOOK_URL
 
+  hotco:
+    build: services/hotco
+    pull_policy: build
+    restart: always
+
 volumes:
   mongo_data:
   mongo_config:
