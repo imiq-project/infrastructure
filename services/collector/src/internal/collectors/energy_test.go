@@ -52,23 +52,11 @@ func TestEnergyCollector_Fetch_DynamicData(t *testing.T) {
 		t.Fatalf("Fetch returned an error: %v", err)
 	}
 	// C. Verify the structure of the result
-	if result["type"] != "Building-Energy" {
-		t.Errorf("Expected type 'Building-Energy', got '%v'", result["type"])
+	if result["type"] != "Building" {
+		t.Errorf("Expected type 'Building', got '%v'", result["type"])
 	}
 
-	// D. Verify the location and name fields are correctly parsed it is strict but
-	// locationData, ok := result["location"].(map[string]any)
-	// if !ok {
-	// 	t.Fatalf("Expected 'location' to be a map, got %T", result["location"])
-	// }
-	// if locationData["type"] != "geo:point" {
-	// 	t.Errorf("Expected location type 'geo:point', got '%v'", locationData["type"])
-	// }
-	// if locationData["value"] != "52.140357, 11.640292" {
-	// 	t.Errorf("Expected location value '52.140357, 11.640292', got '%v'", locationData["value"])
-	// }
-
-	// E. Verify the name field is correctly parsed and sanitized
+	// D. Verify the name field is correctly parsed and sanitized
 	nameData, ok := result["name"].(map[string]any)
 	if !ok {
 		t.Fatalf("Expected 'name' to be a map, got %T", result["name"])

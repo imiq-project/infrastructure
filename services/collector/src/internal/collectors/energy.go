@@ -21,7 +21,7 @@ const (
 func (collector EnergyCollector) Fetch(loc config.Location) (map[string]any, error) {
 
 	response := map[string]any{
-		"type": "Building-Energy",
+		"type": "Building",
 		"location": map[string]any{
 			"type":  "geo:point",
 			"value": fmt.Sprintf("%f, %f", loc.Coord.Lat, loc.Coord.Lon),
@@ -129,8 +129,8 @@ func (collector EnergyCollector) Fetch(loc config.Location) (map[string]any, err
 
 func fetchEnergyData(meterID, obis, userKey string) (float64, string, error) {
 	now := time.Now()
-	endTicks := now.UnixMilli()                        //current time in milliseconds since epoch, which is the format expected by the API
-	startTicks := now.Add(-24 * time.Hour).UnixMilli() // take data from the last 24 hours to ensure we get a valid data point even if there are delays in data availability
+	endTicks := now.UnixMilli()                         //current time in milliseconds since epoch, which is the format expected by the API
+	startTicks := now.Add(-720 * time.Hour).UnixMilli() // take data from the last 24 hours to ensure we get a valid data point even if there are delays in data availability
 
 	innerQuery := map[string]any{
 		"id":         meterID,
@@ -196,16 +196,31 @@ func fetchEnergyData(meterID, obis, userKey string) (float64, string, error) {
 	if err := json.Unmarshal(body, &respData); err != nil {
 		return 0, "", fmt.Errorf("failed to parse response: %w", err)
 	}
+	//CASE 1: There are no values, return an entire JSON response for better debugging
+	if len(respData.Values) == 0 {
+		return 0, "", fmt.Errorf("API returned empty values for meter %s. Raw response from KBR: %s", meterID, string(body))
+	}
 
+	// CASE 2: There are non-zero values,  Iterate over the values in reverse order to find the most recent non-zero value
 	for i := len(respData.Values) - 1; i >= 0; i-- {
 		point := respData.Values[i]
 		if point.Value != 0 {
-			timestamp := time.UnixMilli(point.EndTime).Format(time.RFC3339) // return the timestamp of the data point that we are actually returning, so that we can include it in the metadata
+			timestamp := time.Now().Format(time.RFC3339) // SAFEGUARD: for now because we are getting 1970 in response Timestamp
+			if point.EndTime > 0 {
+				timestamp = time.UnixMilli(point.EndTime).Format(time.RFC3339)
+			}
 			return point.Value, timestamp, nil
 		}
 	}
-
-	return 0, "", fmt.Errorf("no valid data points that is greater than 0 found in the last 24 hours")
+	// CASE 3: All values are zero, return 0 with the timestamp of the most recent data point (even if it's zero) to ensure we have a valid timestamp in the metadata and to avoid returning an error just because all values are zero (which can be a valid case, e.g. for a building that is currently not consuming any energy)
+	timestamp := time.Now().Format(time.RFC3339)
+	if len(respData.Values) > 0 {
+		lastPoint := respData.Values[len(respData.Values)-1]
+		if lastPoint.EndTime > 0 {
+			timestamp = time.UnixMilli(lastPoint.EndTime).Format(time.RFC3339)
+		}
+	}
+	return 0, timestamp, nil
 }
 
 func (collector EnergyCollector) Name() string {

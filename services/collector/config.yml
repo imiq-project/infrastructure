@@ -992,7 +992,7 @@ collectors:
             - type: electricity
               meter-id: DE99999739106XP6BXOU73I5B1OQAYR5L 
               obis: 001-001:001.029.000*255
-              userKey: 5K8uk4B7PIZbSnq9tNK2yii7WgB5rTSjREUt8mZpp8Grj4Vg3MxReuQvZob2gTy5cKAYvrW8dK2bogtnKvrXrmTUr+9LvTweMwSCZr9DKkdTZ3Zfa/JLPRG6gvszeP6erpWESCLVMfAemDYHjaI0zS34qvGPA6xoUb80V+ozjBZ1aGipCmSEsTAwX24QnA7bJ1+Yj0xOMhVM3nCtlj9K0tdWxN2MwWTrlnI9mZAHFwk0fGZLeN5H3hDazx8triFT
+              userKey: vbYRqe1T/fqaTMbD4UJ+T0g9DUP/Ga0MKvpWXxyFSG3etjPc+h/U0yC1Kj4f4ly1XKjavIh8EiU/FM/pWXrVeI3jQaVnb8ISKeNgknpR4JGh0szP1Ji1qZa5p2M5Yvb2045leitfBgVstsqkAY1uhOOW2qgHoS2Qo8yKuk80UBFT+CfSubK0hfMQARzXrHC0/xYV8ymzYSCsORR9bp3qoVHzzd15S8+zK67DLnt933NIF8XtDoTzPHc7Owa2v3cI
 
       - id: Building:OVGU:16
         name: Gebäude 16 - NAT, VST, HS V
@@ -1068,17 +1068,17 @@ collectors:
             - type: electricity
               meter-id: DE9999973910600049034TF3ALI5UYHWH 
               obis: 001-001:001.029.000*255
-              userKey: kRMVqGgkIBn5kwdwpgDwxuW83kk1vy/GgDxRdGvajWBJ0JzfsGDotFCaLsuEUxxBatmpze0iO644ea2zK4HyvcU3jfP6k+9I40VyKVxYv2mY5Pa1L97+xp8poguXv9HM0pZhvpgBeMr0ws7oaZrwmuexhqe4o3mKz5SZcVUE8F6eayipMrXvt4DYIF7LoEDsaMMpK/tA+PXImrzzL9Kq5sdrx09/USA0oTFt8QMtebHtGB648mF8lvcUKFq2/P1f
+              userKey: Vnfk47t7X6uMwKrjHgePGBuD00/Y0E88jd3bAIiekv+kNjve/LIdRIq8e19++PSfveIyxX8psg0Iz3UjU6Myqk5dlzbWhLvRqOQM2ZYkM4KnQXJI3sN3yW6aKR/LRUiuN1QEn1VlQO2g8LHxMdaUAeLExmBJNoM0j8O0/ck2ehu7Y6D5rK7dQytartgv6LPe0QOHR+0aohVRhXd7FWaW1dmnB5DGwg2UrbKmHIL7lgNdapjLjTPOuNbyKsoreW/6
             
             - type: heating
               meter-id: DE99999639106T9EB3C7VG5KV3UQAOR3V
               obis: 006-001:099.001.000*255
-              userKey: dlOVUSn5hN5alv8URkTQIwMMixDUHQuK0SMGMk3F6gOYreS3S9V4Nq9IzICP4WmC0J5XGkYR7arak5930H6YfM7XhH/zCf7EujDCYISkeeWHbYqCGxy4Tilwj8ljs+zVPouYCsjeDg/zlIXcXwafRvyrYk9xv5FbgpK5n7sYlZCUakaYIrF8I2VWP6mIUp1JIjguSdJi/RB7GzOEjuUFJkyPVAU+GAXEk6ScV7lW8QfCntEGpO713/uD7f+ERr0c
+              userKey: xrvnDWB1qHzhzGRw3blEvwJV2I+wHwzZdp0Q4akiDGtZ8W/7YXygkhvxdp/BS0DTMcOBhlN9wJwwhwtmzMFXHfL9/g486ghWPNezjjlTv/o0dNJs6S3ygbS7ZhJmm+XmfOTQoj3LVBCxp1Mu5IPZwGDYAU+k0O/QUIm51jLsotC/RwOV8M8gKmLrFmeUgSQptwVWtyXnZdAjjmf/XQdV1Rgawe+eCUCWlmnaH6+Z1WZK7IqZMM+tR8Sgg7oypCv/
 
             - type: cold-water
-              meter-id: DE000001391067REYWF10F6DAWWPQHFRR
+              meter-id: DE000001391067REYWF10F6DAWWPQHFRR 
               obis: 008-001:129.130.000*255
-              userKey: WYUcy73sYosVQVcdSdD+Avcrv1j3zErCg+3M+9cbVYooiYLZ/C2DQ0MqgSjhFfBmdDqWt/EdryaIKy8Blga+ae53a+aDs/if+TCP11QtHiSp7JmIcSWJjYvBBmipTNsJYUsMUibZvwIptkaSYuM/X4cGfS0Qi236Tg7uyh9dDUyiUTKdgR9So/wQa8yYieQ5PEyOncYi7OUV5eBwqEYqibtvBYbvG++fLskoEOHh+D336IIx/c+ck4vqd/EzhRvt
+              userKey: 5XH1m132p6fsfzImDapBPiF9x5FfbwVdkzT4BsjLfh2OyMT76DoFtmkRheG/I+mpR7hzkbW4XgV3ORRv2HOGYpbqTq6SnHFZYcMSQo9PKnRC5Ezir5KgOphDFZXXBMjl500tAADd8LvMadrjLEiW7Y5ng2i0TK6krWv9OMDyfEFeIt072uvT/KFQrO0HtURXZvrTb41GR7KnaKDttCtRPvff7twxK+gpWZkMkgBD5Y/fyhJUvEW7NRJeDBzn3jgs
 
       - id: Building:OVGU:27
         name: Gebäude 27 - SPOZ
