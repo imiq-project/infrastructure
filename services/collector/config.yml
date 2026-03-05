@@ -881,6 +881,374 @@ collectors:
         lon: 11.6270422
         stationId: DEST144
         components: no2
+  - name: Building
+    interval: 60m
+    locations:
+      - id: Building:OVGU:1
+        name: Gebäude 01 - Campus Welcome Center (CWC)
+        lat: 52.14035767199704 
+        lon: 11.640291546017703
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106DIHRTE015BE3UOTFXF91
+              obis: 001-001:001.029.000*255
+              userKey: UiK1xlP3M5V/Fv4002Jg+yO3Ba8rIwhbaapaN5Wek6dnpd2PRCn36wYUc6d/F9JK4IIOfr+qH742T8ePYGl/8mIfMJSrkz5pD5VfXnzQXjpL7LCLNiUjBTTMH7xcONOMLq3jsFXiKtL5mSpS2waRkAZcB2akpx09TPLgVkGOEvxLkJlpDpeROLHyGpoIHMOcqfytUi7ZUkf0G+feqr/F/KP/wq3b7vbu23eFUiACSuQo9FQtoXaUvbEFpSJEtd85
+      
+      - id: Building:OVGU:2-3
+        name: Gebäude 02/03 - MATH, EIT
+        lat: 52.141062218650454  
+        lon: 11.640602682257784
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE999997391064QL4VG511LV48AJQ6P91
+              obis: 001-001:001.029.000*255
+              userKey: 6srscwhaeJo2x67JQVrk9XXeZhgqLto8/vFUWu6ZNPvIDFBvkE0XRhoJusMRIYi2R3f7AYrHBeSftm+KjWzGzkH7R2BqvZS3RbIXBzYNgi1nmSUry2D8b9L9BTAyxpqHbyu7U6HtoWcBUzV42qliu6OOnQ3S4psT6aG3t1JJmxk2uRVdwNvdITzdpNffDYZXxCMsIJ6Vnvi+qS4irFcDQVlmKscfFE47/Cxb6Zgr5/IFBBAlZlsiSgCZh9m7afUz
+
+      - id: Building:OVGU:5
+        name: Gebäude 05 - HS IV
+        lat: 52.1404791622874
+        lon: 11.641072547267498
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE999997391065YER0U71SDYB2WW5JUKH
+              obis: 001-001:001.029.000*255
+              userKey: vWGdA5/MHAiT8WJSfmuMKeMcjwBMZTzY+Lj8qPC+CyLor+kBg7fFdBwJ6lhEb9VoDVN1Hn9SDFv6BKrh5VlNLAEXf6bjf1Q50yji4pTSXIXlAPRBAAZzQuCby6ZWVvIa3nLvyPuysRUn7rBb4CEFOR4vdGYzEz641NCpyWq6eHPiCs3cqC0ez10IHN0FYKPKNEN7lU38wfmOKG5zPHu7wQDhNbPF+ny/gSu4xSgLA+ftzlJB/G7huHwqs2YzRkEV
+
+      - id: Building:OVGU:7
+        name: Gebäude 07 - EIT
+        lat: 52.13967569881792
+        lon: 11.641006428674418
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106001780536MYWQJ80ELDV 
+              obis: 001-001:001.029.000*255
+              userKey: 8Epske4Wv9PMIKD3IHSpXzy1PamMXp1jyM2r0u8x/BxX5sOvXwm61602ngA4qwUCzTxssTjRt7oRGkRoUNmg9B0m8NPXtlB6SZHWM8i/0rCDLbAGApW8H7Fe3K+oI+CEQvhcYOzYffa8llHgVhM8VIXjG9rde4uIFEjUpMahAWwnX56ZDg9PqyTLF8juTNvhrh3wiE5Meezuppu1fDvzuSnHs0k2L89PW+6H7kzlf8SCrYcqAqu8NoyePQKHOxxh
+
+      - id: Building:OVGU:10
+        name: Gebäude 10 MB, VST, EIT
+        lat: 52.13916410052957
+        lon: 11.642533321049246
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106R5W6909SJ8DOL3RH0PML
+              obis: 001-001:001.029.000*255
+              userKey: F2qKh46CBSuq+el1ny0NzLLSK8nTo8hIVG1DPE0naNEuLT4WBs52kguRMSyJ568xeJ/ccBXHTmmWnpdYQFfqa8HDJgrq5O99Fi5IkyGApOYpWHRqHIahc50pcGOIGGm5nwnSWQgFjZx5TUyKUTLkodrm/2Jwt3uleHZ6IJ9N6Esm5iqz2g4q2cZ8R10RJEMep/7aAAqgL/bMypCl90vg91P6DOuWaQ5afq0bOFF76ZKgK+nODyGwbF5E4E+WfSsO
+
+      - id: Building:OVGU:11
+        name: Gebäude 11 - MB
+        lat: 52.13942331431623
+        lon: 11.643035017610643
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106TVA723GY067JVKK7WLI5 
+              obis: 001-001:001.029.000*255
+              userKey: obUnId0dPn8nAOgQwUbT35QR/jaNlS4XuyQpTLAPLjUDKm33pRSRuqNN6GsympPVmUYC2bLiIk1D6EpXrh5XM0R9yex4uAGzkZxTMKJWBPpI219FEdy6GA4qJH27YgJRTaYRlj5xfiqBTew6HLK6EZMG39NPP4U99iYOyEzv7XVkpVvewnC9XlMg3+AQ9U/ha8RXcoRgI6sRhv/7lzywUialp+apWhenAgfG4jTxVGuyOcS/JbWw5PO8/JLiUaKF
+
+      - id: Building:OVGU:12
+        name: Gebäude 12 - MB
+        lat: 52.14021120210727
+        lon: 11.642344609581658
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106249NXA05DXB07TU2QNJ2
+              obis: 001-001:001.029.000*255
+              userKey: SbE3YGSMrTbkeBoMt6f/UhFj0alSFioxN6kpGrS0ThC3Umj9CT48jvwN96SOnm0b0RIh5Qoc6D23m515UUszw+HnSgwfi/rOstyl8olfgo7OjdKDUD2zd/jZzQsUogSSlJdxj4XJw1mwN76Lnd1X5aAPM9vT1NfjM6C4HruTIhZFDQ1DxWsAxUeHsl4VKz1oSx9b+qb0iunDPj706WOJVNH6lEjnWwzcGiB8nQvvBPAHDzcjSp1+ZIcKPmy/mEgT
+
+      - id: Building:OVGU:13
+        name: Gebäude 13 - IKAM
+        lat: 52.14054849628595
+        lon: 11.642014934464129
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910600338053MG1AE51DR5P5 
+              obis: 001-001:001.029.000*255
+              userKey: 2u1/RK+G/2PAVixwQAD8CU5Qbj9IUKAZa10BSp8iy6T1TX32VlNtku8571JCdNkDynXgRRhFHi9gHaCkSzLbzdKSOose8BQhh9XonUBFckjxN9LDT6WgIGr/KACVx1+kAatE/FZ0ax0tOoTE6s+xGxSBDtPKDLTuvr4Y+zpszp8qKNT3NqmsLGVZUIoxrPflLmyuYRnX7zVffvRys4R0bu+iN/zrpLgoYUbw/k5vvj2e1sv1A0z5hZ6uoEL5dyC2
+
+      - id: Building:OVGU:14
+        name: Gebäude 14 - VST
+        lat: 52.14088797917402
+        lon: 11.642414097789375
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106249NXA05DXB07TU2QNJ2
+              obis: 001-001:001.029.000*255
+              userKey: PtX6MHQ2ws2Xsm/3zvt0DuOZsV5IGTgboxZbW274TKsjZus3e0QaDIuqx3/HYo+d/dNpZ7fc0X72dgVCdMem5qMSQvNfqO7f/Ulpq64ejUgAali8sQZcDxwErlUXUEE3eTosi0Dhke6NcWJPfqIkgMLn8ErIK7qq8EWIBaJLVgPjog8ggccWeTeMKiTkZR/+KBvJBt422MYA7pWur46Q9RqL40saT4Q1M7+xWckrZOhuGHYoAM0ysB6QxRlMKdu8
+
+      - id: Building:OVGU:15
+        name: Gebäude 15 - VST
+        lat: 52.14074105202456
+        lon: 11.644192985300672
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106XP6BXOU73I5B1OQAYR5L 
+              obis: 001-001:001.029.000*255
+              userKey: vbYRqe1T/fqaTMbD4UJ+T0g9DUP/Ga0MKvpWXxyFSG3etjPc+h/U0yC1Kj4f4ly1XKjavIh8EiU/FM/pWXrVeI3jQaVnb8ISKeNgknpR4JGh0szP1Ji1qZa5p2M5Yvb2045leitfBgVstsqkAY1uhOOW2qgHoS2Qo8yKuk80UBFT+CfSubK0hfMQARzXrHC0/xYV8ymzYSCsORR9bp3qoVHzzd15S8+zK67DLnt933NIF8XtDoTzPHc7Owa2v3cI
+
+      - id: Building:OVGU:16
+        name: Gebäude 16 - NAT, VST, HS V
+        lat: 52.14001999315747
+        lon: 11.643930470308396
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106YE9XGRH67SHOVMIKV05K 
+              obis: 001-001:001.029.000*255
+              userKey: N/yMyjCbJyWpcdnv78nxBwipMD/eRbQaJGlIS0g0rHmBeWXUVIk+BgaHnNYIT8iGYv8M/c8F6YdUcPotX2jJ/SrARehRoftq1N94zT29A1LJTIjjw49EZCqJuxx9n+ZHRW623LV7ck6ivfYgScCqS4vsBT6rU5MdarfqT8pwrwoAkI5GvqdMFzIVlM8M6K+6cqSG1mAwSEfw2ONh4ZJv67tRn7HqFAI+YlsHuFlYQrx9zsuS/0mSe/SxdkhbGkXk
+
+      - id: Building:OVGU:19
+        name: Gebäude 19 - VST
+        lat: 52.140328311840605
+        lon: 11.644731171839904
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: 3fa7b9e9-6495-401a-8bd6-746f61866278 
+              obis: 001-001:001.029.000*255
+              userKey: nERZousbStX0mSa8pjug2yh6er551XXicSfu+e07CT4i3/tu68QttionZsmutvRewulCuxJUlHRkdbDx+z3/eXjzB+gwjAb9FWd7BIMgV2yj11OiuGial6K4aARKWkAqkqvuAl2sSOYOkq3+vGp4yM/eqz3bbhHyDSp0DfRvfo5yvxftoM04tUTsVk/mQ+E9BIs8BEwT7jdraFZGkISbgBLGvzoeM3g0HQzb91xVOAr+5Hwl9ZFjw264atB7HPm1
+
+      - id: Building:OVGU:20
+        name: Gebäude 20 - NAT
+        lat: 52.14076525052126
+        lon: 11.644929065863932
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: 04d6b517-e3ca-4e28-80c1-895926abd161 
+              obis: 001-001:001.029.000*255
+              userKey: y41ga1MV1zSlWbzbyuLvQ5+eq7PMz7CIqoOj2HP+o+jqQ8aRHsDgoQt2DF+LG0YyULpPdPETSU0PxUIYf382jw0AKNTvzmeiJuLtQR9T6ebJTXU/3wLL+sWf0ELdT5mKOYmwUn1Ubs0I2D+cqGgXXE4TOCciVgbJlIfUE4ZHAK5+IbhgaZ5XQCRLdhwrvfbyiXJPT0uCJjnWLn69AYL+oxsVXP6GobNOQpre1oDagC7/ilgoxVydQPtSXfET9s4y
+
+      - id: Building:OVGU:22
+        name: Gebäude 22 WW, HS II
+        lat: 52.140285797236665
+        lon: 11.645906531978532
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE0070463910600154053Y4H1N8SK7EY5 
+              obis: 001-001:001.029.000*255
+              userKey: e3WGKhCSZGIgHDXo6Pj1/pF0kogZ7r2by7T+vTSwviZV1tW70q8KIhwDMcey6Hw4JJxdJT0+iQ7phQLE1FF6FiRBSGP/Ti1hUV2EtKLb3s2F8kq27xIou4dfjDbmfqitwUYBUgT2ZlVWtP5voF4e3/a7ZDC7D79Uzey1rNDzvvk/8VMA8kRRdyvdnGoPmppP244+mOyP95aRmHavJOWbIfmX4mgSSlB29UFanTI2CopsymWSmQlruiT0GQa8vOva
+
+      - id: Building:OVGU:25
+        name: Gebäude 25 VST, NAT
+        lat: 52.14034505868285
+        lon: 11.64715107696359
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910600197053XT8IXDVE3MVI 
+              obis: 001-001:001.029.000*255
+              userKey: y17tKzg6K2jAsLSZlY4CI9EdvxaHUjA+liPtWeefzWFAmMsO3hSI2T7fjNGvrJuNz9ieQGHsfb0di5F7ZAtC26lVw7tNpzsTMnY9S5COqh6JuDMaCCnr7+1SMnfyBPUmHrqr/sL30lYV0qukUKmks3BJSaOJFTlsvQiq1p4t94BvfObn9uNP7V0g8/8ZoE4t4opy/ndXRxLvPBokR/r4pLnb9faA83n3yA+3V1L6P78tqIERWSPZqhcJP/BtHnhe
+
+            - type: heating
+              meter-id: DE99999639106F8DVF65URICTPUA628FS
+              obis: 006-001:099.001.000*255
+              userKey: asERYEaFKW5/TkUw7HnUaVxC1qsZTw+wFhzC0wmIq3F3ACcugPFwY7SayCGu6SbPeG7THRZECUkz4gd8DpcLXxg84olOHBrqdeIY3kwNb41tG9honkemIdtR9452/f964Gg/Q8Lzr5m3spVFTFxI4bEccfN+1Qht56Vk/P2PJYburlgtIY3LIk89gSLV0U5n0eZqZiXa3XTnIgEA8xmlDx43PYCkTTxk+vVsCVXHvWAkF4uOfuVoXhmuyAZacYSF
+
+            - type: cold-water
+              meter-id: DE00000139106IW9TTN6YM2Q0TARRLF0D
+              obis: 008-001:129.130.000*255
+              userKey: 1EFFX99MmqkAnv2SvMWuB4wBzkao3rDXrWBMDm5OIO5YIHkrU/s45/QxhX2VvmUmcpYXnEvNz4dKLOc5drYR2GD9j9HGUz+KiGPZsD8dcij7s8MPo7WVNMcvIAoxQFfRhDzHBlh++ZWYrAb4HAGERKnpUawZ7YIx6uYsVl6BwChAha8uMPOsUC6HV2QpA7zc0p+aT6coSViIbWbVPBxMMl/qcEOcN/CIMb+i+DeoXqAZEgIq5KQuv5HIEWuz7J1l
+
+      - id: Building:OVGU:26
+        name: Gebäude 26 - URZ, StuRa, HS I
+        lat: 52.13963062362416
+        lon: 11.646442973796509
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910600049034TF3ALI5UYHWH 
+              obis: 001-001:001.029.000*255
+              userKey: Vnfk47t7X6uMwKrjHgePGBuD00/Y0E88jd3bAIiekv+kNjve/LIdRIq8e19++PSfveIyxX8psg0Iz3UjU6Myqk5dlzbWhLvRqOQM2ZYkM4KnQXJI3sN3yW6aKR/LRUiuN1QEn1VlQO2g8LHxMdaUAeLExmBJNoM0j8O0/ck2ehu7Y6D5rK7dQytartgv6LPe0QOHR+0aohVRhXd7FWaW1dmnB5DGwg2UrbKmHIL7lgNdapjLjTPOuNbyKsoreW/6
+            
+            - type: heating
+              meter-id: DE99999639106T9EB3C7VG5KV3UQAOR3V
+              obis: 006-001:099.001.000*255
+              userKey: xrvnDWB1qHzhzGRw3blEvwJV2I+wHwzZdp0Q4akiDGtZ8W/7YXygkhvxdp/BS0DTMcOBhlN9wJwwhwtmzMFXHfL9/g486ghWPNezjjlTv/o0dNJs6S3ygbS7ZhJmm+XmfOTQoj3LVBCxp1Mu5IPZwGDYAU+k0O/QUIm51jLsotC/RwOV8M8gKmLrFmeUgSQptwVWtyXnZdAjjmf/XQdV1Rgawe+eCUCWlmnaH6+Z1WZK7IqZMM+tR8Sgg7oypCv/
+
+            - type: cold-water
+              meter-id: DE000001391067REYWF10F6DAWWPQHFRR 
+              obis: 008-001:129.130.000*255
+              userKey: 5XH1m132p6fsfzImDapBPiF9x5FfbwVdkzT4BsjLfh2OyMT76DoFtmkRheG/I+mpR7hzkbW4XgV3ORRv2HOGYpbqTq6SnHFZYcMSQo9PKnRC5Ezir5KgOphDFZXXBMjl500tAADd8LvMadrjLEiW7Y5ng2i0TK6krWv9OMDyfEFeIt072uvT/KFQrO0HtURXZvrTb41GR7KnaKDttCtRPvff7twxK+gpWZkMkgBD5Y/fyhJUvEW7NRJeDBzn3jgs
+
+      - id: Building:OVGU:27
+        name: Gebäude 27 - SPOZ
+        lat: 52.1395680688568
+        lon: 11.647574865980253
+        metadata:
+          resources:
+            - type: heating
+              meter-id: DE99999639106UOOHUU4AG9GDDV7I5GR6
+              obis: 006-001:099.001.000*255
+              userKey: ULiKhkRTaSusIQRJVrquyfNRr8rwUiE4NSffec1uFFgKLrWpGJS5S1FSxZvr25bLyYIs//t0JHkujJC1dxNyN/6tkHaPMdOJ58ixw95LMbHIxL2vn66x+wq4Ps1/XUKm/VqL8T0QgyJL8krBq+F5CfajMK/xGT7veop81mNZNC1NOaPg3k+aVdvyCZhEqaB8JMYJuXkExlOTsm6+aWUFrJvzBc3/aVls/lo5bmYWmVwi09UBlnIWS2T/JmR8QYeJ
+
+      - id: Building:OVGU:28
+        name: Gebäude 28 - NAT
+        lat: 52.14058210372794
+        lon: 11.647569501562321
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: 292d36e3-f358-48d7-a697-3dfe442bce7c 
+              obis: 001-001:001.029.000*255
+              userKey: omUZsroQT8/2YnKUx9/7uSk03tzuBksPIKozOEpy42cSuDhFlgbrgmyudU3rWo7rQPBsWi1TEReaUjrWr+910+67B6PzitMGdT2Er2xvq+vWQ9lkMvJ7Kdzg+B5INGUmf/MpPXZzy9pGDzTiqF5KWbJd4SsxRBbtNcmzTJyLqIni17XGfpIrWbyQBSQnjVSmMOgzW3GzPQ5HUnF2Y61+jhaNIooSoPTAvZdKzzC/tpzwFH9+MVvfN3Q1rIbZNlCA
+            
+            - type: heating
+              meter-id: DE99999639106UQBB4XKPKWLXVM681DBK 
+              obis: 006-001:099.001.000*255
+              userKey: riagAfvatITWMIxpVBYcXdAmmyVMjUJLmK30ZMy4TdeN66UP/606ZP3dC2gQYk8+x5FlxLb1N1M4FkNFCSeU0hnPzhqioOMfUUMmEIo6ARHqYZhpKn31iokaEpLOhoFZl7FmKcOsv291esCDNiD4H/jdtpITTu+Irc5KXYC0847B4piapm/gDosCczkEtml8t7GMCYyHgokg5YzLPeFMyDRrB+fUcOY82HwLdkQ1lRF9xRINtmmZ4EzksQBkHLDg
+            
+            - type: cold-water
+              meter-id: DE00000139106X8K9B9YGQMSRFX5R0GYT 
+              obis: 008-001:129.130.000*255
+              userKey: 1z+mWzC08tYopfjgn8sgdV4Nt8dHOfMt3/w2njaXjF3dnAWQE1Wp4VFs5oQZFZP0mXo0/UJKtuR1MIpVAi30t5k30wu0ydD+YAB/Mvk0A1VUmXRPt57wtR+roAOyyXQzSWpj7GdcUj+A5xCjo83XZET5mrgoxSUvTcY6Mr6gL4NRYOPwLw/ZoeRFc5zkuo1QhpXfDu6r8vHQNee9yeCcU+tKoVsbKYpc/enxBKhG8REmbt4FIuGZ9Nbqtzw/jhxT 
+
+      - id: Building:OVGU:29
+        name: Gebäude 29 INF
+        lat: 52.138856913745954
+        lon: 11.645890438749468
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: 5b8c3291-2d24-4114-afc3-6a6f7cca8119 
+              obis: 001-001:001.029.000*255
+              userKey: Q9L8ijOtpOV+Kde8pxrtquXIHCJhBHLenSRwToQU05bAgLg6CaXustv0SaBt/QKqLOKciukOoEEug3Mvk9BisDnRwpy3GgIwBDNH4MqUeTUgNCpfxmTyRRYUI9Rq8IIXGtB86KDx10jo0hUbg8ZFhxZMgVjjF8cpnVnMDg5shnBi7FpjdSxFWvd0VD2EauuplUbJnrPUQVcFwW/OMaMXN1BBJGE+v5/DtmVQbYXHG6xGZ2TfdsV5VWFCc7jZhzvJ
+
+            - type: heating
+              meter-id: DE99999639106UNKC0JG7Q5PAXNQH01I9 
+              obis: 006-001:099.001.000*255
+              userKey: z96IE+13s6k6+mMB46D1w5NdS3/PZEwtgOcCiIhuN3PDl6onSYBzpxToGchgu7SfrCcC/YzEjgMUUVXwiQ6TsT9bPX82yRoGx1KvBYHeUHYRIGYI0f1yHRNYZA6fMoReUkfBu9H81ymVEMfS8iVgE5ZlGVhGcStQQGvm49oLnxWXUBPl3bffvN5vX9E7N5kf10D0vKbclMJ4o2WAV2V47vRAyjwse75stByfWhDgniSpFaeySmz/G4gQkUb8fPvy
+
+      - id: Building:OVGU:30
+        name: Gebäude 30 - UB
+        lat: 52.13898202519036
+        lon: 11.64703842418701
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910600049034TF3ALI5UYHWH 
+              obis: 001-001:001.029.000*255
+              userKey: UpCoqj7d7vjv0kbAwaYAWqYf2L1IQAVBLb/XNUJN5wQrVFN3H5oDgx4mnlpTIULgRT11nREz2ud/FZ58UU+CoZxLOWqp7TPkk4hdmzrCWDdYnW120C1OODCSxCazv8phyUD5CtWuz4LXXYnYXfzTnlUx6HkSBWEtIUyWoNBOCqC2Mwb5EJU78Tkc+wdWrr0xCSEgwgKKNGfmasvqjyqjU81z9euzHIE/WuG4IshQtNYNIYfXq3UgZ3t/1HSEmktA
+
+            - type: heating
+              meter-id: DE999996391061WCMD4JDL09QEF4LPJWT 
+              obis: 006-001:099.001.000*255
+              userKey: 1N04Ye4v0Wnt553UgdNSsFCJftHboT7K6GB1rhuNshF5U6fvIk6UfDB9WwgM1FsTTywBir6a21mNor9FquOgUavHbNwyQDkte3KQJliSOqxGQ7KF9vvfu4wQ54eW242GbvNeRIllS6e5HUfhExXJaGmseIdgXzUiPYEU1lmfBLKzAztBxn+540j8VXnE4CR70FjHa2OPsfIf/0T4aGbbu+YZ3ruBiVLRtDALgX/1U8cW0K5jmXt9vHsASFQvAcnQ
+
+      - id: Building:OVGU:31
+        name: Gebäude 31 - SH3
+        lat: 52.139930226816794
+        lon: 11.648792588885183
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910600078037OF32IJ2OCXTJ 
+              obis: 001-001:001.029.000*255
+              userKey: XWgQ3NwMQTXGSsamYpV9xLJefLiPOneHxrFoVGgaU5C5WKOk7fFoTOD8d648rRc9s65LR6bSRULIpHL5fIwEaxp7jaNT33PuoLHdyWFWDj9PaTDEC2XoPI6+tmH+gFi3ebCaNHeJWmdgHHDinmHG/QjwFbz1rymwX1RlOK4tADVpSqqejgoaAXkQrdkFm8m25IoPdHeyupJk3nDCkn5UEDGnFPRZNW8LeiXp7XqDrznVFe8mSOzfXI4eiM8N4402
+            
+            - type: heating
+              meter-id: DE999996391061WCMD4JDL09QEF4LPJWT 
+              obis: 006-001:099.001.000*255
+              userKey: v0BWMZz9+fp6xbc/OHc8A5rrXsUHyZ4OOWDHddeW+TGPzqoSKXWKnV72TCsXXfvRI4+QL8AcXw8qU//fAj97LHTf0F7Gz/l3U2SSJeeiJPfN84726UhxQg4MeSvXm/BCzKfayNebXNlyvPKAZnxTtdWNppYZ4e/ZKWq1FQlZXQmnZ0VDgXj1YTav7l3hkgoDYOqv5EjnKG7QtmQURcvPqDLr/n99BBvMvsLseMMvwa5SsIqc5DcrkvoDn+cWjh/4
+
+      - id: Building:OVGU:32
+        name: Gebäude 32 - IBZ
+        lat: 52.14111545048249
+        lon: 11.648384893127576
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910600076037YP9AFIKFTRPH 
+              obis: 001-001:001.029.000*255
+              userKey: HQFtx998zNbUD9OIgQjvDXQMhANLaO2nUI/x2VRBAOBU9tkKbWTUaXpKDWka1KeAIZ+n1AJJzVWDAliSSTLNAhz5b2G8LvJjf273atOjGbnGeGWuWm6AvcleBKeHcyWaNXK9gAud/fIaNFuLh0q9pHpYKlMRWxmQA2cXGRay2TycgKCW8z4pSCOzZbgYCjW7p4ihpo8/AtbN6OdxU15SYWPJ93zgP+yQnWnVUtnB5CgjDzJhKYe8oJOoczhbRW3t
+            
+            - type: heating
+              meter-id: DE999996391061WCMD4JDL09QEF4LPJWT 
+              obis: 006-001:099.001.000*255
+              userKey: 74TKJ5VnkwJUxuJ9TXv9/2aNRm92XhRvmHKSiEOaWGI0e6KnmrNQ460Re8XuQhvXubG0LxNWxtpTCtfp8OcTrU2gMbTWlbUo3erLGa5SGV2cYjI3Fb23GVO38fenbzFYvrwWoRLAiJu09zE3Eo9H078UGn/PCIdpEHFPBaIgDhwX5fSr9TaQHg0zBCODU/DOGQIhmJejbDyp7nq6zGqm/HtzlBKre9qOtOLyeS+6IInStcV3f9yFza8K2IBeapzj
+
+      - id: Building:OVGU:40
+        name: Gebäude 40 - HW, SPRZ
+        lat: 52.137578755238798
+        lon: 11.633029141925665
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE99999739106UBJKD2OQGVPK5JWNOD7J 
+              obis: 001-001:001.029.000*255
+              userKey: 0uwwByRcDPugVkIgMjRahGCnyemGnSYbKPcWbLFUlYwaApmZhnsisZ9Nlu7a+C8gg5DHVatZ4h13F1hOYZH0qPTGbjJPEuEz8aPakMbTjQF9cURQX5PgR0oCvnMCp9nD+jP8DC7EjVi/SfM3C+n0vKA2LZwC0+X2Fz65+apwsX0OfKe1wLTWgfFi4X5eLd9VDDjf5Uaj+frgJMEXeaNprgqtocEQ6YPr/Ag4vkxnzlrovCM/nQ7W3qWxxXPBUWai
+
+      - id: Building:OVGU:41
+        name: Gebäude 41 - SH1
+        lat: 52.13872055371134
+        lon: 11.632673023810558
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910400145053C2VNEOX55N12
+              obis: 001-001:001.029.000*255
+              userKey: 8YXsAm/N+VVSzrNznlsIZPmB40Yhwtc2e9nZphqrx94vv+y74SpceeM6d3UbLp7OmxKTKie8x1NGtNFio3vbJDeFY7J0hOek5u+aaa4b5bDsCJzBnXanH8tkqDDDAcGiYr0UGAmqYXfNM8r3FQrWRWDkVWtGdb/Sr6bdZ877ymORfZg51+lPJYKpVvsj3LmhD8rnyOpwNPEer0bALYBVfT9voPe1bOFuh03u1zV/eE8jdipvzg67irHYesbSQCda
+
+      - id: Building:OVGU:42
+        name: Gebäude 42 - SH2
+        lat: 52.138679236718154
+        lon: 11.633972792579792
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910400144053BY9NOET76HMD 
+              obis: 001-001:001.029.000*255
+              userKey: XXr7sQ5oOy9Fk05KmhDKPfUZH8GhZP6lgajNYSiVlSVWKYd/wYJJTJRKgMbSkMO3kQyO4FDkICtsVFrf9xI9w2UQus+1tj9Um35yMD1/s5tbB2d3WiojNu31A/UV15pWh/EUO4tttotjHn+iIRW94+p/J2v7zM1bzIkyKdqWN+2oGD1CdAigg7Td/fRClhC+xoFFEja1dznZKXdfXTtXYNknikS+Npb+7sR1A3TWWZCkgw/9T+M2JrGX9v2FTTG9
+
+      - id: Building:OVGU:44
+        name: Gebäude 44 - HS VI
+        lat: 52.13752313866184
+        lon: 11.633564194436731
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE9999973910400150053B5LEV8N60V5W 
+              obis: 001-001:001.029.000*255
+              userKey: mcTtgPE9D/sSFk8UzKRq08yt9IZsQ7YFQrVNzOouutue0MwRNaJOniX4LN/aJ/5Eukfj9PZ2vHimwtbeRBapX0uPbF2TOxwZds9bvNiWaj7HV9z9r4O0PxMPjzH4Reur7XNj4g9eZTMbCOd/Demw/lwZtEljQ91kPPp2zEiGO87SR261eEvbg5aJE/F1LI67Wcq2FDgs91QhC7EV4vEl1zSoiozDQWU5TqPo41Vy3YweYH+tsa16tWqIZkG5XH/M
+
+      - id: Building:OVGU:50
+        name: Gebäude 50 - MB, HS III
+        lat: 52.13595774653642
+        lon: 11.640560606489741
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE0070463910400114034OLWF629RB08O 
+              obis: 001-001:001.029.000*255
+              userKey: xvVwMyYRuGQ4cjbeRaW/pOkBda/4flD2iDEIMBlcAC8qXY8r0HhEsXrOrncoppOl7x0NwrBL6r9Dnt8rAkrFJzSQRTdBuOulCrWkzLmEuz0Xmd6biczOdb9zCwvVnEVpoF0xokQHzR5BCZ7w5GwvChIAz0WebBzhcutGVVwfJg6xNWjG3O/yaK6HwXfLa691t541AGU22M2M5Fzcm+6scbYIrxuqq78NLtvmRY3unfT7/uycHLJS5NfvJ91DwTeG
+
+      - id: Building:OVGU:82
+        name: Gebäude 82 - Speicher B STIMULATE
+        lat: 52.140569062694844
+        lon: 11.655337572052272
+        metadata:
+          resources:
+            - type: electricity
+              meter-id: DE0070463910601125083S2QS60ABMY70 
+              obis: 001-001:001.029.000*255
+              userKey: LC3VQ5vav6bbU1Yh46KcncdCw1AUsXrrUcEVuj1CG3Cel++a5c5zsB+BNM0jDGXZukrlIYA3xigT7nG8mP+MWfqOO0fuiTAY4fRgEeFJFz+TtVQvL3E03hNHtjFnGjsVUVVhCu1fr9llvf2UIpqCLGkfWjA4XED5+Y4KRAjDGmu95DDu/Lj9woX6FOonaDdh+p/+q577fl9wh66WLuDbxXaTrAsko8NQlhzFBm9hiJWDfamznROZIfELmwOfdYMW
+            
+            - type: heating
+              meter-id: DE99999639106NCC9NQ8QW5C3FRASXU7L 
+              obis: 006-001:099.001.000*255
+              userKey: iSgHiwAnaCuFkZd7DGk7tqJAiMBN4AU0YqH3dUreSaAa1ZTnNZp2Wk83Kzm47SXibWOeqwkZ3h3+R4aCm11RnS+xL/bRLpBSoDnp/5OXaxtdKHWMxja3b2OU0QtZ7I2qI8D4zehs/lV3Iwv/cuTKPFXLNdc/q1j1mlXCJXuGokImFoZeH876pm/XlP3BJJNppFQTvEHOZSYhytyTqQt6Q5LGDeYTF/QN4hEMOqS7FV+2CgWCBoVk9QV7SC8+KsLS
+
+      
+      
   - name: Static
     interval: 24h
     locations:
