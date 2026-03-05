@@ -50,6 +50,10 @@ http:
       loadBalancer:
         servers:
           - url: http://quantumleap:8668
+    hotco:
+      loadBalancer:
+        servers:
+          - url: http://hotco:5000
 
   routers:
     dashboard:
@@ -88,3 +92,6 @@ http:
       middlewares:
         - strip-quantumleap-prefix
         - add-v2-prefix
+    hotco:
+      rule: PathPrefix("/api/hotco")
+      service: hotco
