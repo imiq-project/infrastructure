@@ -149,6 +149,14 @@ services:
     pull_policy: build
     restart: always
 
+  graphhopper:
+    build: services/graphhopper
+    pull_policy: build
+    restart: always
+    # TODO: only for debugging and presentation purpose, should be removed
+    ports:
+      - 8080:8080
+
 volumes:
   mongo_data:
   mongo_config:

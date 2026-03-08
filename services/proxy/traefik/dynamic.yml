@@ -24,6 +24,10 @@ http:
       stripPrefix:
         prefixes:
           - "/api/dashbot"
+    strip-graphhopper-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api/graphhopper"
 
   services:
     dayplanner:
@@ -54,6 +58,10 @@ http:
       loadBalancer:
         servers:
           - url: http://hotco:5000
+    graphhopper:
+      loadBalancer:
+        servers:
+          - url: http://graphhopper:8080
 
   routers:
     dashboard:
@@ -95,3 +103,8 @@ http:
     hotco:
       rule: PathPrefix("/api/hotco")
       service: hotco
+    graphhopper:
+      rule: PathPrefix("/api/graphhopper")
+      service: graphhopper
+      middlewares:
+        - strip-graphhopper-prefix
