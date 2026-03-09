@@ -82,7 +82,7 @@ func (collector WaterLevelCollector) Fetch(loc config.Location) (map[string]any,
 		fieldName, known := mapping[entry.ShortName]
 		if known {
 			entity[fieldName] = map[string]any{
-				"type":  "Float",
+				"type":  "Number",
 				"value": entry.CurrentMeasurement.Value,
 			}
 		}

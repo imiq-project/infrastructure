@@ -87,34 +87,34 @@ func setupBresser() {
 		}
 
 		entity := make(map[string]any)
-		move(&params, "intem", entity, "temperature", "float")
-		move(&params, "inhum", entity, "humidity", "float")
+		move(&params, "intem", entity, "temperature", "Number")
+		move(&params, "inhum", entity, "humidity", "Number")
 		err = UpdateEntity(FIWARE_URL, BRESSER_BUILDING_ID, entity)
 		if err != nil {
 			log.Println("Failed to update weather data: ", err)
 		}
 
 		entity = make(map[string]any)
-		move(&params, "t1hum", entity, "humidity", "float")
-		move(&params, "t1tem", entity, "temperature", "float")
-		move(&params, "rbar", entity, "airPressure", "float")
-		move(&params, "abar", entity, "airPressureAbsolute", "float")
-		move(&params, "t1wdir", entity, "windDirection", "float")
-		move(&params, "t1ws", entity, "windSpeed", "float")
-		move(&params, "t1uvi", entity, "uvIndex", "float")
-		move(&params, "t1rainra", entity, "rain", "float")
-		move(&params, "t1solrad", entity, "lightIntensity", "float")
-		move(&params, "t1chill", entity, "windChillTemperature", "float")
-		move(&params, "t1heat", entity, "heatIndexTemperature", "float")
-		move(&params, "t1feels", entity, "feelsLikeTemperature", "float")
-		move(&params, "t1dew", entity, "dewPointTemperature", "float")
-		move(&params, "t1rainhr", entity, "rainHourly", "float")
-		move(&params, "t1raindy", entity, "rainDaily", "float")
-		move(&params, "t1rainwy", entity, "rainWeekly", "float")
-		move(&params, "t1rainmth", entity, "rainMonthly", "float")
-		move(&params, "t1rainyr", entity, "rainYearly", "float")
-		move(&params, "t1ws10mav", entity, "windSpeed10Min", "float")
-		move(&params, "t1wgust", entity, "windGust", "float")
+		move(&params, "t1hum", entity, "humidity", "Number")
+		move(&params, "t1tem", entity, "temperature", "Number")
+		move(&params, "rbar", entity, "airPressure", "Number")
+		move(&params, "abar", entity, "airPressureAbsolute", "Number")
+		move(&params, "t1wdir", entity, "windDirection", "Number")
+		move(&params, "t1ws", entity, "windSpeed", "Number")
+		move(&params, "t1uvi", entity, "uvIndex", "Number")
+		move(&params, "t1rainra", entity, "rain", "Number")
+		move(&params, "t1solrad", entity, "lightIntensity", "Number")
+		move(&params, "t1chill", entity, "windChillTemperature", "Number")
+		move(&params, "t1heat", entity, "heatIndexTemperature", "Number")
+		move(&params, "t1feels", entity, "feelsLikeTemperature", "Number")
+		move(&params, "t1dew", entity, "dewPointTemperature", "Number")
+		move(&params, "t1rainhr", entity, "rainHourly", "Number")
+		move(&params, "t1raindy", entity, "rainDaily", "Number")
+		move(&params, "t1rainwy", entity, "rainWeekly", "Number")
+		move(&params, "t1rainmth", entity, "rainMonthly", "Number")
+		move(&params, "t1rainyr", entity, "rainYearly", "Number")
+		move(&params, "t1ws10mav", entity, "windSpeed10Min", "Number")
+		move(&params, "t1wgust", entity, "windGust", "Number")
 		move(&params, "datetime", entity, "datetime", "string")
 		entity["additionalData"] = map[string]any{
 			"type":  "any",
@@ -136,11 +136,11 @@ func setupSenseCap() {
 	entity := map[string]any{
 		"type": "Weather",
 		"humidity": map[string]any{
-			"type":  "float",
+			"type":  "Number",
 			"value": 0,
 		},
 		"temperature": map[string]any{
-			"type":  "float",
+			"type":  "Number",
 			"value": 0,
 		},
 		"location": map[string]any{
@@ -176,7 +176,7 @@ func setupSenseCap() {
 		dataMapped := make(map[string]any)
 		for key, value := range data {
 			dataMapped[key] = map[string]any{
-				"type":  "float",
+				"type":  "Number",
 				"value": value,
 			}
 		}
