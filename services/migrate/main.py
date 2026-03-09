@@ -49,7 +49,21 @@ def main():
     conf = {
         "AirQuality": ["no2", "o3", "pm10", "pm25"],
         "Parking": ["freeSpaces"],
-        "Weather": ["temperature", "humidity"],
+        "Weather": [
+            "airPressure",
+            "airPressureAbsolute",
+            "dewPointTemperature",
+            "feelsLikeTemperature"
+            "heatIndexTemperature",
+            "humidity",
+            "lightIntensity",
+            "rain",
+            "temperature",
+            "uvIndex",
+            "windChillTemperature",
+            "windDirection",
+            "windSpeed",
+        ],
         "WaterLevel": ["level", "volume"],
     }
 
