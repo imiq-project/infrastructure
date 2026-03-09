@@ -1246,9 +1246,6 @@ collectors:
               meter-id: DE99999639106NCC9NQ8QW5C3FRASXU7L 
               obis: 006-001:099.001.000*255
               userKey: iSgHiwAnaCuFkZd7DGk7tqJAiMBN4AU0YqH3dUreSaAa1ZTnNZp2Wk83Kzm47SXibWOeqwkZ3h3+R4aCm11RnS+xL/bRLpBSoDnp/5OXaxtdKHWMxja3b2OU0QtZ7I2qI8D4zehs/lV3Iwv/cuTKPFXLNdc/q1j1mlXCJXuGokImFoZeH876pm/XlP3BJJNppFQTvEHOZSYhytyTqQt6Q5LGDeYTF/QN4hEMOqS7FV+2CgWCBoVk9QV7SC8+KsLS
-
-      
-      
   - name: Static
     interval: 24h
     locations:
@@ -1280,3 +1277,18 @@ collectors:
         logo:
           value: https://www.transport.ovgu.de/transport_media/Sonstiges/transPORT-height-309-width-846.gif
           type: url
+  - name: WaterLevel
+    interval: 60m
+    locations:
+    - id: WaterLevel:Buckau
+      name: Magdeburg-Buckau
+      uuid: b8567c1e-8610-4c2b-a240-65e8a74919fa
+    - id: WaterLevel:Strombruecke
+      name: Magdeburg-Strombrücke
+      uuid: ccccb57f-a2f9-4183-ae88-5710d3afaefd
+      # - id: WaterLevel:Rothensee
+      #   name: Rothensee
+      #   uuid: e30f2e83-b80b-4b96-8f39-fa60317afcc7
+      # - id: WaterLevel:Schoenebeck
+      #   name: Schönebeck
+      #   uuid: 90bcb315-f080-41a8-a0ac-6122331bb4cf

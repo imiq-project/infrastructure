@@ -50,6 +50,7 @@ def main():
         "AirQuality": ["no2", "o3", "pm10", "pm25"],
         "Parking": ["freeSpaces"],
         "Weather": ["temperature", "humidity"],
+        "WaterLevel": ["level", "volume"],
     }
 
     for entity_type, attrs in conf.items():
