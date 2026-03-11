@@ -33,18 +33,52 @@ collectors:
   - name: Parking
     interval: 30m
     locations:
-      - id: ParkingSpot:ScienceHarbor
-        name: Parking A - Science Harbor
-        lat: 52.1412
-        lon: 11.6558
-      - id: ParkingSpot:FacultyCS
-        name: Parking B - Faculty CS
-        lat: 52.13878
-        lon: 11.64533
-      - id: ParkingSpot:NorthPark
-        name: Parking C - North Park
-        lat: 52.1431
-        lon: 11.6457
+      - id: ParkingSpot:Universitätsplatz
+        name: Tiefgarage Universitätsplatz
+        lat: 52.13760058
+        lon: 11.63739437
+        total_spots: 120
+      - id: ParkingSpot:Allee-Center
+        name: Tiefgarage Allee Center
+        lat: 52.12907238
+        lon: 11.64037268
+        total_spots: 1300
+      - id: ParkingSpot:Hotel-Ratswaage
+        name: Parkhaus Hotel Ratswaage
+        lat: 52.13324936
+        lon: 11.6389774
+        total_spots: 75
+      - id: ParkingSpot:City-Carré
+        name: Tiefgarage City Carré
+        lat: 52.13144705
+        lon: 11.63000252
+        total_spots: 1200
+      - id: ParkingSpot:Hotel-Maritim
+        name: Tiefgarage Hotel Maritim
+        lat: 52.12951854
+        lon: 11.63120194
+        total_spots: 440
+      - id: ParkingSpot:Ulrichshaus
+        name: Tiefgarage Ulrichshaus
+        lat: 52.13108169
+        lon: 11.6351059
+        total_spots: 360
+      - id: ParkingSpot:Domviertel
+        name: Tiefgarage Domviertel
+        lat: 52.12370069
+        lon: 11.63212077
+        total_spots: 75
+      - id: ParkingSpot:Friedensplatz
+        name: Tiefgarage Friedensplatz
+        lat: 52.12364887
+        lon: 11.63010048
+        total_spots: 90
+      - id: ParkingSpot:Elbauenpark-Messeparkplatz
+        name: Elbauenpark - Messeparkplatz
+        lat: 52.13363798
+        lon: 11.66906079
+        total_spots: 1400
+
   - name: Traffic
     interval: 60m
     locations:
