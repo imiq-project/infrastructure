@@ -65,6 +65,13 @@ def main():
             "windSpeed",
         ],
         "WaterLevel": ["level", "volume"],
+        "Building": [
+            "cold-water",
+            "electricity",
+            "heating",
+            "humidity",
+            "temperature",
+        ]
     }
 
     for entity_type, attrs in conf.items():
