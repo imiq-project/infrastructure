@@ -1,7 +1,6 @@
 package collectors
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
@@ -52,14 +51,14 @@ func TestExtractParkingSpots_Mock(t *testing.T) {
 	var results map[string]ParkingInfo
 	doc.Find("table").Each(func(i int, s *goquery.Selection) {
 		if strings.Contains(s.Text(), "Parkanlage") {
-			results = exteactParkingSpotsFromTable(s)
+			results = extractParkingSpotsFromTable(s)
 		}
 	})
 
 	// 4. VERIFY RESULTS (Overview)
-	fmt.Println("--- MOCK SCRAPER OVERVIEW ---")
+	t.Log("--- MOCK SCRAPER OVERVIEW ---")
 	for name, info := range results {
-		fmt.Printf("Parsed: %-15s | Spaces: %d\n", name, info.AvailableSpaces)
+		t.Logf("Parsed: %-15s | Spaces: %d\n", name, info.AvailableSpaces)
 	}
 
 	// 5. ASSERTIONS (Edge Cases)

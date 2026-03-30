@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"imiq/collector/internal/config"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -32,7 +33,7 @@ func (collector ParkingCollector) Fetch(loc config.Location) (map[string]any, er
 	targetName := loc.Name
 	if metadataName, ok := loc.Metadata["parking-name"].(string); ok {
 		targetName = metadataName
-	} //targreet name is not changing it should be same as in metadata's parking-name therefore
+	}
 
 	targetName = strings.TrimSpace(targetName)
 
@@ -90,7 +91,7 @@ func (collector ParkingCollector) Fetch(loc config.Location) (map[string]any, er
 			"value": "Online",
 		}
 	} else {
-		fmt.Printf("Parking info for '%s' (Normalized: '%s') not found in data\n", targetName, normTarget)
+		log.Printf("Parking info for '%s' (Normalized: '%s') not found in data\n", targetName, normTarget)
 		response["available_spots"] = map[string]any{
 			"type":  "Number",
 			"value": 0,
@@ -115,7 +116,7 @@ func scrapeFreeSpaces() (map[string]ParkingInfo, error) {
 	c.OnHTML("table", func(e *colly.HTMLElement) {
 		if strings.Contains(e.Text, "Parkanlage") && strings.Contains(e.Text, "Freie Plätze") {
 			if results == nil {
-				results = exteactParkingSpotsFromTable(e.DOM)
+				results = extractParkingSpotsFromTable(e.DOM)
 			}
 		}
 	})
@@ -126,20 +127,14 @@ func scrapeFreeSpaces() (map[string]ParkingInfo, error) {
 	if results == nil {
 		results = make(map[string]ParkingInfo)
 	}
-	// Debug output to verify results
-	fmt.Printf("--- PARKING SCRAPER RESULTS ---\n")
-	for k, v := range results {
-		fmt.Printf("Scraped: '%s' | Spaces: %d\n", k, v.AvailableSpaces)
-	}
-	fmt.Printf("-------------------------------\n")
 	return results, nil
 }
 
-func exteactParkingSpotsFromTable(table *goquery.Selection) map[string]ParkingInfo {
+func extractParkingSpotsFromTable(table *goquery.Selection) map[string]ParkingInfo {
 	results := make(map[string]ParkingInfo)
 	table.Find("tr").Each(func(i int, row *goquery.Selection) {
 		nameNode := row.Find("a")
-		//fmt.Printf(strconv.Itoa(nameNode.Length()))
+
 		if nameNode.Length() == 0 {
 			return
 		}
@@ -156,7 +151,6 @@ func exteactParkingSpotsFromTable(table *goquery.Selection) map[string]ParkingIn
 		if strings.Contains(strings.ToLower(freestr), "offline") {
 			return
 		}
-		fmt.Printf("%s\n", freestr)
 		freeSpace, err := strconv.Atoi(freestr)
 		if err == nil {
 			results[name] = ParkingInfo{AvailableSpaces: freeSpace}
