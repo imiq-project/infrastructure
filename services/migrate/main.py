@@ -48,7 +48,7 @@ def main():
 
     conf = {
         "AirQuality": ["no2", "o3", "pm10", "pm25"],
-        "Parking": ["freeSpaces"],
+        "Parking": ["freeSpots"],
         "Weather": [
             "airPressure",
             "airPressureAbsolute",

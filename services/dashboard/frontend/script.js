@@ -483,7 +483,7 @@ function getConfigFor(type) {
       description: "🅿️ Parking",
       updateMinutes: 30,
       createMarker: createDefaultMarker,
-      getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpaces.value} of ${data.totalSpaces.value} spaces free<br>${graphButton(data)}`,
+      getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpots.value} of ${data.totalSpots.value} spaces free<br>${graphButton(data)}`,
     },
     "Restaurant": {
       description: "🍽️ Restaurant",

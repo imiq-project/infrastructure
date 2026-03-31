@@ -37,82 +37,73 @@ collectors:
         name: Tiefgarage Universitätsplatz
         lat: 52.13760058
         lon: 11.63739437
-        metadata:
-          link: http://www.movi.de/parkinfo/nord/park_nord_uniplatz.shtml
-          parking-name: Universitätsplatz
-          total_spots: 120
+        link: http://www.movi.de/parkinfo/nord/park_nord_uniplatz.shtml
+        parking-name: Universitätsplatz
+        total_spots: 120
 
       - id: ParkingSpot:Allee-Center
         name: Tiefgarage Allee Center
         lat: 52.12907238
         lon: 11.64037268
-        metadata:
-          link: http://www.movi.de/parkinfo/mitte/park_mitte_alleecenter.shtml
-          parking-name: Allee Center
-          total_spots: 1300
+        link: http://www.movi.de/parkinfo/mitte/park_mitte_alleecenter.shtml
+        parking-name: Allee Center
+        total_spots: 1300
 
       - id: ParkingSpot:Hotel-Ratswaage
         name: Parkhaus Hotel Ratswaage
         lat: 52.13324936
         lon: 11.6389774
-        metadata:
-          link: http://www.movi.de/parkinfo/mitte/park_mitte_ratswaage.shtml
-          parking-name: Hotel Ratswaage
-          total_spots: 75
+        link: http://www.movi.de/parkinfo/mitte/park_mitte_ratswaage.shtml
+        parking-name: Hotel Ratswaage
+        total_spots: 75
 
       - id: ParkingSpot:City-Carre
         name: Tiefgarage City Carré
         lat: 52.13144705
         lon: 11.63000252
-        metadata:
-          link: http://www.movi.de/parkinfo/hbf/park_hbf_citycarre.shtml
-          parking-name: City Carré
-          total_spots: 1200
+        link: http://www.movi.de/parkinfo/hbf/park_hbf_citycarre.shtml
+        parking-name: City Carré
+        total_spots: 1200
 
       - id: ParkingSpot:Hotel-Maritim
         name: Tiefgarage Hotel Maritim
         lat: 52.12951854
         lon: 11.63120194
-        metadata:
-          link: http://www.movi.de/parkinfo/hbf/park_hbf_maritim.shtml
-          parking-name: Hotel Maritim
-          total_spots: 440
+        link: http://www.movi.de/parkinfo/hbf/park_hbf_maritim.shtml
+        parking-name: Hotel Maritim
+        total_spots: 440
 
       - id: ParkingSpot:Ulrichshaus
         name: Tiefgarage Ulrichshaus
         lat: 52.13108169
         lon: 11.6351059
-        metadata:
-          link: http://www.movi.de/parkinfo/hbf/park_hbf_ulrichshaus.shtml
-          parking-name: Ulrichshaus
-          total_spots: 360
+        link: http://www.movi.de/parkinfo/hbf/park_hbf_ulrichshaus.shtml
+        parking-name: Ulrichshaus
+        total_spots: 360
 
       - id: ParkingSpot:Domviertel
         name: Tiefgarage Domviertel
         lat: 52.12370069
         lon: 11.63212077
-        metadata:
-          link: http://www.movi.de/parkinfo/hassel/park_hassel_domviertel.shtml
-          parking-name: Domviertel
-          total_spots: 75
+        link: http://www.movi.de/parkinfo/hassel/park_hassel_domviertel.shtml
+        parking-name: Domviertel
+        total_spots: 75
 
       - id: ParkingSpot:Friedensplatz
         name: Tiefgarage Friedensplatz
         lat: 52.12364887
         lon: 11.63010048
-        metadata:
-          link: http://www.movi.de/parkinfo/hassel/park_hassel_frieden.shtml
-          parking-name: Friedensplatz
-          total_spots: 90
+        link: http://www.movi.de/parkinfo/hassel/park_hassel_frieden.shtml
+        parking-name: Friedensplatz
+        total_spots: 90
 
       - id: ParkingSpot:Elbauenpark-Messeparkplatz
         name: Elbauenpark - Messeparkplatz
         lat: 52.13363798
         lon: 11.66906079
-        metadata:
-          link: http://www.movi.de/parkinfo/pur/park_pur_messeparkplatz.shtml
-          parking-name: Elbauenpark
-          total_spots: 1400
+        link: http://www.movi.de/parkinfo/pur/park_pur_messeparkplatz.shtml
+        parking-name: Elbauenpark
+        total_spots: 1400
 
   - name: Traffic
     interval: 60m

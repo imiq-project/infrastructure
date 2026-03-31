@@ -63,7 +63,7 @@ func (collector ParkingCollector) Fetch(loc config.Location) (map[string]any, er
 	}
 
 	response := map[string]any{
-		"type": "Building",
+		"type": "Parking",
 		"location": map[string]any{
 			"type":  "geo:point",
 			"value": fmt.Sprintf("%f, %f", loc.Coord.Lat, loc.Coord.Lon),
@@ -75,14 +75,14 @@ func (collector ParkingCollector) Fetch(loc config.Location) (map[string]any, er
 	}
 
 	if totalSpace, ok := loc.Metadata["total_spots"].(int); ok {
-		response["total_spots"] = map[string]any{
+		response["totalSpots"] = map[string]any{
 			"type":  "Number",
 			"value": totalSpace,
 		}
 	}
 
 	if exists {
-		response["available_spots"] = map[string]any{
+		response["freeSpots"] = map[string]any{
 			"type":  "Number",
 			"value": foundInfo.AvailableSpaces,
 		}
@@ -92,7 +92,7 @@ func (collector ParkingCollector) Fetch(loc config.Location) (map[string]any, er
 		}
 	} else {
 		log.Printf("Parking info for '%s' (Normalized: '%s') not found in data\n", targetName, normTarget)
-		response["available_spots"] = map[string]any{
+		response["freeSpots"] = map[string]any{
 			"type":  "Number",
 			"value": 0,
 		}
