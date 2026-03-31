@@ -42,16 +42,17 @@ const satellite = L.layerGroup([esriImagery, esriLabels]);
 const map = L.map('map', {
   center: [52.140, 11.644],
   zoom: 16.5,
-  layers: [satellite],
+  layers: [cartoLight],
   fullscreenControl: true,
 });
 
 L.control.layers({
+  "📄 Light": cartoLight,
+  "🌙 Dark": cartoDark, 
   "🛰️ Satellite": satellite,
   "🗺️ OpenStreetMap": osmRoad,
   "🏔️ Topographic": openTopo,
-  "📄 Light": cartoLight,
-  "🌙 Dark": cartoDark}, {}, { position: 'topleft', collapsed: true }).addTo(map);
+  }, {}, { position: 'topleft', collapsed: true }).addTo(map);
 
 // --------------------------------------
 // 2D/3D toggle buttons 

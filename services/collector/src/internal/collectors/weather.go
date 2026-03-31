@@ -127,11 +127,11 @@ func (collector OpenWeatherMapCollector) Fetch(loc config.Location) (map[string]
 		"type": "Weather",
 		"temperature": map[string]any{
 			"value": weather.Main.Temp,
-			"type":  "Float",
+			"type":  "Number",
 		},
 		"humidity": map[string]any{
 			"value": weather.Main.Humidity,
-			"type":  "Float",
+			"type":  "Number",
 		},
 		"location": map[string]any{
 			"type":  "geo:point",

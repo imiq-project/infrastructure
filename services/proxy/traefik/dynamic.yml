@@ -1,17 +1,5 @@
 http:
   middlewares:
-    strip-dayplanner-prefix:
-      stripPrefix:
-        prefixes:
-          - "/api/dayplanner"
-    strip-orion-prefix:
-      stripPrefix:
-        prefixes:
-          - "/api/orion"
-    strip-quantumleap-prefix:
-      stripPrefix:
-        prefixes:
-          - "/api/quantumleap"
     add-v2-prefix:
       addPrefix:
         prefix: "/v2"
@@ -20,10 +8,14 @@ http:
         traefik-api-key-auth:
           keys:
             - $API_KEY
-    strip-dashbot-prefix:
+    strip-api-prefix:
       stripPrefix:
         prefixes:
+          - "/api/dayplanner"
+          - "/api/orion"
+          - "/api/quantumleap"
           - "/api/dashbot"
+          - "/api/graphhopper"
 
   services:
     dayplanner:
@@ -54,6 +46,10 @@ http:
       loadBalancer:
         servers:
           - url: http://hotco:5000
+    graphhopper:
+      loadBalancer:
+        servers:
+          - url: http://graphhopper:8080
 
   routers:
     dashboard:
@@ -63,25 +59,25 @@ http:
       rule: PathPrefix("/api/dayplanner")
       service: dayplanner
       middlewares:
-        - strip-dayplanner-prefix
+        - strip-api-prefix
     dashbot:
       rule: PathPrefix("/api/dashbot")
       service: dashbot
       middlewares:
-        - strip-dashbot-prefix
+        - strip-api-prefix
     orion-get:
       rule: PathPrefix("/api/orion") && Method("GET")
       service: orion
       middlewares:
         # Do not check api key for get requests
-        - strip-orion-prefix
+        - strip-api-prefix
         - add-v2-prefix
     orion:
       rule: PathPrefix("/api/orion")
       service: orion
       middlewares:
         - check-api-key
-        - strip-orion-prefix
+        - strip-api-prefix
         - add-v2-prefix
     sensors:
       rule: PathPrefix("/data/upload.php") || PathPrefix("$THE_THINGS_NET_WEBHOOK_URL")
@@ -90,8 +86,13 @@ http:
       rule: PathPrefix("/api/quantumleap")
       service: quantumleap
       middlewares:
-        - strip-quantumleap-prefix
+        - strip-api-prefix
         - add-v2-prefix
     hotco:
       rule: PathPrefix("/api/hotco")
       service: hotco
+    graphhopper:
+      rule: PathPrefix("/api/graphhopper")
+      service: graphhopper
+      middlewares:
+        - strip-api-prefix
