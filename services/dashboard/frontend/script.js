@@ -43,8 +43,11 @@ const map = L.map('map', {
   center: [52.140, 11.644],
   zoom: 16.5,
   layers: [cartoLight],
-  fullscreenControl: true,
+  zoomControl: false,
 });
+
+L.control.zoom({ position: 'topright' }).addTo(map);
+L.control.fullscreen({position: 'topright'}).addTo(map);
 
 L.control.layers({
   "📄 Light": cartoLight,
@@ -52,7 +55,7 @@ L.control.layers({
   "🛰️ Satellite": satellite,
   "🗺️ OpenStreetMap": osmRoad,
   "🏔️ Topographic": openTopo,
-  }, {}, { position: 'topleft', collapsed: true }).addTo(map);
+  }, {}, { position: 'topright', collapsed: true }).addTo(map);
 
 // --------------------------------------
 // 2D/3D toggle buttons 
@@ -441,17 +444,12 @@ function popupFromAttributes(entity, config) {
   return `${orionUrl(entity)}<br>${lines.join("<br>")}<br>${graphButton(entity)}`
 }
 
-function createDefaultMarker(entity) {
-  const marker = L.marker(getEntityLocation(entity))
-  return marker
-}
-
 function createIconMarker(entity, icon) {
   const divIcon = L.divIcon({
     html: icon,
     className: 'marker-icon',
     iconSize: [64, 64],
-    iconAnchor: [32, 32]
+    iconAnchor: [32, 0],
   })
   const marker = L.marker(getEntityLocation(entity), {icon: divIcon})
   return marker;
@@ -542,6 +540,12 @@ function getConfigFor(type) {
       updateMinutes: 'never',
       createMarker: (entity) => createIconMarker(entity, '🧠'),
       getPopupContent: getDigitalTwinPopup,
+    },
+    "WaterLevel": {
+      description: "🌊 Water Level",
+      updateMinutes: 60,
+      createMarker: (entity) => createIconMarker(entity, '🌊'),
+      getPopupContent: popupFromAttributes,
     }
   }
 
@@ -567,7 +571,7 @@ function clearAllMarkers(type, typeConfig) {
   }
   timersByType.delete(type)
 
-  const markers = markersByType.get(type)
+  const markers = markersByType.get(type) || []
   markers.forEach(marker => {
     map.removeLayer(marker)
   });
@@ -645,7 +649,7 @@ async function init() {
     const typeConfig = getConfigFor(type.type)
     const div = document.createElement("div")
     const input = document.createElement("input")
-    input.checked = true
+    input.checked = typeConfig.updateMinutes != "never"
     input.type = "checkbox"
     div.appendChild(input)
     const label = document.createElement("label")
@@ -653,7 +657,7 @@ async function init() {
     div.appendChild(label)
     sensorTypesContainer.appendChild(div)
     input.onchange = async event => await onSensorSelected(type.type, event.target.checked, null)
-    await onSensorSelected(type.type, true, id)
+    await onSensorSelected(type.type, input.checked, id)
   })
 }
 init().catch(console.log)
