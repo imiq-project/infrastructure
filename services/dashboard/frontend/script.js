@@ -41,7 +41,7 @@ const satellite = L.layerGroup([esriImagery, esriLabels]);
 
 const map = L.map('map', {
   center: [52.140, 11.644],
-  zoom: 16.5,
+  zoom: 14,
   layers: [cartoLight],
   zoomControl: false,
 });
@@ -392,7 +392,7 @@ async function showGraph(entityId) {
       return
     }
     const data = await response.json()
-    const datasets = data.attributes.map( e => { return {label: e.attrName, data: e.values} })
+    const datasets = data.attributes.map( (e, idx) => { return {label: e.attrName, data: e.values, hidden: idx !== 0} })
     currentChart = new Chart(chartCanvas, {
       type: 'line',
       data: {
@@ -410,6 +410,20 @@ async function showGraph(entityId) {
           },
           y: {
             beginAtZero: false
+          },
+        },
+        plugins: {
+          // only show one dataset per time
+          legend: {
+            onClick: function (e, legendItem, legend) {
+              const chart = legend.chart;
+              const clickedIndex = legendItem.datasetIndex;
+              chart.data.datasets.forEach((dataset, i) => {
+                const meta = chart.getDatasetMeta(i);
+                meta.hidden = (i !== clickedIndex)
+              })
+              chart.update()
+            }
           }
         }
       }
