@@ -17,11 +17,6 @@ body,
   padding: 0;
 }
 
-select {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-}
-
 .dropdown {
   position: absolute;
   top: 10px;
@@ -35,7 +30,7 @@ select {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
-.vehicle-icon {
+.marker-icon {
   background: transparent !important;
   border: none !important;
   text-align: center;

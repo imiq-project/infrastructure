@@ -248,7 +248,7 @@ function formatAirQualityAttr(value, description, thresholds) {
 // --------------------------------------
 const createIcon = (html) => L.divIcon({
     html: html,
-    className: 'vehicle-icon',
+    className: 'marker-icon',
     iconSize: [64, 64],
     iconAnchor: [32, 32]
   })
@@ -446,12 +446,23 @@ function createDefaultMarker(entity) {
   return marker
 }
 
+function createIconMarker(entity, icon) {
+  const divIcon = L.divIcon({
+    html: icon,
+    className: 'marker-icon',
+    iconSize: [64, 64],
+    iconAnchor: [32, 32]
+  })
+  const marker = L.marker(getEntityLocation(entity), {icon: divIcon})
+  return marker;
+}
+
 function getConfigFor(type) {
   const config = {
     "AirQuality": {
       description: "🌬️ Air Quality",
       updateMinutes: 10,
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🌬️'),
       getPopupContent: entity => popupFromAttributes(entity, {
         attrs: {
           "pm10": value => formatAirQualityAttr(value, "Feinstaub (10µm)", [20, 35, 50, 100]),
@@ -461,40 +472,46 @@ function getConfigFor(type) {
         }
       })
     },
+    "Building":  {
+      description: "🏠 Building",
+      updateMinutes: 'never',
+      createMarker: (entity) => createIconMarker(entity, '🏠'),
+      getPopupContent: createPoiPopup,
+    },
     "Cafe": {
       description: "☕Cafe",
       updateMinutes: 'never',
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '☕'),
       getPopupContent: createPoiPopup,
     },
     "Kiosk": {
       description: "🗞️ Kiosk",
       updateMinutes: 'never',
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🗞️'),
       getPopupContent: createPoiPopup,
     },
     "Mensa": {
       description: "🍲Mensa",
       updateMinutes: 60,
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🍲'),
       getPopupContent: createPoiPopup,
     },
     "Parking": {
       description: "🅿️ Parking",
       updateMinutes: 30,
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🅿️'),
       getPopupContent: data => `${orionUrl(data)}<br>🚗 ${data.freeSpots.value} of ${data.totalSpots.value} spaces free<br>${graphButton(data)}`,
     },
     "Restaurant": {
       description: "🍽️ Restaurant",
       updateMinutes: 'never',
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🍽️'),
       getPopupContent: createPoiPopup,
     },
     "Supermarket": {
       description: "🛒Supermarket",
       updateMinutes: 'never',
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🛒'),
       getPopupContent: createPoiPopup,
     },
     "Traffic": {
@@ -512,7 +529,7 @@ function getConfigFor(type) {
     "Weather": {
       description: "🌡️ Weather",
       updateMinutes: 10,
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🌡️'),
       getPopupContent: entity => popupFromAttributes(entity, {
         attrs: {
           "humidity": value => `💧 ${value} %`,
@@ -523,7 +540,7 @@ function getConfigFor(type) {
     "DigitalTwin": {
       description: "🧠 Digital Twin",
       updateMinutes: 'never',
-      createMarker: createDefaultMarker,
+      createMarker: (entity) => createIconMarker(entity, '🧠'),
       getPopupContent: getDigitalTwinPopup,
     }
   }
@@ -531,7 +548,7 @@ function getConfigFor(type) {
   return config[type] || {
      description: `📍 ${type}`,
      updateMinutes: 1,
-     createMarker: createDefaultMarker,
+     createMarker: (entity) => createIconMarker(entity, '📍'),
      getPopupContent: popupFromAttributes,
   }
 }
@@ -540,30 +557,26 @@ function getConfigFor(type) {
 // Marker handling
 // --------------------------------------
 
-const markersById = new Map()
+const markersByType = new Map()
+const timersByType = new Map()
 
-function clearAllMarkers() {
-  markersById.forEach(marker => {
+function clearAllMarkers(type, typeConfig) {
+  const timerId = timersByType.get(type)
+  if (timerId) {
+    clearTimeout(timerId)
+  }
+  timersByType.delete(type)
+
+  const markers = markersByType.get(type)
+  markers.forEach(marker => {
     map.removeLayer(marker)
   });
-  markersById.clear();
+  markersByType.delete(type)
 }
 
-function updateAllPopups(data, typeConfig) {
-  if (typeConfig.getPopupContent == null) {
-    return
-  }
-  data.forEach( spot => {
-      const marker = markersById.get(spot.id)
-      const content = typeConfig.getPopupContent(spot)
-      marker.setPopupContent(content)
-    }
-  )
-}
-
-function updateAllMarkers(data, typeConfig, fitMap) {
-  clearAllMarkers();
+async function addAllMarkers(type, typeConfig, data, fitMap, targetId) {
   const bounds = L.latLngBounds();
+  const markers = []
   data.forEach(spot => {
     const marker = typeConfig.createMarker(spot)
     marker.addTo(map);
@@ -572,73 +585,76 @@ function updateAllMarkers(data, typeConfig, fitMap) {
       const content = typeConfig.getPopupContent(spot)
       marker.bindPopup(content)
     }
-    markersById.set(spot.id, marker);
+    if (spot.id == targetId) {
+      marker.openPopup()
+    }
+    markers.push(marker)
     marker.on('popupopen', () => {
       const url = new URL(window.location.href);
       url.searchParams.set('id', spot.id);
       window.history.pushState({}, '', url);
     })
   })
+  markersByType.set(type, markers)
   if (fitMap) {
     map.fitBounds(bounds);
+  }
+
+  let interval = null
+  if (typeConfig.updateMinutes == 'never') {
+    // no new timer
+  } else if (typeConfig.updateMinutes == 'moving') {
+    interval = 1_000
+  } else {
+    interval = typeConfig.updateMinutes * 60_000
+  }
+  if (interval) {
+    const timerId = setInterval(async () => {
+      data = await getAllSensorsByType(type)
+      clearAllMarkers(type, typeConfig)
+      addAllMarkers(type, typeConfig, data, false, null)
+    }, interval)
+    timersByType.set(type, timerId)
   }
 }
 
 // --------------------------------------
 // UI dropdown handler
 // --------------------------------------
-let currentEntityType = ""
-let timerId = 0
-async function onSensorTypeChanged(selected, targetId) {
-  currentEntityType = selected;
-  const typeConfig = getConfigFor(currentEntityType)
-  data = await getAllSensorsByType(currentEntityType)
-  updateAllMarkers(data, typeConfig, true)
-  if(targetId == null) {
-    targetId = data[0].id
+async function onSensorSelected(type, selected, targetId) {
+  const typeConfig = getConfigFor(type)
+  if (selected) {
+    const data = await getAllSensorsByType(type)
+    addAllMarkers(type, typeConfig, data, false, targetId)
+  } else {
+    clearAllMarkers(type, typeConfig)
   }
-  markersById.get(targetId).openPopup()
-  if (timerId) {
-    clearTimeout(timerId)
-  }
-
-  async function update() {
-    if (typeConfig.updateMinutes == 'never') {
-      // no new timer
-    } else if (typeConfig.updateMinutes == 'moving') {
-      data = await getAllSensorsByType(currentEntityType)
-      updateAllMarkers(data, typeConfig, false)
-      timerId = setTimeout(update, 1_000)
-    } else {
-      data = await getAllSensorsByType(currentEntityType)
-      updateAllPopups(data, typeConfig)
-      timerId = setTimeout(update, typeConfig.updateMinutes * 60_000)
-    }
-  }
-  await update()
 }
 
 // --------------------------------------
 // Initialization
 // --------------------------------------
 
-const sensorTypeSelect = document.getElementById("sensorType");
-sensorTypeSelect.addEventListener("change", (e) => onSensorTypeChanged(e.target.value, null));
 
 async function init() {
-  types = await fetchAllTypes()
-  types.forEach(type => {
-    const typeConfig = getConfigFor(type.type)
-    sensorTypeSelect.insertAdjacentHTML("beforeend", `<option value="${type.type}">${typeConfig.description} (${type.count})</option>`)
-  })
   const id = new URLSearchParams(window.location.search).get('id');
-  if(id != null) {
-    const entity = await getEntityById(id)
-    if(entity != null) {
-      sensorTypeSelect.value = entity.type
-      onSensorTypeChanged(entity.type, id)
-    }
-  }
+  types = await fetchAllTypes()
+
+  const sensorTypesContainer = document.getElementById("sensorTypes");
+  types.forEach(async type => {
+    const typeConfig = getConfigFor(type.type)
+    const div = document.createElement("div")
+    const input = document.createElement("input")
+    input.checked = true
+    input.type = "checkbox"
+    div.appendChild(input)
+    const label = document.createElement("label")
+    label.innerText = typeConfig.description
+    div.appendChild(label)
+    sensorTypesContainer.appendChild(div)
+    input.onchange = async event => await onSensorSelected(type.type, event.target.checked, null)
+    await onSensorSelected(type.type, true, id)
+  })
 }
 init().catch(console.log)
 
