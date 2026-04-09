@@ -125,3 +125,20 @@ dialog::backdrop {
   background-color: var(--color-primary) !important;
   color: var(--color-neutral) !important;
 }
+
+.moving-bus-icon {
+  background: none !important;
+  border: none !important;
+  font-size: 24px;
+  transition: none !important;
+  will-change: transform;
+  transform-origin: center;
+  backface-visibility: hidden;
+  z-index: 1000;
+  /* z-index: 1000;
+ 
+  transition: all 2s linear;
+  will-change: transform, left, top;
+  transition-timing-function: linear !important; */
+  pointer-events: none;
+}

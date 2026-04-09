@@ -269,7 +269,85 @@ function createVehicleMarker(vehicle) {
       marker.bindPopup("🤖 Delivery Robot")
     }
     return marker;
+    
 }
+
+const shuttleRoute = [
+  [52.141099, 11.647549], // Official Starting Point (Mid-East Loop)
+  [52.141012, 11.647562], [52.140963, 11.647613], [52.140928, 11.647705], [52.140925, 11.647820], [52.140933, 11.647871], [52.141030, 11.648013], 
+  [52.141124, 11.648088], [52.141293, 11.648531], [52.142162, 11.651945], [52.142175, 11.652286], [52.142144, 11.652417], [52.142062, 11.652634],
+  [52.141736, 11.653375], [52.141654, 11.653503], [52.141371, 11.653745], [52.141176, 11.654104], [52.141129, 11.654257], [52.141063, 11.654748], 
+  [52.141017, 11.655065], [52.140972, 11.655156], [52.141002, 11.655298], [52.140997, 11.655456], [52.140964, 11.655687], [52.140854, 11.656172], 
+  [52.141312, 11.656500], [52.142770, 11.657664], [52.147314, 11.660952], [52.146843, 11.662698], [52.142442, 11.658785], [52.142765, 11.657663], 
+  [52.142197, 11.657250], [52.141316, 11.656502], [52.140854, 11.656177], [52.140961, 11.655703], [52.141053, 11.655333], [52.141117, 11.655311], 
+  [52.141147, 11.655242], [52.141151, 11.655174], [52.141130, 11.655081], [52.141082, 11.655035], [52.141061, 11.654751], [52.141122, 11.654263], 
+  [52.141170, 11.654123], [52.141365, 11.653750], [52.141653, 11.653509], [52.141732, 11.653375], [52.142062, 11.652642], [52.142192, 11.652597], 
+  [52.142245, 11.652640], [52.142280, 11.652632], [52.142358, 11.652592], [52.142389, 11.652527], [52.142394, 11.652380], [52.142335, 11.652254], 
+  [52.142266, 11.652219], [52.142162, 11.651945], [52.141293, 11.648539], [52.141214, 11.648110], [52.141218, 11.648051], [52.141257, 11.647957], 
+  [52.141264, 11.647879], [52.141252, 11.647785], [52.141101, 11.647576], 
+  //PART 2: TRANSITION TO WEST LOOP
+  [52.141000, 11.647546],
+
+  //PART 3: WEST LOOP
+  [52.139891, 11.645580], [52.139687, 11.645274], [52.139712, 11.645191], [52.139819, 11.645036], [52.139871, 11.644529], [52.139244, 11.644405],
+  [52.139177, 11.644373], [52.139154, 11.644287], [52.139397, 11.641251], [52.141012, 11.641578], [52.140995, 11.641820], [52.141359, 11.641892], 
+  [52.141436, 11.641967], [52.141540, 11.642158], [52.141445, 11.642316], [52.141410, 11.642539], [52.141116, 11.647463], [52.141099, 11.647552]
+]
+function createMovingShuttleBus(path, color) {
+    L.polyline(path, {
+        color: color, weight: 3, opacity: 0.4, dashArray: '5, 10', interactive: false
+    }).addTo(map);
+
+    const marker = L.marker(path[0], {
+        icon: L.divIcon({
+            html: '🚌', className: 'moving-bus-icon', iconSize: [25, 25], iconAnchor: [12, 12]
+        }),
+        interactive: false
+    }).addTo(map);
+
+    let step = 0;
+    const targetSpeed = 12; // meters per second (adjust as needed)
+
+    function startSegment() {
+        const startPt = path[step];
+        const nextStep = (step + 1) % path.length;
+        const endPt = path[nextStep];
+
+        const startLatLng = L.latLng(startPt[0], startPt[1]);
+        const endLatLng = L.latLng(endPt[0], endPt[1]);
+        const distance = startLatLng.distanceTo(endLatLng);
+
+        const durationInSeconds = distance / targetSpeed;
+        const framesRequired = durationInSeconds * 60;
+        const increment = 1 / framesRequired;
+
+        let counter = 0.0;
+
+        function frame() {
+            if (map._animatingZoom) {
+                requestAnimationFrame(frame);
+                return;
+            }
+            counter += increment;
+
+            if (counter <= 1.0) {
+                // LERP Formula: Position = Start + (End - Start) * Counter
+                const lat = startPt[0] + (endPt[0] - startPt[0]) * counter.toFixed(6);
+                const lng = startPt[1] + (endPt[1] - startPt[1]) * counter.toFixed(6);
+                marker.setLatLng([lat, lng]);
+                requestAnimationFrame(frame);
+            } else {
+                step = nextStep;
+                startSegment();
+            }
+        }
+
+        frame();
+    }
+
+    startSegment();
+}
+ createMovingShuttleBus(shuttleRoute, "#009933");
 
 // --------------------------------------
 // Traffic Flow
