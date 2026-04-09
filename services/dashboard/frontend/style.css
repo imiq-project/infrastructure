@@ -17,15 +17,10 @@ body,
   padding: 0;
 }
 
-select {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-}
-
 .dropdown {
   position: absolute;
   top: 10px;
-  left: 70px;
+  left: 10px;
   z-index: 1500;
   background-color: var(--color-primary);
   color: var(--color-secondary);
@@ -35,12 +30,13 @@ select {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
-.vehicle-icon {
+.marker-icon {
   background: transparent !important;
   border: none !important;
   text-align: center;
   font-size: 24px;
   line-height: 1;
+  text-shadow: 5px 5px 10px rgba(0,0,0,0.5);
 }
 
 #modeSwitcher {
