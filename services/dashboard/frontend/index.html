@@ -24,32 +24,40 @@
     <button class="close-btn" onclick="closeGraph()">✕</button>
   </dialog>
 
-  <!-- Map container -->
-  <div id="map">
-  
-    <!-- Dropdown to toggle sensor display -->
-    <div class="dropdown">
-        <div class="menu-wrapper">
-          <div id="sensorTypes"></div>
-          <div>
-            <a href="http://imiq.ovgu.de" target="_blank">
-              <img src="IMIQ_LOGO_official.svg" style="margin-top: 10px; border-radius: 10px;">
-            </a>
+  <div id="smartView" class="smart-view-container">
+      
+      <div class="mobile-drawer-header" id="mobileDrawerTrigger">
+          <div class="drawer-handle"></div>
+      </div>
+      
+      <div class="sidebar-content">
+          <div class="sidebar-logo-container desktop-only-logo">
+              <a href="http://imiq.ovgu.de" target="_blank">
+                  <img src="IMIQ_LOGO_official.svg" class="sidebar-logo" alt="IMIQ">
+              </a>
           </div>
-        </div>
+          <div id="sensorTypes"></div>
+      </div>
+  </div>
 
-      </div>
-      <div id="modeSwitcher" class="leaflet-control">
-        <button id="btn2D" title="Switch to 2D">🗺️ 2D</button>
-        <button id="btn3D" title="Switch to 3D">🧭 3D</button>
-      </div>
+  <!-- Map container -->
+  <div id="map">  
 
-      <!-- Cesium overlay (no close button now) -->
-      <div id="cesiumOverlay">
-        <div id="cesiumContainer"></div>
-      </div>
+    <div class="mobile-only-logo">
+        <a href="http://imiq.ovgu.de" target="_blank">
+            <img src="IMIQ_LOGO_official.svg" class="sidebar-logo" alt="IMIQ">
+        </a>
     </div>
 
+    <div id="modeSwitcher">
+        <button id="btn2D" title="Switch to 2D">🗺️ 2D</button>
+        <button id="btn3D" title="Switch to 3D">🧭 3D</button>
+    </div>
+
+    <div id="cesiumOverlay">
+        <div id="cesiumContainer"></div>
+    </div>
+  </div>
      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <!--  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script> -->
      <script src="https://unpkg.com/cesium@1.120.0/Build/Cesium/Cesium.js"></script> 
