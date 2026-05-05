@@ -21,7 +21,7 @@ func TestEm500DecodeSuccess(t *testing.T) {
 	assert.Equal(t, 27.2, result["temperature"])
 	assert.Equal(t, 56.5, result["humidity"])
 	assert.Equal(t, 1127, result["co2"])
-	assert.Equal(t, 1008.8, result["pressure"])
+	assert.Equal(t, 1008.8, result["airPressure"])
 }
 
 func TestDecodeRealPayload(t *testing.T) {
@@ -48,7 +48,7 @@ func TestDecodeRealPayload(t *testing.T) {
 	assert.Equal(t, 25.1, result["temperature"])
 	assert.Equal(t, 52.5, result["humidity"])
 	assert.Equal(t, 784, result["co2"])
-	assert.Equal(t, 1005.1, result["pressure"])
+	assert.Equal(t, 1005.1, result["airPressure"])
 }
 
 func TestEm500DecodeError(t *testing.T) {

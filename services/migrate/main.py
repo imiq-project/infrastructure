@@ -47,13 +47,22 @@ def main():
     delete_all_subscriptions()
 
     conf = {
-        "AirQuality": ["no2", "o3", "pm10", "pm25"],
+        "AirQuality": [
+            "no2",
+            "o3",
+            "pm10",
+            "pm25",
+            "co2",
+            "temperature",
+            "airPressure",
+            "humidity",
+        ],
         "Parking": ["freeSpots"],
         "Weather": [
             "airPressure",
             "airPressureAbsolute",
             "dewPointTemperature",
-            "feelsLikeTemperature"
+            "feelsLikeTemperature",
             "heatIndexTemperature",
             "humidity",
             "lightIntensity",
@@ -71,7 +80,7 @@ def main():
             "heating",
             "humidity",
             "temperature",
-        ]
+        ],
     }
 
     for entity_type, attrs in conf.items():

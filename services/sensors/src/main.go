@@ -14,7 +14,7 @@ const (
 	BRESSER_STATION_ID  = "Sensor:Weather:Walter"
 	BRESSER_BUILDING_ID = "Building:UniversityG80"
 	SENSECAP_ID         = "Sensor:Weather:Winfred"
-	EM500_ID            = "Sensor:Weather:Agnes"
+	EM500_ID            = "Sensor:Air:Agnes"
 )
 
 func move(from *url.Values, fromKey string, to map[string]any, toKey string, typ string) {

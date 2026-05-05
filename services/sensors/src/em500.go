@@ -49,7 +49,7 @@ func decodeEm500Payload(payload []byte) (map[string]any, error) {
 				if len(payload) < 4 {
 					return nil, fmt.Errorf("frame too short")
 				}
-				result["pressure"] = float64(binary.LittleEndian.Uint16(payload[2:4])) / 10
+				result["airPressure"] = float64(binary.LittleEndian.Uint16(payload[2:4])) / 10
 				payload = payload[4:]
 			case 0x75:
 				if len(payload) < 3 {
