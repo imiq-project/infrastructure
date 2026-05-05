@@ -14,6 +14,7 @@ const (
 	BRESSER_STATION_ID  = "Sensor:Weather:Walter"
 	BRESSER_BUILDING_ID = "Building:UniversityG80"
 	SENSECAP_ID         = "Sensor:Weather:Winfred"
+	EM500_ID            = "Sensor:Weather:Agnes"
 )
 
 func move(from *url.Values, fromKey string, to map[string]any, toKey string, typ string) {
@@ -127,13 +128,13 @@ func setupBresser() {
 	})
 }
 
-func setupSenseCap() {
+func setupThingsNet() {
 	thingsNetUrl, exists := os.LookupEnv("THE_THINGS_NET_WEBHOOK_URL")
 	if !exists {
 		panic("Cannot lookup webhook url")
 	}
 
-	entity := map[string]any{
+	senseCapEntity := map[string]any{
 		"type": "Weather",
 		"humidity": map[string]any{
 			"type":  "Number",
@@ -149,25 +150,58 @@ func setupSenseCap() {
 		},
 	}
 
-	err := CreateEntity(FIWARE_URL, SENSECAP_ID, entity)
+	err := CreateEntity(FIWARE_URL, SENSECAP_ID, senseCapEntity)
+	if err != nil {
+		log.Println("Failed to create sensor", err)
+		// we continue anyway, maybe the entity already exists
+	}
+
+	em500Entity := map[string]any{
+		"type": "AirQuality",
+		"humidity": map[string]any{
+			"type":  "Number",
+			"value": 0,
+		},
+		"temperature": map[string]any{
+			"type":  "Number",
+			"value": 0,
+		},
+		"location": map[string]any{
+			"type":  "geo:point",
+			"value": "52.1413482571423, 11.654641791570592",
+		},
+	}
+
+	err = CreateEntity(FIWARE_URL, EM500_ID, em500Entity)
 	if err != nil {
 		log.Println("Failed to create sensor", err)
 		// we continue anyway, maybe the entity already exists
 	}
 
 	http.HandleFunc(thingsNetUrl, func(w http.ResponseWriter, r *http.Request) {
+		var data map[string]any
+		var err error
+		var id string
+
 		resp, err := ProcessWebhook(r.Body)
 		if err != nil {
 			log.Println("Cannot decode webhook", err)
 			http.Error(w, "invalid body", http.StatusBadRequest)
 			return
 		}
-		if resp.DeviceID != "winfred" {
+		switch resp.DeviceID {
+		case "winfred":
+			data, err = decodeSenseCapPayload(resp.Payload)
+			id = SENSECAP_ID
+		case "agnes":
+			data, err = decodeEm500Payload(resp.Payload)
+			id = EM500_ID
+		default:
 			log.Println("Got invalid device id", resp.DeviceID)
 			http.Error(w, "invalid body", http.StatusBadRequest)
 			return
 		}
-		data, err := decodeSenseCapPayload(resp.Payload)
+
 		if err != nil {
 			log.Println("Cannot decode SenseCap", err)
 			http.Error(w, "invalid payload", http.StatusBadRequest)
@@ -180,7 +214,7 @@ func setupSenseCap() {
 				"value": value,
 			}
 		}
-		err = UpdateEntity(FIWARE_URL, SENSECAP_ID, dataMapped)
+		err = UpdateEntity(FIWARE_URL, id, dataMapped)
 		if err != nil {
 			log.Println("Failed to update weather data: ", err)
 		}
@@ -189,7 +223,7 @@ func setupSenseCap() {
 
 func main() {
 	setupBresser()
-	setupSenseCap()
+	setupThingsNet()
 	log.Println("Listening on :80")
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
