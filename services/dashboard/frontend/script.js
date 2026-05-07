@@ -503,19 +503,22 @@ async function showGraph(entityId) {
     let url = `/api/quantumleap/entities/${entityId}`
     chartText.innerHTML = `<a href="${url}" target="_blank">${entityId}</a>`
 
+    let response = await fetch(`/api/orion/entities/${entityId}/attrs`)
+    const attrs = new Set(Object.keys(await response.json()))
+
     const oneWeekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
     url += `?fromDate=${oneWeekAgo.toISOString()}`
 
-    chartSpinner.style.display = "block"
-    const response = await fetch(url)
-    chartSpinner.style.display = "none"
+    chartSpinner.style.display = "initial"
+    response = await fetch(url)
     if(!response.ok) {
       chartText.innerHTML += "<br><i>No historical data available.</i>"
+      chartSpinner.style.display = "none"
       return
     }
     const data = await response.json()
     const datasets = data.attributes
-      .filter(e => e.values[0])  // remove non-existing attributes
+      .filter(e => attrs.has(e.attrName))
       .map( (e, idx) => { return {label: e.attrName, data: e.values, hidden: idx !== 0} })
     currentChart = new Chart(chartCanvas, {
       type: 'line',
@@ -552,6 +555,7 @@ async function showGraph(entityId) {
         }
       }
     });
+    chartSpinner.style.display = "none"
 }
 
 function closeGraph() {
