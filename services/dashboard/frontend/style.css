@@ -17,18 +17,6 @@ body,
   padding: 0;
 }
 
-.dropdown {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1500;
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-  padding: 8px;
-  border-radius: 4px;
-  font-family: sans-serif;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-}
 
 .marker-icon {
   background: transparent !important;
@@ -39,15 +27,179 @@ body,
   text-shadow: 5px 5px 10px rgba(0,0,0,0.5);
 }
 
-#modeSwitcher {
-  position: absolute;
-  top: 10px;
-  left: 400px;
-  /* ~next to zoom buttons */
-  z-index: 1300;
-  /* above map & Cesium overlay */
-  display: flex;
-  gap: 8px;
+.mobile-only-logo {
+    display: none;
+}
+
+.smart-view-container {
+  position: fixed;
+  background: var(--color-primary);
+  color: white;
+  z-index: 3000;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+}
+
+.mobile-drawer-header {
+  display: none; /* Hidden on Desktop */
+}
+
+.sidebar-content {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.sidebar-logo-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar-logo {
+  width: 100%;
+  border-radius: 10px;
+}
+
+#sensorTypes {
+  padding: 10px 20px;
+}
+
+/* --- DESKTOP VIEW --- */
+@media (min-width: 769px) {
+  .smart-view-container {
+      top: 10px;
+      left: 10px;
+      width: 220px; 
+      height: auto;
+      max-height: calc(100vh - 20px);
+      border-radius: 8px; /* Rounded edges */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+  }
+
+  .sidebar-logo-container {
+      padding: 15px;
+      margin-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.1); 
+      background: transparent;
+  }
+
+  #map {
+      margin-left: 0;
+      width: 100%;
+  }
+
+  #modeSwitcher {
+      position: absolute;
+      top: 10px;
+      left: 250px; 
+      right: auto;
+      z-index: 2000;
+      display: flex;
+      gap: 8px;
+  }
+}
+
+/* --- MOBILE VIEW --- */
+@media (max-width: 768px) {
+
+  .desktop-only-logo {
+        display: none !important;
+    }
+
+  #map {
+      margin-left: 0;
+      width: 100%;
+  }
+
+  .mobile-only-logo {
+        display: block;
+        position: absolute; 
+        top: 15px;
+        left: 15px;
+        width: 120px; 
+        z-index: 4000; 
+        background: white; 
+        padding: 8px;
+        border-radius: 8px; 
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+  .smart-view-container {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80vh; /* Drawer covers 80% of screen */
+      transform: translateY(calc(100% - 45px)); /* Shows only the 60px header */
+      border-radius: 20px 20px 0 0;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .smart-view-container.drawer-open {
+      transform: translateY(0); /* Slides up */
+  }
+
+  .mobile-drawer-header {
+      display: flex;
+      width: 100%;
+      height: 45px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .drawer-handle {
+      width: 40px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+  }
+
+  .sidebar-logo-container {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: 120px; /* Shrunken proportion */
+      z-index: 4000; 
+      padding: 5px;
+      background: var(--color-primary); /* Background for visibility over map */
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  #modeSwitcher {
+      display: flex !important;
+      position: absolute;
+      bottom: 60px; /* Above the closed drawer */
+      right: 15px; 
+      z-index: 2000;
+      gap: 8px;
+  }
+  
+  .dashbot-widget {
+      bottom: 80px !important;
+  }
+
+  .dashbot-pill-button,
+  #dashbot-chat-widget-button { 
+      display: none !important; 
+      opacity: 0 !important;
+      pointer-events: none !important;
+  }
+
+  .sidebar-content {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-in-out;
+  }
+
+  .smart-view-container.drawer-open .sidebar-content {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.4s ease-in-out; 
+  }
+
 }
 
 #modeSwitcher button {
@@ -79,6 +231,9 @@ body,
   display: none;
   z-index: 1200;
   background: #0b0f19;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
 }
 
 #cesiumContainer {

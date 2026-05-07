@@ -39,6 +39,10 @@ const cartoDark = L.tileLayer(
 
 const satellite = L.layerGroup([esriImagery, esriLabels]);
 
+// if (map.zoomControl) map.zoomControl.remove();
+const isMobileDevice = window.innerWidth <= 768;
+const navPosition = isMobileDevice ? 'bottomright' : 'topright';
+
 const map = L.map('map', {
   center: [52.140, 11.644],
   zoom: 14,
@@ -46,8 +50,15 @@ const map = L.map('map', {
   zoomControl: false,
 });
 
-L.control.zoom({ position: 'topright' }).addTo(map);
-L.control.fullscreen({position: 'topright'}).addTo(map);
+
+// if (map.zoomControl){
+  //   map.zoomControl.remove();
+  // }
+L.control.zoom({ position: navPosition }).addTo(map);
+  
+if (L.control.fullscreen) {
+  L.control.fullscreen({ position: navPosition }).addTo(map); 
+}
 
 L.control.layers({
   "📄 Light": cartoLight,
@@ -56,13 +67,79 @@ L.control.layers({
   "🗺️ OpenStreetMap": osmRoad,
   "🏔️ Topographic": openTopo,
   }, {}, { position: 'topright', collapsed: true }).addTo(map);
+  
+const drawerTrigger = document.getElementById('mobileDrawerTrigger');
+if (drawerTrigger) {
+    drawerTrigger.addEventListener('click', () => {
+        const container = document.getElementById('smartView');
+        if (container) container.classList.toggle('drawer-open');
+    });
+}
+
+function toggleSidebar() {
+
+  const container = document.querySelector('.sidebar-container') || document.querySelector('.smart-view-container');
+  if (container) {
+      // Toggle the classes used in the new CSS
+      container.classList.toggle('drawer-open'); 
+      container.classList.toggle('open'); 
+  }
+}
+
+const btnToggle = document.getElementById('btnModeToggle');
+async function switchView() {
+    const is3D = cesiumOverlay.style.display === 'block';
+
+    if (is3D) {
+        // Switch to 2D
+        cesiumOverlay.style.display = 'none';
+        cesiumOverlay.setAttribute('aria-hidden', 'true');
+    } else {
+        // Switch to 3D
+        cesiumOverlay.style.display = 'block';
+        cesiumOverlay.setAttribute('aria-hidden', 'false');
+        if (!cesiumViewer) await initCesium();
+        flyCesiumToLeafletCenter();
+    }
+    
+    // Update the UI for all buttons
+    setActiveButton();
+}
+
+['btnDesktopToggle', 'btnMobileToggle', 'btnModeToggle'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', switchView);
+});
+
+
+
+function setActiveButton() {
+    const is3D = cesiumOverlay.style.display === 'block';
+    
+    // Updates text and color for both mobile and desktop buttons
+    ['btnDesktopToggle', 'btnMobileToggle', 'btnModeToggle'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.classList.toggle('mode-active', is3D);
+            btn.innerHTML = is3D ? "🗺️ 2D" : "🧭 3D";
+        }
+    });
+}
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   const menuWrapper = document.querySelector('.menu-wrapper');
+//   if (menuWrapper) {
+//     menuWrapper.addEventListener('click', toggleDrawer);
+//   }
+// });
+
 
 // --------------------------------------
 // 2D/3D toggle buttons 
 // --------------------------------------
 let cesiumViewer = null;
-const btn3D = document.getElementById('btn3D');
-const btn2D = document.getElementById('btn2D');
+ const btn3D = document.getElementById('btn3D');
+ const btn2D = document.getElementById('btn2D');
 const cesiumOverlay = document.getElementById('cesiumOverlay');
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2IwMTEyNS0wYjMyLTQxNGYtOTU3OC1iMmY0YjE2ODlmNWEiLCJpZCI6MzM4MzczLCJpYXQiOjE3NTY5OTIyMjd9.8PKf7IaADHKaJTHTkiDz6mg25IHJa8C9ntk6RErFJoo"
 
@@ -105,35 +182,29 @@ async function initCesium() {
 
   setTimeout(() => cesiumViewer.resize(), 50);
 }
-//  
 
+if (btn2D) {
+    btn2D.addEventListener('click', () => {
+        cesiumOverlay.style.display = 'none';
+        cesiumOverlay.setAttribute('aria-hidden', 'true');
+        setActiveButton();
+    });
+}
 
-
-// 2D button: hide 3D and re-render current layer on Leaflet
-btn2D.addEventListener('click', () => {
-  cesiumOverlay.style.display = 'none';
-  cesiumOverlay.setAttribute('aria-hidden', 'true');
-  setActiveButton();
-});
-
-// --------------------------------------
-// 3D button handlers   
-// --------------------------------------
-
-btn3D.addEventListener('click', async () => {
-  cesiumOverlay.style.display = 'block';
-  cesiumOverlay.setAttribute('aria-hidden', 'false');
-  if (!cesiumViewer) await initCesium();
-  flyCesiumToLeafletCenter();
-  setActiveButton();
-})
-
-
-// call setActiveButton() at the end of each btn2D/btn3D handler
+if (btn3D) {
+    btn3D.addEventListener('click', async () => {
+        cesiumOverlay.style.display = 'block';
+        cesiumOverlay.setAttribute('aria-hidden', 'false');
+        if (!cesiumViewer) await initCesium();
+        flyCesiumToLeafletCenter();
+        setActiveButton();
+    });
+}
 
 function setActiveButton() {
-  document.getElementById('btn2D').classList.toggle('mode-active', cesiumOverlay.style.display !== 'block');
-  document.getElementById('btn3D').classList.toggle('mode-active', cesiumOverlay.style.display === 'block');
+    const is3D = cesiumOverlay.style.display === 'block';
+    if (btn2D) btn2D.classList.toggle('mode-active', !is3D);
+    if (btn3D) btn3D.classList.toggle('mode-active', is3D);
 }
 
 // --------------------------------------
@@ -737,6 +808,14 @@ async function init() {
   types = await fetchAllTypes()
 
   const sensorTypesContainer = document.getElementById("sensorTypes");
+  // //header label for drawer 
+  // const header = document.createElement("h3")
+  // header.className = "drawer-title"
+  // header.innerText = "Mobile View"
+  // header.style.cursor = "pointer"
+  // sensorTypesContainer.parentElement.prepend(header);
+  sensorTypesContainer.innerHTML = "" 
+  
   types.forEach(async type => {
     const typeConfig = getConfigFor(type.type)
     const div = document.createElement("div")
