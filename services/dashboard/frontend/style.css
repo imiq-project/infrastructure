@@ -17,6 +17,26 @@ body,
   padding: 0;
 }
 
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: var(--color-primary);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+
 
 .marker-icon {
   background: transparent !important;
@@ -35,7 +55,7 @@ body,
   position: fixed;
   background: var(--color-primary);
   color: white;
-  z-index: 3000;
+  z-index: 1000;
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   overflow: hidden;
 }
@@ -118,7 +138,7 @@ body,
         top: 15px;
         left: 15px;
         width: 120px; 
-        z-index: 4000; 
+        z-index: 1000; 
         background: white; 
         padding: 8px;
         border-radius: 8px; 
@@ -130,7 +150,7 @@ body,
       left: 0;
       width: 100%;
       height: 80vh; /* Drawer covers 80% of screen */
-      transform: translateY(calc(100% - 45px)); /* Shows only the 60px header */
+      transform: translateY(calc(100% - 30px)); /* Shows only the 60px header */
       border-radius: 20px 20px 0 0;
       display: flex;
       flex-direction: column;
@@ -143,7 +163,7 @@ body,
   .mobile-drawer-header {
       display: flex;
       width: 100%;
-      height: 45px;
+      height: 30px;
       cursor: pointer;
       align-items: center;
       justify-content: center;
@@ -171,8 +191,8 @@ body,
   #modeSwitcher {
       display: flex !important;
       position: absolute;
-      bottom: 60px; /* Above the closed drawer */
-      right: 15px; 
+      top: 10px;
+      left: 170px; 
       z-index: 2000;
       gap: 8px;
   }

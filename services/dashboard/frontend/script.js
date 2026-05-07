@@ -39,25 +39,21 @@ const cartoDark = L.tileLayer(
 
 const satellite = L.layerGroup([esriImagery, esriLabels]);
 
-// if (map.zoomControl) map.zoomControl.remove();
-const isMobileDevice = window.innerWidth <= 768;
-const navPosition = isMobileDevice ? 'bottomright' : 'topright';
-
 const map = L.map('map', {
   center: [52.140, 11.644],
   zoom: 14,
   layers: [cartoLight],
   zoomControl: false,
+  attributionControl: false
 });
 
 
-// if (map.zoomControl){
-  //   map.zoomControl.remove();
-  // }
-L.control.zoom({ position: navPosition }).addTo(map);
-  
-if (L.control.fullscreen) {
-  L.control.fullscreen({ position: navPosition }).addTo(map); 
+const isDesktop = window.innerWidth > 768;
+if (isDesktop) {
+  L.control.zoom({ position: 'topright' }).addTo(map);
+  if (L.control.fullscreen) {
+    L.control.fullscreen({ position: 'topright' }).addTo(map); 
+  }
 }
 
 L.control.layers({
@@ -105,33 +101,6 @@ async function switchView() {
     // Update the UI for all buttons
     setActiveButton();
 }
-
-['btnDesktopToggle', 'btnMobileToggle', 'btnModeToggle'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) btn.addEventListener('click', switchView);
-});
-
-
-
-function setActiveButton() {
-    const is3D = cesiumOverlay.style.display === 'block';
-    
-    // Updates text and color for both mobile and desktop buttons
-    ['btnDesktopToggle', 'btnMobileToggle', 'btnModeToggle'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) {
-            btn.classList.toggle('mode-active', is3D);
-            btn.innerHTML = is3D ? "🗺️ 2D" : "🧭 3D";
-        }
-    });
-}
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   const menuWrapper = document.querySelector('.menu-wrapper');
-//   if (menuWrapper) {
-//     menuWrapper.addEventListener('click', toggleDrawer);
-//   }
-// });
 
 
 // --------------------------------------
@@ -525,6 +494,7 @@ function getEntityLocation(entity) {
 
 const chartDialog = document.getElementById('chartDialog')
 const chartCanvas = document.getElementById("chartCanvas")
+const chartSpinner = document.getElementById("chartSpinner")
 const chartText = document.getElementById("chartText")
 let currentChart = null
 
@@ -535,13 +505,18 @@ async function showGraph(entityId) {
 
     const oneWeekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
     url += `?fromDate=${oneWeekAgo.toISOString()}`
+
+    chartSpinner.style.display = "block"
     const response = await fetch(url)
+    chartSpinner.style.display = "none"
     if(!response.ok) {
       chartText.innerHTML += "<br><i>No historical data available.</i>"
       return
     }
     const data = await response.json()
-    const datasets = data.attributes.map( (e, idx) => { return {label: e.attrName, data: e.values, hidden: idx !== 0} })
+    const datasets = data.attributes
+      .filter(e => e.values[0])  // remove non-existing attributes
+      .map( (e, idx) => { return {label: e.attrName, data: e.values, hidden: idx !== 0} })
     currentChart = new Chart(chartCanvas, {
       type: 'line',
       data: {
@@ -808,12 +783,6 @@ async function init() {
   types = await fetchAllTypes()
 
   const sensorTypesContainer = document.getElementById("sensorTypes");
-  // //header label for drawer 
-  // const header = document.createElement("h3")
-  // header.className = "drawer-title"
-  // header.innerText = "Mobile View"
-  // header.style.cursor = "pointer"
-  // sensorTypesContainer.parentElement.prepend(header);
   sensorTypesContainer.innerHTML = "" 
   
   types.forEach(async type => {
