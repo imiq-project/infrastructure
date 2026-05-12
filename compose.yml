@@ -157,7 +157,20 @@ services:
     ports:
       - 8080:8080
 
+  dbseeder:
+    build: 
+      context: ./services/dbseeder
+      dockerfile: Dockerfile.seed
+    depends_on:
+      orion:
+        condition: service_started
+    environment:
+      - REMOTE_ORION_URL=https://imiq-public.et.uni-magdeburg.de/api/orion/entities
+      - LOCAL_ORION_URL=http://orion:1026/v2/entities 
+    restart: "no"
+
 volumes:
   mongo_data:
   mongo_config:
   crate_data:
+
