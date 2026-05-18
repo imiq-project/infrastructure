@@ -134,27 +134,27 @@ func setupThingsNet() {
 		panic("Cannot lookup webhook url")
 	}
 
-	senseCapEntity := map[string]any{
-		"type": "Weather",
-		"humidity": map[string]any{
-			"type":  "Number",
-			"value": 0,
-		},
-		"temperature": map[string]any{
-			"type":  "Number",
-			"value": 0,
-		},
-		"location": map[string]any{
-			"type":  "geo:point",
-			"value": "52.14614723277433, 11.661766246279447",
-		},
-	}
+	// senseCapEntity := map[string]any{
+	// 	"type": "Weather",
+	// 	"humidity": map[string]any{
+	// 		"type":  "Number",
+	// 		"value": 0,
+	// 	},
+	// 	"temperature": map[string]any{
+	// 		"type":  "Number",
+	// 		"value": 0,
+	// 	},
+	// 	"location": map[string]any{
+	// 		"type":  "geo:point",
+	// 		"value": "52.14614723277433, 11.661766246279447",
+	// 	},
+	// }
 
-	err := CreateEntity(FIWARE_URL, SENSECAP_ID, senseCapEntity)
-	if err != nil {
-		log.Println("Failed to create sensor", err)
-		// we continue anyway, maybe the entity already exists
-	}
+	// err := CreateEntity(FIWARE_URL, SENSECAP_ID, senseCapEntity)
+	// if err != nil {
+	// 	log.Println("Failed to create sensor", err)
+	// 	// we continue anyway, maybe the entity already exists
+	// }
 
 	em500Entity := map[string]any{
 		"type": "AirQuality",
@@ -172,7 +172,7 @@ func setupThingsNet() {
 		},
 	}
 
-	err = CreateEntity(FIWARE_URL, EM500_ID, em500Entity)
+	err := CreateEntity(FIWARE_URL, EM500_ID, em500Entity)
 	if err != nil {
 		log.Println("Failed to create sensor", err)
 		// we continue anyway, maybe the entity already exists
@@ -193,6 +193,8 @@ func setupThingsNet() {
 		case "winfred":
 			data, err = decodeSenseCapPayload(resp.Payload)
 			id = SENSECAP_ID
+			// TODO:remove once winfred is deployed correctly
+			return
 		case "agnes":
 			data, err = decodeEm500Payload(resp.Payload)
 			id = EM500_ID
