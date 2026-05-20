@@ -223,6 +223,16 @@ func fetchEnergyData(meterID, obis, userKey string) (float64, string, error) {
 	return 0, timestamp, nil
 }
 
+func (collector EnergyCollector) Setup(locations []config.Location) {}
+
+func (collector EnergyCollector) BeforeFetch() error {
+	return nil
+}
+
+func (collector EnergyCollector) AfterFetch() error {
+	return nil
+}
+
 func (collector EnergyCollector) Name() string {
 	return "Building"
 }

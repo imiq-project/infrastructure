@@ -183,6 +183,16 @@ func sanitize(s string) string {
 	return strings.TrimSpace(r.Replace(s))
 }
 
+func (collector RestaurantCollector) Setup(locations []config.Location) {}
+
+func (collector RestaurantCollector) BeforeFetch() error {
+	return nil
+}
+
+func (collector RestaurantCollector) AfterFetch() error {
+	return nil
+}
+
 func (collector RestaurantCollector) Name() string {
 	return "Restaurant"
 }

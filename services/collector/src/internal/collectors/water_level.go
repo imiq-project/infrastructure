@@ -91,6 +91,16 @@ func (collector WaterLevelCollector) Fetch(loc config.Location) (map[string]any,
 	return entity, nil
 }
 
+func (collector WaterLevelCollector) Setup(locations []config.Location) {}
+
+func (collector WaterLevelCollector) BeforeFetch() error {
+	return nil
+}
+
+func (collector WaterLevelCollector) AfterFetch() error {
+	return nil
+}
+
 func (collector WaterLevelCollector) Name() string {
 	return "WaterLevel"
 }

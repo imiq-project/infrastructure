@@ -159,6 +159,16 @@ func extractParkingSpotsFromTable(table *goquery.Selection) map[string]ParkingIn
 	return results
 }
 
+func (collector ParkingCollector) Setup(locations []config.Location) {}
+
+func (collector ParkingCollector) BeforeFetch() error {
+	return nil
+}
+
+func (collector ParkingCollector) AfterFetch() error {
+	return nil
+}
+
 func (collector ParkingCollector) Name() string {
 	return "Parking"
 }

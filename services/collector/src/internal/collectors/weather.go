@@ -102,6 +102,12 @@ func NewOpenWeatherMapCollector() (config.Collector, error) {
 	return &OpenWeatherMapCollector{apiKey}, nil
 }
 
+func (collector OpenWeatherMapCollector) Setup(locations []config.Location) {}
+
+func (collector OpenWeatherMapCollector) BeforeFetch() error { return nil }
+
+func (collector OpenWeatherMapCollector) AfterFetch() error { return nil }
+
 func (collector OpenWeatherMapCollector) Name() string {
 	return "OpenWeatherMap"
 }

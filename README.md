@@ -13,6 +13,8 @@ Before starting the infrastructure, you must set a few environment variables:
 | DAILYPLAN_APP_SECRET | Secret for the dailyplan app | secret456 |
 | WEATHER_STATION_PASSWORD | Password for Bresser9in1 Weather Station | SecretPw |
 | THE_THINGS_NET_WEBHOOK_URL | Url for TTN Webhook | /data/secret_url |
+| LASA2X_ENDPOINT | Url for lasa2x | https://example.com |
+| LASA2X_API_KEY | Key for lasa2x | super-secret |
 
 You probably want to put these into an `.env` file:
 
@@ -22,6 +24,8 @@ OPEN_WEATHER_MAP_API_KEY=1eas022db3a0qcaaa0299afbbaf47741
 DAILYPLAN_APP_SECRET=secret456
 WEATHER_STATION_PASSWORD=SecretPw
 THE_THINGS_NET_WEBHOOK_URL=/data/secret_url
+LASA2X_ENDPOINT=https://example.com
+LASA2X_API_KEY=super-secret
 ```
 
 Additionally, you should provide a `compose.override.yml` to specify at least your local port:

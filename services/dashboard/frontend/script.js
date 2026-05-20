@@ -225,18 +225,26 @@ async function getSensorData(sensorId) {
 }
 
 async function getAllSensorsByType(type) {
-  try {
-    const res = await fetch(`/api/orion/entities?type=${type}&limit=1000`);
-    if (!res.ok) {
+  let allEntities = []
+  const limit = 500
+  let offset = 0
+  let batch;
+  do {
+    try {
+      const res = await fetch(`/api/orion/entities?type=${type}&limit=${limit}&offset=${offset}`);
+      if (!res.ok) {
+        console.error("Error fetching sensors", error);
+        return null;
+      }
+      batch = await res.json();
+      allEntities = allEntities.concat(batch);
+      offset += limit;
+    } catch (error) {
       console.error("Error fetching sensors", error);
       return null;
     }
-    const json = await res.json();
-    return json;
-  } catch (error) {
-    console.error("Error fetching sensors", error);
-    return null;
-  }  
+  } while (batch.length === limit); // stop when last page is smaller
+  return allEntities;
 }
 
 async function getEntityById(id) {
@@ -394,24 +402,42 @@ function createMovingShuttleBus(path, color) {
 // --------------------------------------
 
 function getTrafficPopupContent(data) {
-    const vIn  = Number(data.vehiclesIn?.value ?? 0);
-    const vOut = Number(data.vehiclesOut?.value ?? 0);
-    const cyc  = Number(data.cyclists?.value ?? 0);
-    const ped  = Number(data.pedestrians?.value ?? 0);
+    const speed = data.avgSpeed.value ? Number(data.avgSpeed.value).toFixed() + " km/h" : "N/A";
+    const maxSpeed = data.speedLimit.value
 
     const label = `${orionUrl(data)}<br>
-    🚗 In: ${vIn}<br>
-    🚙 Out: ${vOut}<br>
-    🚴 Cyclists: ${cyc}<br>
-    🚶 Pedestrians: ${ped}`;
+    🚗 Avg. Speed ${speed}<br>
+    🚗 Max ${maxSpeed} km/h`
     
     return label
 }
 
 function createTrafficFlowMarker(data) {
-    return L.circleMarker(getEntityLocation(data), {
-        radius: 10, color: "#ff0000", fillColor: "#f03", fillOpacity: 0.5
-    })
+  geojson = {
+      "type": "FeatureCollection",
+      "features": [
+      {
+          "type": "Feature",
+          "geometry": data.outline.value,
+      }
+    ]
+  }
+  function getProps(speed) {
+    if (speed == null) {
+      // there were no vehicles in the last 15 minutes, so we assume very low traffic, but actually we don't know
+      return {opacity: 0}
+    }
+    if (speed > 10) {
+      return {color: "#009933", weight: 3, opacity: 0.7}
+    }
+    if (speed > 5) {
+      return {color: "#ff9933", weight: 3, opacity: 0.7}
+    }
+    return {color: "#ff3333", weight: 3, opacity: 0.7}
+  }
+  return L.geoJson(geojson, {
+    style: getProps(data.avgSpeed.value),
+  })
 }
 
 // --------------------------------------
@@ -656,7 +682,7 @@ function getConfigFor(type) {
     },
     "Traffic": {
       description: "🚦Traffic",
-      updateMinutes: 5,
+      updateMinutes: 10,
       createMarker: createTrafficFlowMarker,
       getPopupContent: getTrafficPopupContent,
     },
@@ -721,12 +747,10 @@ function clearAllMarkers(type, typeConfig) {
 }
 
 async function addAllMarkers(type, typeConfig, data, fitMap, targetId) {
-  const bounds = L.latLngBounds();
   const markers = []
   data.forEach(spot => {
     const marker = typeConfig.createMarker(spot)
     marker.addTo(map);
-    bounds.extend(marker.getLatLng());
     if (typeConfig.getPopupContent != null) {
       const content = typeConfig.getPopupContent(spot)
       marker.bindPopup(content)
@@ -743,7 +767,8 @@ async function addAllMarkers(type, typeConfig, data, fitMap, targetId) {
   })
   markersByType.set(type, markers)
   if (fitMap) {
-    map.fitBounds(bounds);
+    const group = L.featureGroup(markers);
+    map.fitBounds(group.getBounds());
   }
 
   let interval = null

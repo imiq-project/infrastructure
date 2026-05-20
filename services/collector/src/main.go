@@ -17,7 +17,7 @@ import (
 var collectorConstructors = [...]func() (config.Collector, error){
 	collectors.NewOpenWeatherMapCollector,
 	collectors.NewParkingCollector,
-	collectors.TrafficCollector,
+	collectors.NewTrafficCollector,
 	collectors.NewRestaurantCollector,
 	collectors.NewAirQualityCollector,
 	collectors.NewEnergyCollector,
@@ -27,6 +27,11 @@ var collectorConstructors = [...]func() (config.Collector, error){
 
 func FetchAll(orionHost string, collectorConfig config.CollectorConfig) {
 	log.Println("Running collector", collectorConfig.Collector.Name(), "on", len(collectorConfig.Locations), "locations")
+	err := collectorConfig.Collector.BeforeFetch()
+	if err != nil {
+		log.Println("BeforeEach failed for:", collectorConfig.Collector.Name(), err)
+		return
+	}
 	for _, location := range collectorConfig.Locations {
 		result, err := collectorConfig.Collector.Fetch(location)
 		if err != nil {
@@ -38,6 +43,13 @@ func FetchAll(orionHost string, collectorConfig config.CollectorConfig) {
 			}
 		}
 	}
+	err = collectorConfig.Collector.AfterFetch()
+	if err != nil {
+		log.Println("AfterEach failed for:", collectorConfig.Collector.Name(), err)
+		return
+	}
+
+	log.Println("Finished collector", collectorConfig.Collector.Name())
 }
 
 func worker(ctx context.Context, orionHost string, collectorCfg config.CollectorConfig) {
@@ -92,8 +104,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Setup all workers
+	for _, collectorConfig := range cfg.Collectors {
+		log.Println("Setting up collector", collectorConfig.Collector.Name())
+		collectorConfig.Collector.Setup(collectorConfig.Locations)
+	}
+
 	// Start Workers
-	log.Println("Read config file with", len(collectors), "collectors")
+	log.Println("Read config file with", len(cfg.Collectors), "collectors")
 	ctx, cancel := context.WithCancel(context.Background())
 	var wg sync.WaitGroup
 	for _, collectorConfig := range cfg.Collectors {

@@ -25,6 +25,16 @@ func (collector StaticCollector) Fetch(loc config.Location) (map[string]any, err
 	return entity, nil
 }
 
+func (collector StaticCollector) Setup(locations []config.Location) {}
+
+func (collector StaticCollector) BeforeFetch() error {
+	return nil
+}
+
+func (collector StaticCollector) AfterFetch() error {
+	return nil
+}
+
 func (collector StaticCollector) Name() string {
 	return "Static"
 }

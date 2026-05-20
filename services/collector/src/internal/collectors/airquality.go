@@ -84,6 +84,16 @@ func (collector AirQualityCollector) Fetch(loc config.Location) (map[string]any,
 	return result, nil
 }
 
+func (collector AirQualityCollector) Setup(locations []config.Location) {}
+
+func (collector AirQualityCollector) BeforeFetch() error {
+	return nil
+}
+
+func (collector AirQualityCollector) AfterFetch() error {
+	return nil
+}
+
 func (collector AirQualityCollector) Name() string {
 	return "AirQuality"
 }
