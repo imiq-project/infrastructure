@@ -64,3 +64,8 @@ http:
       middlewares:
         - strip-api-prefix
         - add-v2-prefix
+    dashbot:
+      rule: PathPrefix("/api/dashbot")
+      service: dashbot
+      middlewares:
+        - strip-api-prefix
