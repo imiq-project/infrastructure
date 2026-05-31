@@ -11,17 +11,11 @@ http:
     strip-api-prefix:
       stripPrefix:
         prefixes:
-          - "/api/dayplanner"
           - "/api/orion"
           - "/api/quantumleap"
           - "/api/dashbot"
-          - "/api/graphhopper"
 
   services:
-    dayplanner:
-      loadBalancer:
-        servers:
-          - url: http://dayplanner:80
     dashboard:
       loadBalancer:
         servers:
@@ -42,29 +36,11 @@ http:
       loadBalancer:
         servers:
           - url: http://quantumleap:8668
-    hotco:
-      loadBalancer:
-        servers:
-          - url: http://hotco:5000
-    graphhopper:
-      loadBalancer:
-        servers:
-          - url: http://graphhopper:8080
 
   routers:
     dashboard:
       rule: PathPrefix("/")
       service: dashboard
-    dayplanner:
-      rule: PathPrefix("/api/dayplanner")
-      service: dayplanner
-      middlewares:
-        - strip-api-prefix
-    dashbot:
-      rule: PathPrefix("/api/dashbot")
-      service: dashbot
-      middlewares:
-        - strip-api-prefix
     orion-get:
       rule: PathPrefix("/api/orion") && Method("GET")
       service: orion
@@ -88,11 +64,3 @@ http:
       middlewares:
         - strip-api-prefix
         - add-v2-prefix
-    hotco:
-      rule: PathPrefix("/api/hotco")
-      service: hotco
-    graphhopper:
-      rule: PathPrefix("/api/graphhopper")
-      service: graphhopper
-      middlewares:
-        - strip-api-prefix

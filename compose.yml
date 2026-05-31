@@ -75,7 +75,7 @@ services:
     - orion
 
   dashbot:
-    image: ghcr.io/imiq-project/dashbot:latest
+    image: ghcr.io/imiq-project/dashbot:v0.1.0
     restart: always
     depends_on:
     - orion
@@ -127,13 +127,6 @@ services:
     - ELEVENLABS_API_KEY=$ELEVENLABS_API_KEY
     - ELEVENLABS_VOICE_ID=$ELEVENLABS_VOICE_ID
 
-  dayplanner:
-    build: services/dayplanner
-    restart: always
-    pull_policy: build
-    environment:
-      - APP_SECRET=$DAILYPLAN_APP_SECRET
-
   sensors:
     build:
       context: services/sensors
@@ -145,19 +138,6 @@ services:
     environment:
     - WEATHER_STATION_PASSWORD=$WEATHER_STATION_PASSWORD
     - THE_THINGS_NET_WEBHOOK_URL=$THE_THINGS_NET_WEBHOOK_URL
-
-  hotco:
-    build: services/hotco
-    pull_policy: build
-    restart: always
-
-  graphhopper:
-    build: services/graphhopper
-    pull_policy: build
-    restart: always
-    # TODO: only for debugging and presentation purpose, should be removed
-    ports:
-      - 8080:8080
 
 volumes:
   mongo_data:
