@@ -407,7 +407,8 @@ function getTrafficPopupContent(data) {
 
     const label = `${orionUrl(data)}<br>
     🚗 Avg. Speed ${speed}<br>
-    🚗 Max ${maxSpeed} km/h`
+    🚗 Max ${maxSpeed} km/h<br>
+    ${graphButton(data)}`
     
     return label
 }
