@@ -41,7 +41,7 @@ const satellite = L.layerGroup([esriImagery, esriLabels]);
 
 const map = L.map('map', {
   center: [52.140, 11.644],
-  zoom: 14,
+  zoom: 15,
   layers: [cartoLight],
   zoomControl: false,
   attributionControl: false
@@ -612,10 +612,10 @@ function popupFromAttributes(entity, config) {
   return `${orionUrl(entity)}<br>${lines.join("<br>")}<br>${graphButton(entity)}`
 }
 
-function createIconMarker(entity, icon) {
+function createIconMarker(entity, icon, className = 'marker-icon') {
   const divIcon = L.divIcon({
     html: icon,
-    className: 'marker-icon',
+    className: className,
     iconSize: [64, 64],
     iconAnchor: [32, 0],
   })
@@ -640,9 +640,9 @@ function getConfigFor(type) {
     },
     "Building":  {
       description: "🏠 Building",
-      updateMinutes: 'never',
-      createMarker: (entity) => createIconMarker(entity, '🏠'),
-      getPopupContent: createPoiPopup,
+      updateMinutes: 30,
+      createMarker: (entity) => createIconMarker(entity, '🏠', 'marker-icon small'),
+      getPopupContent: popupFromAttributes,
     },
     "Cafe": {
       description: "☕Cafe",
