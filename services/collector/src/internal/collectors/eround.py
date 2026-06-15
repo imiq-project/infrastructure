@@ -25,7 +25,7 @@ for i in data["features"]:
     )
     station_data = response.json()["payload"]
     name = f"{station_data['address']['street']} {station_data['address']['number']}"
-    id_ = name.replace(" ", "").replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss").replace("-", "")
+    id_ = "EVChargingStation:" + name.replace(" ", "").replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss").replace("-", "")
     locations.append({"id": id_, "name": name, "lat": lat, "lon": lon, "csname": csname})
 
 result = {"name": "Charging", "interval": "30m", "locations": locations}

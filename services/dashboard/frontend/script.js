@@ -503,6 +503,29 @@ function getDigitalTwinPopup(entity) {
 }
 
 // --------------------------------------
+// EV Charging Stations
+// -------------------------------------
+function createChargingIcon(entity) {
+  function chargingIcon(color) {
+    return `
+      <svg style="display: inline;" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="${color}" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+      </svg>
+    `
+  }
+
+  const divIcon = L.divIcon({
+    html: chargingIcon("#ffd41f").repeat(entity.availableCapacity.value) + chargingIcon("#9e9e9e").repeat(entity.capacity.value - entity.availableCapacity.value),
+    className: '',
+    iconSize: [1024, 24],
+    iconAnchor: [12, 12]
+  });
+  const marker = L.marker(getEntityLocation(entity), {icon: divIcon})
+  return marker;
+}
+
+
+// --------------------------------------
 // Marker visualization
 // --------------------------------------
 
@@ -719,7 +742,7 @@ function getConfigFor(type) {
     "EVChargingStation": {
       description: "⚡ EV Charging",
       updateMinutes: 20,
-      createMarker: (entity) => createIconMarker(entity, '⚡'),
+      createMarker: createChargingIcon,
       getPopupContent: popupFromAttributes,
     }
   }
