@@ -23,6 +23,7 @@ var collectorConstructors = [...]func() (config.Collector, error){
 	collectors.NewEnergyCollector,
 	collectors.NewStaticCollector,
 	collectors.NewWaterLevelCollector,
+	collectors.NewChargingCollector,
 }
 
 func FetchAll(orionHost string, collectorConfig config.CollectorConfig) {

@@ -715,6 +715,12 @@ function getConfigFor(type) {
       updateMinutes: 60,
       createMarker: (entity) => createIconMarker(entity, '🌊'),
       getPopupContent: popupFromAttributes,
+    },
+    "EVChargingStation": {
+      description: "⚡ EV Charging",
+      updateMinutes: 20,
+      createMarker: (entity) => createIconMarker(entity, '⚡'),
+      getPopupContent: popupFromAttributes,
     }
   }
 

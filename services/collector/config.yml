@@ -11628,3 +11628,96 @@ collectors:
       # - id: WaterLevel:Schoenebeck
       #   name: Schönebeck
       #   uuid: 90bcb315-f080-41a8-a0ac-6122331bb4cf
+  - name: Charging
+    interval: 30m
+    locations:
+    - id: ErnstReuterAllee6
+      name: Ernst-Reuter-Allee 6
+      lat: 52.13066
+      lon: 11.63849
+      csname: '12200'
+    - id: AnderBuckauerFaehre1
+      name: "An der Buckauer F\xE4hre 1"
+      lat: 52.10696
+      lon: 11.64075
+      csname: '12201'
+    - id: HalberstaedterStrasse137
+      name: "Halberst\xE4dter Strasse 137"
+      lat: 52.10912
+      lon: 11.59827
+      csname: '12202'
+    - id: Liebknechtstrasse37
+      name: "Liebknechtstra\xDFe 37"
+      lat: 52.12362
+      lon: 11.6108
+      csname: '12203'
+    - id: Breitscheidstrasse2
+      name: "Breitscheidstra\xDFe 2"
+      lat: 52.14193
+      lon: 11.68055
+      csname: '12205'
+    - id: BerlinerChaussee11
+      name: Berliner Chaussee 11
+      lat: 52.12889
+      lon: 11.66511
+      csname: '12206'
+    - id: BreiterWeg203
+      name: Breiter Weg 203
+      lat: 52.1263
+      lon: 11.63274
+      csname: '12207'
+    - id: Erzbergerstrasse20
+      name: "Erzbergerstra\xDFe 20"
+      lat: 52.13669
+      lon: 11.63662
+      csname: '12208'
+    - id: GustavAdolfStrasse31
+      name: "Gustav-Adolf-Stra\xDFe 31"
+      lat: 52.13711
+      lon: 11.6446
+      csname: '12209'
+    - id: Hegelstrasse19
+      name: "Hegelstra\xDFe 19"
+      lat: 52.11937
+      lon: 11.63034
+      csname: '12210'
+    - id: LuebeckerStrasse16
+      name: "L\xFCbecker Stra\xDFe 16"
+      lat: 52.15485
+      lon: 11.6369
+      csname: '12211'
+    - id: Hegelstrasse4
+      name: "Hegelstra\xDFe 4"
+      lat: 52.12281
+      lon: 11.63312
+      csname: '12212'
+    - id: AmBlauenBock3
+      name: Am Blauen Bock 3
+      lat: 52.13136
+      lon: 11.63498
+      csname: '12213'
+    - id: JuliusBremerStrasse1
+      name: "Julius-Bremer-Stra\xDFe 1"
+      lat: 52.13296
+      lon: 11.64086
+      csname: '12214'
+    - id: Bethanienstrasse1
+      name: "Bethanienstra\xDFe 1"
+      lat: 52.11667
+      lon: 11.66399
+      csname: '12215'
+    - id: LeipzigerStrasse45
+      name: "Leipziger Stra\xDFe 45"
+      lat: 52.10046
+      lon: 11.62065
+      csname: '12216'
+    - id: Freiligrathstrasse1
+      name: "Freiligrathstra\xDFe 1"
+      lat: 52.13409
+      lon: 11.61918
+      csname: '12217'
+    - id: Gareisstrasse12
+      name: "Gareisstra\xDFe 12"
+      lat: 52.14062
+      lon: 11.63976
+      csname: '12218'

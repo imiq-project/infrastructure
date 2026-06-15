@@ -109,6 +109,9 @@ def main():
             "humidity",
             "temperature",
         ],
+        "EVChargingStation": [
+            "availableCapacity",
+        ],
     }
 
     for entity_type, attrs in conf.items():
