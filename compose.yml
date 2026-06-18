@@ -117,6 +117,23 @@ services:
     environment:
     - WEATHER_STATION_PASSWORD=$WEATHER_STATION_PASSWORD
     - THE_THINGS_NET_WEBHOOK_URL=$THE_THINGS_NET_WEBHOOK_URL
+  geocode:
+    image: ghcr.io/imiq-project/geocode:latest
+    environment:
+      - GEO_NOMINATIM_BASE_URL=https://nominatim.openstreetmap.org
+      - GEO_CONTACT_EMAIL=$GEO_CONTACT_EMAIL
+      - GEO_BIAS_LAT=52.1205
+      - GEO_BIAS_LON=11.6276
+      - GEO_CACHE_MAXSIZE=2000
+      - GEO_CACHE_TTL_SECONDS=3600
+      - GEO_CORS_ORIGINS=["*"]
+    restart: unless-stopped
+    pull_policy: always
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8001/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
 
 volumes:
   mongo_data:

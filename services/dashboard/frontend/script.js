@@ -833,6 +833,52 @@ async function onSensorSelected(type, selected, targetId) {
 }
 
 // --------------------------------------
+// Geocoding
+// --------------------------------------
+let geocodeMarker = null;
+const debounce = (callback, wait) => {
+  let timeoutId = null;
+  return (...args) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, wait);
+  };
+}
+
+const geocode = debounce(async function(value) {
+  if (geocodeMarker) {
+    map.removeLayer(geocodeMarker)
+  }
+  const response =  await fetch("/api/geocode/geocode", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "address": value,
+      "limit": 1
+    })
+  })
+  if(!response.ok) {
+    console.error("Geocoding failed", await response.text())
+    return
+  }
+  const data = await response.json()
+  if (data.length > 0) {
+    geocodeMarker = L.marker([data[0].lat, data[0].lon], {
+      icon: L.divIcon({
+        html: '📍', className: 'marker-icon', iconSize: [32, 32], iconAnchor: [0, 0]
+      }),
+      interactive: false
+    }).addTo(map)
+    geocodeMarker.bindPopup(data[0].display_name).openPopup()
+    map.setView([data[0].lat, data[0].lon], 18)
+  }
+}, 1000)
+
+
+// --------------------------------------
 // Initialization
 // --------------------------------------
 

@@ -14,6 +14,7 @@ http:
           - "/api/orion"
           - "/api/quantumleap"
           - "/api/dashbot"
+          - "/api/geocode"
 
   services:
     dashboard:
@@ -36,6 +37,10 @@ http:
       loadBalancer:
         servers:
           - url: http://quantumleap:8668
+    geocode:
+      loadBalancer:
+        servers:
+          - url: http://geocode:8001
 
   routers:
     dashboard:
@@ -67,5 +72,10 @@ http:
     dashbot:
       rule: PathPrefix("/api/dashbot")
       service: dashbot
+      middlewares:
+        - strip-api-prefix
+    geocode:
+      rule: PathPrefix("/api/geocode")
+      service: geocode
       middlewares:
         - strip-api-prefix
