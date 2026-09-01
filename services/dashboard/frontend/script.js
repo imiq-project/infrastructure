@@ -27,6 +27,16 @@ const openTopo = L.tileLayer(
   { attribution: 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap (CC-BY-SA)' }
 );
 
+const basemapColor = L.tileLayer(
+  'https://sgx.geodatenzentrum.de/wmts_basemapde/tile/1.0.0/de_basemapde_web_raster_farbe/default/GLOBAL_WEBMERCATOR/{z}/{y}/{x}.png',
+  { attribution: '© basemap.de / BKG | Datenquellen: © GeoBasis-DE' }
+);
+
+const basemapGray = L.tileLayer(
+  'https://sgx.geodatenzentrum.de/wmts_basemapde/tile/1.0.0/de_basemapde_web_raster_grau/default/GLOBAL_WEBMERCATOR/{z}/{y}/{x}.png',
+  { attribution: '© basemap.de / BKG | Datenquellen: © GeoBasis-DE' }
+);
+
 const cartoLight = L.tileLayer(
   'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
   {attribution: '© OpenStreetMap contributors © CARTO'}
@@ -42,7 +52,7 @@ const satellite = L.layerGroup([esriImagery, esriLabels]);
 const map = L.map('map', {
   center: [52.140, 11.644],
   zoom: 15,
-  layers: [cartoLight],
+  layers: [basemapGray],
   zoomControl: false,
   attributionControl: false
 });
@@ -57,8 +67,10 @@ if (isDesktop) {
 }
 
 L.control.layers({
-  "📄 Light": cartoLight,
-  "🌙 Dark": cartoDark, 
+  '🌙 Basemap Gray': basemapGray,
+  '📄 Basemap Color': basemapColor,
+  // "📄 Light": cartoLight,
+  // "🌙 Dark": cartoDark, 
   "🛰️ Satellite": satellite,
   "🗺️ OpenStreetMap": osmRoad,
   "🏔️ Topographic": openTopo,
