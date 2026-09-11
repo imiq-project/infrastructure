@@ -141,6 +141,8 @@ services:
     image: ghcr.io/imiq-project/geocode2:latest
     restart: always
     pull_policy: always
+    environment:
+      - SIMILARITY_THRESHOLD=.2
     command: geocoder --database postgres://postgres:geocoder@geocode-db:5432/postgres?sslmode=disable --embeddings-url http://ollama:11434/v1/embeddings --listen 0.0.0.0:8001
   events-db:
     image: postgres:17-alpine
