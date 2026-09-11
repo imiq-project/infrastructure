@@ -117,24 +117,31 @@ services:
     environment:
     - WEATHER_STATION_PASSWORD=$WEATHER_STATION_PASSWORD
     - THE_THINGS_NET_WEBHOOK_URL=$THE_THINGS_NET_WEBHOOK_URL
-  geocode:
-    image: ghcr.io/imiq-project/geocode:latest
+  geocode-db:
+    image: ghcr.io/imiq-project/postgisvector:latest
+    restart: always
+    pull_policy: weekly
     environment:
-      - GEO_NOMINATIM_BASE_URL=https://nominatim.openstreetmap.org
-      - GEO_CONTACT_EMAIL=$GEO_CONTACT_EMAIL
-      - GEO_BIAS_LAT=52.1205
-      - GEO_BIAS_LON=11.6276
-      - GEO_CACHE_MAXSIZE=2000
-      - GEO_CACHE_TTL_SECONDS=3600
-      - GEO_CORS_ORIGINS=["*"]
-    restart: unless-stopped
+      POSTGRES_PASSWORD: geocoder
+    volumes:
+      - geocode-data:/var/lib/postgresql/data
+  ollama:
+    image: ollama/ollama:latest
+    restart: always
+    pull_policy: weekly
+    volumes:
+     - ollama-data:/root/.ollama
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "ollama serve &
+      until ollama list >/dev/null 2>&1; do sleep 1; done &&
+      ollama pull qwen3-embedding:4b &&
+      wait"
+  geocode:
+    image: ghcr.io/imiq-project/geocode2:latest
+    restart: always
     pull_policy: always
-    healthcheck:
-      test: ["CMD", "curl", "-fs", "http://localhost:8001/health"]
-      interval: 20s
-      timeout: 5s
-      retries: 3
-
+    command: geocoder --database postgres://postgres:geocoder@geocode-db:5432/postgres?sslmode=disable --embeddings-url http://ollama:11434/v1/embeddings --listen 0.0.0.08001
   events-db:
     image: postgres:17-alpine
     environment:
@@ -166,3 +173,5 @@ volumes:
   mongo_config:
   crate_data:
   events_data:
+  ollama-data:
+  geocode-data:

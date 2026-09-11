@@ -847,7 +847,7 @@ async function onSensorSelected(type, selected, targetId) {
 // --------------------------------------
 // Geocoding
 // --------------------------------------
-let geocodeMarker = null;
+let geocodeMarkers = [];
 const debounce = (callback, wait) => {
   let timeoutId = null;
   return (...args) => {
@@ -858,10 +858,18 @@ const debounce = (callback, wait) => {
   };
 }
 
-const geocode = debounce(async function(value) {
-  if (geocodeMarker) {
-    map.removeLayer(geocodeMarker)
+const geocode = debounce(async function(value, openMarker = false) {
+  // remove existing markers
+  for (const marker of geocodeMarkers) {
+    map.removeLayer(marker)
   }
+  geocodeMarkers = []
+  if (value.length < 3) {
+    return
+  }
+
+  const center = map.getCenter()
+  const bounds = map.getBounds();
   const response =  await fetch("/api/geocode/geocode", {
     method: "POST",
     headers: {
@@ -869,7 +877,15 @@ const geocode = debounce(async function(value) {
     },
     body: JSON.stringify({
       "address": value,
-      "limit": 1
+      "limit": 25,
+      "lat": center.lat,
+      "lon": center.lng,
+      "bbox": [
+        bounds.getWest(),  // minLon
+        bounds.getSouth(), // minLat
+        bounds.getEast(),  // maxLon
+        bounds.getNorth()  // maxLat
+      ]
     })
   })
   if(!response.ok) {
@@ -877,18 +893,23 @@ const geocode = debounce(async function(value) {
     return
   }
   const data = await response.json()
-  if (data.length > 0) {
-    geocodeMarker = L.marker([data[0].lat, data[0].lon], {
+  for (const entry of data) {
+    geocodeMarker = L.marker([entry.lat, entry.lon], 
+      {
       icon: L.divIcon({
-        html: '📍', className: 'marker-icon', iconSize: [32, 32], iconAnchor: [0, 0]
+        html: '📍', className: 'marker-icon', iconSize: [64, 64], iconAnchor: [32, 0]
       }),
-      interactive: false
     }).addTo(map)
-    geocodeMarker.bindPopup(data[0].display_name).openPopup()
-    map.setView([data[0].lat, data[0].lon], 18)
+    geocodeMarker.bindPopup(entry.display_name)
+    geocodeMarkers.push(geocodeMarker)
   }
-}, 1000)
-
+  if(geocodeMarkers && openMarker) {
+    geocodeMarkers[0].openPopup()
+  }
+}, 200)
+const geocodeInput = document.getElementById("geocodeInput")
+geocodeInput.addEventListener("input", () => geocode(geocodeInput.value, true))
+map.on('moveend', () => geocode(geocodeInput.value, false))
 
 // --------------------------------------
 // Initialization
