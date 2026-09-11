@@ -120,7 +120,7 @@ services:
   geocode-db:
     image: ghcr.io/imiq-project/postgisvector:latest
     restart: always
-    pull_policy: weekly
+    pull_policy: always
     environment:
       POSTGRES_PASSWORD: geocoder
     volumes:
@@ -128,7 +128,7 @@ services:
   ollama:
     image: ollama/ollama:latest
     restart: always
-    pull_policy: weekly
+    pull_policy: always
     volumes:
      - ollama-data:/root/.ollama
     entrypoint: ["/bin/sh", "-c"]
@@ -141,7 +141,7 @@ services:
     image: ghcr.io/imiq-project/geocode2:latest
     restart: always
     pull_policy: always
-    command: geocoder --database postgres://postgres:geocoder@geocode-db:5432/postgres?sslmode=disable --embeddings-url http://ollama:11434/v1/embeddings --listen 0.0.0.08001
+    command: geocoder --database postgres://postgres:geocoder@geocode-db:5432/postgres?sslmode=disable --embeddings-url http://ollama:11434/v1/embeddings --listen 0.0.0.0:8001
   events-db:
     image: postgres:17-alpine
     environment:
