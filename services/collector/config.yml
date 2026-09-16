@@ -10392,6 +10392,14 @@ collectors:
         lon: 11.67227
         segments: 52.12859,11.67227,52.12868,11.67295,52.12882,11.67405;52.12882,11.67405,52.12907,11.67595,52.12909,11.67613,52.12917,11.67674,52.12919,11.67689;52.12919,11.67689,52.12920,11.67696,52.12921,11.67704,52.12921,11.67705,52.12930,11.67778
         speed_limit: 50
+  - name: Restaurant
+    interval: 24h
+    locations:
+      - id: Rest:MensaUni
+        name: Mensa UniCampus
+        lat: 52.139529
+        lon: 11.647572
+        type: Mensa
   - name: AirQuality
     interval: 1h
     locations:
