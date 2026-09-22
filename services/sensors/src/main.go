@@ -14,7 +14,8 @@ const (
 	BRESSER_STATION_ID  = "Sensor:Weather:Walter"
 	BRESSER_BUILDING_ID = "Building:UniversityG80"
 	SENSECAP_ID         = "Sensor:Weather:Winfred"
-	EM500_ID            = "Sensor:Air:Agnes"
+	EM500_AGNES_ID      = "Sensor:Air:Agnes"
+	EM500_ADA_ID        = "Sensor:Air:Ada"
 )
 
 func move(from *url.Values, fromKey string, to map[string]any, toKey string, typ string) {
@@ -156,7 +157,7 @@ func setupThingsNet() {
 		// we continue anyway, maybe the entity already exists
 	}
 
-	em500Entity := map[string]any{
+	em500EntityAgnes := map[string]any{
 		"type": "AirQuality",
 		"humidity": map[string]any{
 			"type":  "Number",
@@ -172,7 +173,29 @@ func setupThingsNet() {
 		},
 	}
 
-	err = CreateEntity(FIWARE_URL, EM500_ID, em500Entity)
+	err = CreateEntity(FIWARE_URL, EM500_AGNES_ID, em500EntityAgnes)
+	if err != nil {
+		log.Println("Failed to create sensor", err)
+		// we continue anyway, maybe the entity already exists
+	}
+
+	em500EntityAda := map[string]any{
+		"type": "AirQuality",
+		"humidity": map[string]any{
+			"type":  "Number",
+			"value": 0,
+		},
+		"temperature": map[string]any{
+			"type":  "Number",
+			"value": 0,
+		},
+		"location": map[string]any{
+			"type":  "geo:point",
+			"value": "52.139106564360056, 11.6460447806788",
+		},
+	}
+
+	err = CreateEntity(FIWARE_URL, EM500_ADA_ID, em500EntityAda)
 	if err != nil {
 		log.Println("Failed to create sensor", err)
 		// we continue anyway, maybe the entity already exists
@@ -195,7 +218,10 @@ func setupThingsNet() {
 			id = SENSECAP_ID
 		case "agnes":
 			data, err = decodeEm500Payload(resp.Payload)
-			id = EM500_ID
+			id = EM500_AGNES_ID
+		case "ada":
+			data, err = decodeEm500Payload(resp.Payload)
+			id = EM500_ADA_ID
 		default:
 			log.Println("Got invalid device id", resp.DeviceID)
 			http.Error(w, "invalid body", http.StatusBadRequest)
