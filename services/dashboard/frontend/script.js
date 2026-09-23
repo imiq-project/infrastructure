@@ -536,6 +536,53 @@ function createChargingIcon(entity) {
   return marker;
 }
 
+// --------------------------------------
+// Noise Level
+// --------------------------------------
+
+function createNoiseMarker(data) {
+  const colors = {
+    "LdenLessThan55":    "#ffffb2",
+    "Lden5559":          "#fed976",
+    "Lden6064":          "#feb24c",
+    "Lden6569":          "#fd8d3c",
+    "Lden7074":          "#e31a1c",
+    "LdenGreaterThan75": "#800026",
+  };
+
+  return L.geoJson(
+    {
+      type: "Feature",
+      geometry: data.outline.value,
+    },
+    {
+      style: {
+        color: colors[data.ldenBand.value] || "#999999",
+        weight: 3,
+        opacity: 0.8,
+      },
+    }
+  );
+}
+
+function getNoisePopupContent(data) {
+  const lo = data.ldenMin.value;
+  const hi = data.ldenMax.value;
+
+  const range =
+    lo == null
+      ? `< ${hi} dB`
+      : hi == null
+        ? `> ${lo} dB`
+        : `${lo}-${hi} dB`;
+
+  return (
+    `${orionUrl(data)}<br>` +
+    `🔊 <b>${data.streetName.value}</b><br>` +
+    `Lden ${range}<br>` +
+    `${Math.round(data.lengthM.value)} m in this band`
+  );
+}
 
 // --------------------------------------
 // Marker visualization
@@ -756,7 +803,13 @@ function getConfigFor(type) {
       updateMinutes: 20,
       createMarker: createChargingIcon,
       getPopupContent: popupFromAttributes,
-    }
+    },
+    "NoiseLevel": {
+      description: "🔊 Street Noise",
+      updateMinutes: "never", 
+      createMarker: createNoiseMarker,
+      getPopupContent: getNoisePopupContent,
+    },
   }
 
   return config[type] || {
