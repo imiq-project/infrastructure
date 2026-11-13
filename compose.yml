@@ -178,6 +178,23 @@ services:
       LOOKAHEAD_DAYS: 30
     restart: always
 
+  graphhopper:
+    build:
+      context: services/graphhopper
+    pull_policy: build
+    restart: always
+    # TODO: only for debugging and presentation purpose, should be removed
+    # ports:
+    #   - 9000:8080
+
+  routing:
+    restart: always
+    image: ghcr.io/imiq-project/routing:latest
+    environment:
+      - GRAPHOPPER_HOST=http://graphhopper:8080
+    depends_on:
+      - graphhopper
+
 volumes:
   mongo_data:
   mongo_config:

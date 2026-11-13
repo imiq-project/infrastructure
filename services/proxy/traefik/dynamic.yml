@@ -15,6 +15,8 @@ http:
           - "/api/quantumleap"
           - "/api/dashbot"
           - "/api/geocode"
+          - "/api/graphhopper"
+          - "/api/routing"
 
   services:
     dashboard:
@@ -45,6 +47,14 @@ http:
       loadBalancer:
         servers:
           - url: http://events:3000
+    graphhopper:
+      loadBalancer:
+        servers:
+          - url: http://graphhopper:8080
+    routing:
+      loadBalancer:
+        servers:
+          - url: http://routing:8000
 
   routers:
     dashboard:
@@ -86,3 +96,13 @@ http:
     events:
       rule: PathPrefix("/api/events")
       service: events
+    graphhopper:
+      rule: PathPrefix("/api/graphhopper")
+      service: graphhopper
+      middlewares:
+        - strip-api-prefix
+    routing:
+      rule: PathPrefix("/api/routing")
+      service: routing
+      middlewares:
+        - strip-api-prefix
