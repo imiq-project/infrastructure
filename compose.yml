@@ -91,7 +91,7 @@ services:
     - NEO4J_DATABASE=${NEO4J_DATABASE}
     - ORS_API_KEY=${ORS_API_KEY}
     - ORS_BASE_URL=https://api.openrouteservice.org
-    - IMIQ_ROUTING_URL=https://imiq-app.et.uni-magdeburg.de/api/routing
+    - IMIQ_ROUTING_URL=https://imiq-public.et.uni-magdeburg.de/api/routing
     - IMIQ_GEOCODE_URL=https://imiq-public.et.uni-magdeburg.de/api/geocode
     - IMIQ_EVENTS_URL=https://imiq-public.et.uni-magdeburg.de/api/events
     - NOMINATIM_URL=https://nominatim.openstreetmap.org
