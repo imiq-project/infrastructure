@@ -3,7 +3,7 @@
 // ------------------------------------
 // OpenStreetMap standard tiles
 const osmRoad = L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   { attribution: '&copy; OpenStreetMap contributors' }
 );
 
