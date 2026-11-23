@@ -24,6 +24,13 @@ func TestEm500DecodeSuccess(t *testing.T) {
 	assert.Equal(t, 1008.8, result["airPressure"])
 }
 
+func TestEm500DecodeNegativeTemperature(t *testing.T) {
+	payload := []byte{0x03, 0x67, 0xc9, 0xff}
+	result, err := decodeEm500Payload(payload)
+	require.Nil(t, err)
+	assert.Equal(t, -5.5, result["temperature"])
+}
+
 func TestDecodeRealPayload(t *testing.T) {
 	payload1 := []byte{
 		0xFF, 0x0B, 0xFF,
