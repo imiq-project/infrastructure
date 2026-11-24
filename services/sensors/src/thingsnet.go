@@ -90,9 +90,9 @@ type TtnWebhookPayload struct {
 		} `json:"network_ids"`
 
 		LastBatteryPercentage struct {
-			FCnt       int    `json:"f_cnt"`
-			Value      int    `json:"value"`
-			ReceivedAt string `json:"received_at"`
+			FCnt       int     `json:"f_cnt"`
+			Value      float64 `json:"value"`
+			ReceivedAt string  `json:"received_at"`
 		} `json:"last_battery_percentage"`
 	} `json:"uplink_message"`
 }
