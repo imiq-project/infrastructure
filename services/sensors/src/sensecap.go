@@ -14,7 +14,7 @@ func decodeSenseCapPayload(payload []byte) (map[string]any, error) {
 			if len(payload) < 11 {
 				return nil, fmt.Errorf("frame too short")
 			}
-			result["temperature"] = float64(binary.BigEndian.Uint16(payload[1:3])) / 10
+			result["temperature"] = float64(int16(binary.BigEndian.Uint16(payload[1:3]))) / 10
 			result["humidity"] = int(payload[3])
 			result["lightIntensity"] = int(binary.BigEndian.Uint32(payload[4:8]))
 			result["lightUV"] = float64(payload[8]) / 10

@@ -77,6 +77,16 @@ func TestSenseCapDecodeSuccess(t *testing.T) {
 	assert.Equal(t, 10, result["uplinkInterval"])
 }
 
+func TestSenseCapDecodeNegativeTemperature(t *testing.T) {
+	payload := []byte{0x01, 0xFF, 0x6A, 0x41, 0x00, 0x00, 0x00, 0x5E, 0x05, 0x00, 0x11}
+	for _, frameId := range []byte{0x01, 0x4A} {
+		payload[0] = frameId
+		result, err := decodeSenseCapPayload(payload)
+		require.Nil(t, err)
+		assert.Equal(t, -15.0, result["temperature"])
+	}
+}
+
 func TestSenseCapDecodeError(t *testing.T) {
 	for frameId := byte(0); frameId < 255; frameId++ {
 		payload := []byte{frameId}
